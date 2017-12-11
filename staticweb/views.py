@@ -26,3 +26,9 @@ class PaymentView(TemplateView):
 
 class TutorView(TemplateView):
     template_name = "staticweb/tutor.html"
+
+class cssView(TemplateView):
+	template_name = "static/css"
+
+class jsView(TemplateView):
+	template_name = "static/js"

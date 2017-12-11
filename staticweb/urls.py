@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from staticweb import views as v
 
 urlpatterns = [
-        url(r'^test/$', v.IndexView.as_view(), name="index"),
+        url(r'^$', v.IndexView.as_view(), name="index"),
         url(r'^signup/$', v.SignupView.as_view(), name="signup"),
         url(r'^login/$', v.LoginView.as_view(), name="login"),
         url(r'^explore/$', v.ExploreView.as_view(), name="explore"),

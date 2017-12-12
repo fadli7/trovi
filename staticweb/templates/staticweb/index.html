@@ -32,17 +32,17 @@
         body {
 			background-color: #81D4FA;
 		}
-        .jumbotron { 
-            background-color: #81D4FA; /* Orange */
-            color: dimgrey;
-        }
+		h1.font {
+			font-family: sans-serif;
+			font-weight: bold;
+			font-size: 48px; 
+		}
         .hal2{
             margin-top: 400px;
             background-color: white;
         }
 		#jumbo {
-			font-family: Times;
-			margin-top: 80px;
+			margin-top: 180px;
 			background-color: #81D4FA;
 		}
 		#margin {
@@ -55,13 +55,55 @@
             margin-bottom: 300px;
         }
 	</style>
+	<!-- {% csrf_token %} -->
 	<script type="text/javascript">
-		
+		// var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+		function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+		//LOGIN
+		$(document).ready(function(){
+			$(".login").click(function(e) {
+				e.preventDefault();
+				var form_action = $("#login").find("form").attr("action");
+				var usernmae = $("#login").find("input[name='username']").val();
+				var password = $("#login").find("input[name='password']").val();
+				if(username != '' && password != '') {
+					$.ajax({
+						dataType: 'json',
+						type: 'POST',
+						url: form_action,
+						data: {username:username, password:password}
+					}).done(function(data){
+						$("#login").find("input[name='username']").val('');
+						$("#login").find("input[name='password']").val('');
+						$(".modal").modal('hide');
+						toastr.success('Login Berhasil', 'Success Alert', {timeOut: 5000});
+					});
+				} else {
+					alert('You are missing title or description');
+				}
+			});
+		});
 	</script>
 </head>
 <body>
 	
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#"> B-Cak</a>
@@ -76,16 +118,47 @@
 			<!-- </div> -->
 		</div>
 	</nav>
+
+	<!-- HOME -->
 	<div class="container">
 		<div id="jumbo" class="jumbotron text-center">
-			<h1>Want to make your payment problem easier? B-cak is the answer</h1>	
+			<h1 class="font">Want to make your payment problem easier? B-cak is the answer</h1>	
 		</div>
 		<div id="margin">
 			<div class="pull-left">
-				<button class="btn btn-primary btn-lg">SIGN UP</button>
+				<button class="btn btn-primary btn-lg" >SIGN UP</button>
 			</div>
 			<div class="pull-right">
-				<button class="btn btn-success btn-lg">LOGIN</button>
+				<button class="btn btn-success btn-lg" data-toggle="modal" data-target="#login">LOGIN</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- LOGIN -->
+	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+					<h4 class="modal-title" id="myModalLabel">Create Item</h4>
+				</div>
+				<div class="modal-body">
+					<form data-toggle="validator" action="">
+						<div class="form-group">
+							<label class="control-label">Username</label>
+							<input type="text" name="username" class="form-control" data-error="Tolong Masukkan Usernae Anda" required />
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Password</label>
+							<input type="password" name="password" class="form-control" data-error="Tolong Masukkan Password Anda" required />
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group">
+							<button>MASUK</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

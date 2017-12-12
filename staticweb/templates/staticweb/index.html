@@ -4,6 +4,7 @@
 	{% load static %}
 	<title>B-Cak</title>
 	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    
 	<script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'b3/css/bootstrap.min.css' %}">
@@ -17,9 +18,18 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
 	
 	<!-- <script src="{% static 'js/item-ajax.js' %}"></script> -->
-
-	<style type="text/css">
-		body {
+    
+    <style type="text/css">
+        .deskripsi{
+            padding-left: 50px;
+            padding-top: 30px
+        }
+        .gambar{
+            height: 50px;
+            width: 50px;
+            
+        }
+        body {
 			background-color: #81D4FA;
 		}
         .jumbotron { 
@@ -28,6 +38,7 @@
         }
         .hal2{
             margin-top: 400px;
+            background-color: white;
         }
 		#jumbo {
 			font-family: Times;
@@ -38,6 +49,11 @@
 			margin-left: 430px;
 			margin-right: 430px;
 		}
+        .paragraf{
+            margin-left: 150px;
+        
+            margin-bottom: 300px;
+        }
 	</style>
 	<script type="text/javascript">
 		
@@ -76,14 +92,16 @@
     
     <div class="container-fluid hal2" id="hal2">
         <div class="row">
-            <div class="col-sm-8">
-                <h2>COBA CUYYYY</h2>
-                <p>Ini dicoba paragrafnya sjasdggagdqdbkgdiucdguwdwhdoiedoiheochowhcowhoiwheoichw</p>
-            </div>
-            <div class="col-sm-4">
-                <img src=gambar/1.jpg width=60% height=60%>
-            </div>
+           <div class="col-sm-8 deskripsi">
+                    <h2>About Company Page</h2>  <p>asdhhasduasdhasxascascgagcigacacaigciagcafsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>      
+          </div>
+          <div class="col-sm-4">
+                <span class="gambar">
+                    <img src="{% static 'gambar/1.jpg' %}" height="90%" width="90%" style="margin-top:10px;">
+                </span>
+          </div>
         </div>
     </div>
+    
 </body>
 </html>

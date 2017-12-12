@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 class AuthView(View):
 
     def get(self, request, *args, **kwargs):
-        return JsonResponse({logged_in: request.user.is_authenticated})
+        return JsonResponse({'logged_in': request.user.is_authenticated})
 
     def post(self, request, *args, **kwargs):
         username = request.POST.get('username')

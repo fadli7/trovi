@@ -22,6 +22,7 @@
 		body {
 			background-color: #81D4FA;
 		}
+<<<<<<< HEAD
         .jumbotron { 
             background-color: #81D4FA; /* Orange */
             color: dimgrey;
@@ -29,8 +30,8 @@
         .hal2{
             margin-top: 400px;
         }
+=======
 		#jumbo {
-			font-family: Times;
 			margin-top: 80px;
 			background-color: #81D4FA;
 		}
@@ -38,10 +39,8 @@
 			margin-left: 430px;
 			margin-right: 430px;
 		}
+>>>>>>> bdae4811b20abf8f8a2e4eea0ca98639cf4ed35d
 	</style>
-	<script type="text/javascript">
-		
-	</script>
 </head>
 <body>
 	

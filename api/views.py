@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+
 from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import render
@@ -28,6 +30,12 @@ class AuthView(View):
         return JsonResponse({'status': 'success'})
 
 class UserView(View):
+
+    @login_required
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return JsonResponse({'id': user.id, 'username': user.username,
+            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email})
 
     def post(self, request, *args, **kwargs):
         form = UserCreationForm(request.POST)

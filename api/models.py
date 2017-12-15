@@ -51,7 +51,7 @@ class FileValidator:
                 'min_size': filesizeformat(self.mix_size),
                 'size': filesizeformat(data.size)
             }
-            raise ValidationError(self.error_messages['min_size'], 
+            raise ValidationError(self.error_messages['min_size'],
                                    'min_size', params)
 
         if self.content_types:

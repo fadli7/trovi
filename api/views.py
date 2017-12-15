@@ -40,14 +40,12 @@ class AuthView(View):
         logout(request)
         return JsonResponse({'status': 'success'})
 
-@login_required
 class UserView(View):
 
     def get(self, request, *args, **kwargs):
         user = request.user
         return JsonResponse({'id': user.id, 'username': user.username,
             'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email})
-
 
     def post(self, request, *args, **kwargs):
         username = request.POST.get('username')
@@ -68,6 +66,6 @@ class UserView(View):
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            retun JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed'})

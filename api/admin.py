@@ -1,9 +1,9 @@
 from django.contrib import admin
-from api import models as m
+from api.models import Persona, Tag, Tutorial, Illustration
 
-admin.site.register(m.Persona)
-admin.site.register(m.Tag)
-admin.site.register(m.Tutorial)
-admin.site.register(m.Illustration)
+admin.site.register(Persona)
+admin.site.register(Tag)
+admin.site.register(Tutorial)
+admin.site.register(Illustration)
 
 # Register your models here.

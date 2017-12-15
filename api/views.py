@@ -49,7 +49,7 @@ class UserView(View):
             'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email})
 
 
-    def pos(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         username = request.POST.get('username')
         password = request.POST.get('password')
         password1 = request.POST.get('password1')

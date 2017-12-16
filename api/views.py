@@ -76,7 +76,7 @@ class PageView:
         page = int(request.GET.get('page'))
         page_lenth = int(request.Get.get('page_length'))
 
-        tutorials = Tutorial.objects
+        tutorials = Tutorial.objects.all()
 
         if request.user.is_authenticated:
             tutorials = tutorials.exclude(buyers__id=request.user.id)

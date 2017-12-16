@@ -1,12 +1,12 @@
-from django.contrib.auth.decorators import login_required
-
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 
 from api.forms import UserUpdateForm
+from api.models import Tutorial
 # Create your views here.
 
 class RegistrationView(View):
@@ -69,3 +69,23 @@ class UserView(View):
             return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed'})
+
+class PageView:
+
+    def get(self, request, *args, **kwargs):
+        page = int(request.GET.get('page'))
+        page_lenth = int(request.Get.get('page_length'))
+
+        tutorials = Tutorial.objects.all()
+
+        if request.user.is_authenticated:
+            tutorials = tutorials.exclude(buyers__id=request.user.id)
+
+        if 'tags' in request.GET:
+            tutorials = tutorials.filter(tags__in=request.GET.get('tags'))
+
+        tutorials = tutorials.distinct()
+        paginator = Paginator(tutorials)
+        data = paginator.page(page)
+        return JsonResponse({'status': 'success', 'data': data})
+

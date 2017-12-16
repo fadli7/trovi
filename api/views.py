@@ -82,12 +82,12 @@ class PageView:
             tutorials = tutorials.exclude(buyers__id=request.user.id)
 
         if 'tags' in request.GET:
-            tags = request.GET.get('tags').split(' ')
+            tags = request.GET.get('tags').split(',')
             tutorials = tutorials.filter(tags__in=tags)
 
         if 'q' in request.GET:
             q = request.GET.get('q')
-            regex_q = r'*(' + q.replace(' ', '|') + r')*'
+            regex_q = r'*(' + q.replace(',', '|') + r')*'
             tutorials = tutorials.filter(name__iregex=regex_q)
 
         paginator = Paginator(tutorials)

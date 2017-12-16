@@ -74,7 +74,7 @@ class PageView:
 
     def get(self, request, *args, **kwargs):
         page = int(request.GET.get('page'))
-        page_lenth = int(request.Get.get('page_length'))
+        page_length = int(request.Get.get('page_length'))
 
         tutorials = Tutorial.objects.all()
 
@@ -90,7 +90,7 @@ class PageView:
             regex_q = r'*(' + q.replace(',', '|') + r')*'
             tutorials = tutorials.filter(name__iregex=regex_q)
 
-        paginator = Paginator(tutorials)
+        paginator = Paginator(tutorials, page_length)
         data = paginator.page(page)
         return JsonResponse({'status': 'success', 'data': data})
 

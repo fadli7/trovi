@@ -76,7 +76,7 @@ class PageView:
         page = int(request.GET.get('page'))
         page_lenth = int(request.Get.get('page_length'))
 
-        tutorials = Tutorial.objects.all()
+        tutorials = Tutorial.objects
 
         if request.user.is_authenticated:
             tutorials = tutorials.exclude(buyers__id=request.user.id)
@@ -84,7 +84,6 @@ class PageView:
         if 'tags' in request.GET:
             tutorials = tutorials.filter(tags__in=request.GET.get('tags'))
 
-        tutorials = tutorials.distinct()
         paginator = Paginator(tutorials)
         data = paginator.page(page)
         return JsonResponse({'status': 'success', 'data': data})

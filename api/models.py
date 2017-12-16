@@ -79,11 +79,17 @@ def create_user_persona(sender, instance, created, **kwargs):
 class Tag(models.Model):
     name = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.name
+
 class Transaction(models.Model):
     user = models.ForeignKey(User)
     tutorial = models.ForeignKey(Tutorial)
     payment_proof = models.ImageField(upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'payment_proof')))
     is_reviewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.id)
 
 class Tutorial(models.Model):
     tags = models.ManyToManyField(Tag)
@@ -94,7 +100,13 @@ class Tutorial(models.Model):
             validators=[FileValidator(content_types='video')])
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 class Illustration(models.Model):
     tutorial = models.ManyToManyField(Tutorial)
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'tutorial', 'img')))
+
+    def __str__(self):
+        return str(self.id) + " " + self.tutorial.name

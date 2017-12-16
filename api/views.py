@@ -70,11 +70,11 @@ class UserView(View):
 
         return JsonResponse({'status': 'failed'})
 
-class PageView:
+class PageView(View):
 
     def get(self, request, *args, **kwargs):
         page = int(request.GET.get('page'))
-        page_length = int(request.Get.get('page_length'))
+        page_length = int(request.GET.get('page_length'))
 
         tutorials = Tutorial.objects.all()
 
@@ -87,10 +87,11 @@ class PageView:
 
         if 'q' in request.GET:
             q = request.GET.get('q')
-            regex_q = r'*(' + q.replace(',', '|') + r')*'
+            regex_q = r'(' + q.replace(',', '|') + r')'
             tutorials = tutorials.filter(name__iregex=regex_q)
 
+        data = [tutorials[(page - 1) * page_length:page * page_length]]
         paginator = Paginator(tutorials, page_length)
-        data = paginator.page(page)
+        data = paginator.page(page).data
         return JsonResponse({'status': 'success', 'data': data})
 

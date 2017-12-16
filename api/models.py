@@ -82,15 +82,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-class Transaction(models.Model):
-    user = models.ForeignKey(User)
-    tutorial = models.ForeignKey(Tutorial)
-    payment_proof = models.ImageField(upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'payment_proof')))
-    is_reviewed = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.id)
-
 class Tutorial(models.Model):
     tags = models.ManyToManyField(Tag)
     buyers = models.ManyToManyField(User)
@@ -110,3 +101,12 @@ class Illustration(models.Model):
 
     def __str__(self):
         return str(self.id) + " " + self.tutorial.name
+
+class Transaction(models.Model):
+    user = models.ForeignKey(User)
+    tutorial = models.ForeignKey(Tutorial)
+    payment_proof = models.ImageField(upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'payment_proof')))
+    is_reviewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.id)

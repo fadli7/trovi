@@ -104,7 +104,7 @@ class Illustration(models.Model):
 
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tutorial = models.ForeignKey(Tutorial)
+    tutorial = models.ForeignKey(Tutorial, on_delete=models.CASCADE)
     price = models.IntegerField()
     payment_proof = models.ImageField(upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'payment_proof')))
     is_reviewed = models.BooleanField(default=False)

@@ -33,6 +33,14 @@ class PasswordChangeForm(PasswordForm):
     password = forms.CharField(label=_("auth"),
             widget=forms.PasswordInput)
 
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        password1 = self.cleaned_data.get("password1")
+        if password and password1 and password == password1:
+            raise forms.ValidationError("Password is the same")
+
+        return password
+
     def save(self, commit=True):
         self.instance.set_password(self.cleaned_data["password1"])
         if commit:

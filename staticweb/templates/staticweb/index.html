@@ -250,8 +250,9 @@
 						url: form_action,
 						data: {username:username, email:email, password1:password1, password2:password2}
 					}).done(function(data){
-						$("#id01").find("input[name='username']").val('');
-						$("#id01").find("input[name='password']").val('');
+						//$("#id01").find("input[name='username']").val('');
+						//$("#id01").find("input[name='password']").val('');
+						link("href", "/explore");
 						//$(".modal").modal('hide');
 						//toastr.success('Login Berhasil', 'Success Alert', {timeOut: 5000});
 					});

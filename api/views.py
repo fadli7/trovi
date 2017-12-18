@@ -4,7 +4,7 @@ from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm, PageForm
 from api.models import Tutorial
 # Create your views here.
 
@@ -16,7 +16,8 @@ class RegistrationView(View):
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success'})
-        return JsonResponse({'status': 'failed'})
+
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
 
 class AuthView(View):
 
@@ -34,7 +35,7 @@ class AuthView(View):
             login(request, user)
             return JsonResponse({'status': 'success'})
 
-        return JsonResponse({'status': 'failed', 'username': username, 'password':password})
+        return JsonResponse({'status': 'failed'})
 
     def delete(self, request, *args, **kwargs):
         logout(request)
@@ -44,8 +45,10 @@ class UserView(View):
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        persona = user.persona
         return JsonResponse({'id': user.id, 'username': user.username,
-            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email})
+            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email
+            'image': persona.image.url, 'description': persona.description})
 
     def post(self, request, *args, **kwargs):
         form = PasswordChangeForm(request.POST, instance=request.user)
@@ -57,7 +60,7 @@ class UserView(View):
                 form.save()
             return JsonResponse({'status': 'success'})
 
-        return JsonResponse({'status': 'failed'})
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
 
     def put(self, request, *args, **kwarggs):
         form = UserUpdateForm(request.POST, instance=request.user)
@@ -65,13 +68,18 @@ class UserView(View):
             form.save()
             return JsonResponse({'status': 'success'})
 
-        return JsonResponse({'status': 'failed'})
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
 
 class PageView(View):
 
     def get(self, request, *args, **kwargs):
-        page = int(request.GET.get('page'))
-        page_length = int(request.GET.get('page_length'))
+        form = PageView(request.GET)
+
+        if not form.is_valid:
+            return JsonResponse({'status': 'failed', 'errors': form.errors})
+
+        page = form.cleaned_data['page']
+        page_length = form.cleaned_data['page_length']
 
         tutorials = Tutorial.objects.all()
 
@@ -101,4 +109,5 @@ class TransactionView(View):
             form.save()
             return JsonResponse({'status': 'success'})
 
-        return JsonResponse({'status': 'failed'})
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
+

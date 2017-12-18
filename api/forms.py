@@ -38,7 +38,9 @@ class PasswordChangeForm(PasswordForm):
         password = self.cleaned_data.get("password")
         password1 = self.cleaned_data.get("password1")
         if password and password1 and password == password1:
-            raise forms.ValidationError("Password is the same")
+            raise forms.ValidationError(
+                    "Password shouldn't be the same",
+                    code='password_equal')
 
         return password
 
@@ -66,3 +68,9 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         model = Transaction
         exclude = ('is_reviewed',)
+
+class PageForm(forms.Form):
+
+    page = forms.IntegerField()
+    page_length = forms.IntegerField()
+

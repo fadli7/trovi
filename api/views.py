@@ -24,6 +24,7 @@ class AuthView(View):
         return JsonResponse({'logged_in': request.user.is_authenticated})
 
     def post(self, request, *args, **kwargs):
+        # return JsonResponse(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
 

@@ -112,6 +112,20 @@
 		    padding-top: 60px;
 		}
 
+		.modal2 {
+		    display: none; /* Hidden by default */
+		    position: fixed; /* Stay in place */
+		    z-index: 1; /* Sit on top */
+		    left: 0;
+		    top: 0;
+		    width: 100%; /* Full width */
+		    height: 100%; /* Full height */
+		    overflow: auto; /* Enable scroll if needed */
+		    background-color: rgb(0,0,0); /* Fallback color */
+		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		    padding-top: 60px;
+		}
+
 		/* Modal Content/Box */
 		.modal-content {
 		    background-color: #fefefe;
@@ -163,7 +177,9 @@
 		    }
 		}
 	</style>
+
 	{% csrf_token %}
+	
 	<script type="text/javascript">
 		var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 		
@@ -207,6 +223,28 @@
 					alert('You are missing title or description');
 				}
 			});
+
+			$(".daftar").click(function(e) {
+				//e.preventDefault();
+				var form_action = $("#id01").find("form").attr("action");
+				var usernmae = $("#id01").find("input[name='username']").val();
+				var password = $("#id01").find("input[name='password']").val();
+				if(username != '' && password != '') {
+					$.ajax({
+						dataType: 'json',
+						type: 'POST',
+						url: form_action,
+						data: {username:username, password:password}
+					}).done(function(data){
+						$("#id01").find("input[name='username']").val('');
+						$("#id01").find("input[name='password']").val('');
+						$(".modal").modal('hide');
+						toastr.success('Login Berhasil', 'Success Alert', {timeOut: 5000});
+					});
+				} else {
+					alert('You are missing title or description');
+				}
+			});
 		});
 
 		// Get the modal
@@ -219,12 +257,18 @@
 		    }
 		}
 
-		var modal = document.getElementById('id02');
+		//Get Modal2	
+		var modal2 = document.getElementById('id02');
+		window.onclick = function(event) {
+		    if (event.target == modal) {
+		        modal.style.display = "none";
+		    }
+		}
 	</script>
 </head>
 
 <body>
-	
+	<!-- NAVBAR -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -267,14 +311,14 @@
 	    <div class="container">
 	      <input type="text" placeholder="Username" name="username" required>
 	      <input type="password" placeholder="Password" name="password" required>  
-	      <button id="butt" type="submit">Login</button>
+	      <button class="masuk" id="butt" type="submit">Login</button>
 	    </div>
 	    <div class="container">
 	    	<input type="checkbox" checked="checked"> Remember my account
 	    </div>
 
 	    <div class="container" style="background-color:#f1f1f1">
-	      <button style="color: white;" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn masuk">Cancel</button>
+	      <button style="color: white;" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
 	      <span class="psw">Forgot <a href="#">password?</a></span>
 	    </div>
 
@@ -282,18 +326,19 @@
 	</div>
 
 	<!-- SIGN UP -->
-	<div id="id02" class="modal">
-	  <form class="modal-content animate" action="">
-
+	<div id="id02" class="modal2">
+	  <form class="modal-content animate" action="/api/registration" method="post">
+	  	{% csrf_token %}
 	    <div class="container">
-	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign in </h1></label>
+	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign Up </h1></label>
 	    </div>
 
 	    <div class="container">
 	      <input type="text" placeholder="Username" name="username" required>
 	      <input type="password" placeholder="Password" name="password" required>  
-	      <button id="butt" type="submit">Login</button>
+	      <button class="daftar" id="butt" type="submit">Login</button>
 	    </div>
+
 	    <div class="container">
 	    	<input type="checkbox" checked="checked"> Remember my account
 	    </div>
@@ -310,11 +355,12 @@
     <div class="container-fluid hal2" id="hal2">
         <div class="row">
            <div class="col-sm-8 deskripsi">
-                    <h2>About Company Page</h2>  <p>asdhhasduasdhasxascascgagcigacacaigciagcafsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>      
+                    <h2>About Company Page</h2>
+                    <p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>      
           </div>
           <div class="col-sm-4">
                 <span class="gambar">
-                    <img src="{% static 'gambar/1.jpg' %}" height="90%" width="90%" style="margin-top:10px;">
+                    <img src="{% static 'gambar/1.png' %}" height="90%" width="90%" style="margin-top:10px;">
                 </span>
           </div>
         </div>

@@ -3,9 +3,8 @@ from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 
-from api.forms import UserUpdateForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm
 from api.models import Tutorial
 # Create your views here.
 
@@ -25,6 +24,7 @@ class AuthView(View):
         return JsonResponse({'logged_in': request.user.is_authenticated})
 
     def post(self, request, *args, **kwargs):
+        # return JsonResponse(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
 
@@ -34,7 +34,7 @@ class AuthView(View):
             login(request, user)
             return JsonResponse({'status': 'success'})
 
-        return JsonResponse({'status': 'failed'})
+        return JsonResponse({'status': 'failed', 'username': username, 'password':password})
 
     def delete(self, request, *args, **kwargs):
         logout(request)
@@ -48,16 +48,13 @@ class UserView(View):
             'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email})
 
     def post(self, request, *args, **kwargs):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+        form = PasswordChangeForm(request.POST, instance=request.user)
 
-        user = authenticate(request, username=username, password=password)
-        if user == request.user and password1 == password2:
-            user.set_password(password1)
-            user.save()
-            logout(request)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(request, username=request.user.username, password=data['password'])
+            if user is not None:
+                form.save()
             return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed'})
@@ -91,5 +88,4 @@ class PageView(View):
             tutorials = tutorials.filter(name__iregex=regex_q)
 
         data = [tutorials[(page - 1) * page_length:page * page_length]]
-        data = paginator.page(page).data
         return JsonResponse({'status': 'success', 'data': data})

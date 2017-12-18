@@ -87,5 +87,4 @@ class PageView(View):
             tutorials = tutorials.filter(name__iregex=regex_q)
 
         data = [tutorials[(page - 1) * page_length:page * page_length]]
-        data = paginator.page(page).data
         return JsonResponse({'status': 'success', 'data': data})

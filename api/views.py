@@ -11,11 +11,11 @@ from api.models import Tutorial
 class RegistrationView(View):
 
     def post(self, request, *args, **kwargs):
+        # return JsonResponse(request.POST)
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success'})
-
         return JsonResponse({'status': 'failed'})
 
 class AuthView(View):

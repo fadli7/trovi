@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from api.models import Transaction
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 class UserUpdateForm(forms.ModelForm):
@@ -51,7 +52,7 @@ class UserCreationForm(PasswordForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "first_name", "last_name", )
+        fields = ("username", "email",)
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -59,3 +60,9 @@ class UserCreationForm(PasswordForm):
         if commit:
             user.save()
         return user
+
+class PaymentForm(forms.ModelForm):
+
+    class Meta:
+        model = Transaction
+        exclude = ('is_reviewed',)

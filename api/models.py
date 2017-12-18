@@ -71,6 +71,9 @@ class Persona(models.Model):
     picture = models.ImageField(null=True, upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'persona')))
     description = models.TextField(null=True)
 
+    def __str__(self):
+        return self.user.username
+
 @receiver(post_save, sender=User)
 def create_user_persona(sender, instance, created, **kwargs):
     if created:

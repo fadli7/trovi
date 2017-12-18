@@ -4,7 +4,7 @@ from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm
 from api.models import Tutorial
 # Create your views here.
 
@@ -89,3 +89,16 @@ class PageView(View):
 
         data = [tutorials[(page - 1) * page_length:page * page_length]]
         return JsonResponse({'status': 'success', 'data': data})
+
+class TransactionView(View):
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({'status': 'success'})
+
+    def post(self, request, *args, **kwargs):
+        form = PaymentForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return JsonResponse({'status': 'success'})
+
+        return JsonResponse({'status': 'failed'})

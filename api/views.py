@@ -47,8 +47,7 @@ class UserView(View):
         user = request.user
         persona = user.persona
         return JsonResponse({'id': user.id, 'username': user.username,
-            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,
-            'image': persona.picture.url, 'description': persona.description})
+            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, description': persona.description})
 
     def post(self, request, *args, **kwargs):
         form = PasswordChangeForm(request.POST, instance=request.user)

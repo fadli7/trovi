@@ -74,4 +74,3 @@ class PageForm(forms.Form):
     page = forms.IntegerField()
     page_length = forms.IntegerField()
 
-class 

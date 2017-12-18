@@ -16,12 +16,8 @@ class RegistrationView(View):
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success'})
-<<<<<<< HEAD
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
-=======
-        return JsonResponse({'status': 'failed'})
->>>>>>> 0de81a3d84f0dda313d9416db8319a9aaa84231b
 
 class AuthView(View):
 

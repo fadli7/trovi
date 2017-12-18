@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm, PageForm
 from api.models import Tutorial
@@ -46,8 +47,13 @@ class UserView(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         persona = user.persona
+        if persona.picture:
+            url = persona.picture.url
+        else:
+            url = static('1.jpg')
         return JsonResponse({'id': user.id, 'username': user.username,
-            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'description': persona.description})
+            'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,
+            'picture': url, 'description': persona.description})
 
     def post(self, request, *args, **kwargs):
         form = PasswordChangeForm(request.POST, instance=request.user)

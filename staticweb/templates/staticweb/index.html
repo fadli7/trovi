@@ -212,55 +212,55 @@
 		}
 		var csrftoken = getCookie('csrftoken');
 
-		//LOGIN
-		$(document).ready(function(){
-			$(".masuk").click(function(e) {
-				//e.preventDefault();
-				var form_action = $("#id01").find("form").attr("action");
-				var usernmae = $("#id01").find("input[name='username']").val();
-				var password = $("#id01").find("input[name='password']").val();
-				if(username != '' && password != '') {
-					$.ajax({
-						dataType: 'json',
-						type: 'POST',
-						url: form_action,
-						data: {username:username, password:password}
-					}).done(function(data){
-						$("#id01").find("input[name='username']").val('');
-						$("#id01").find("input[name='password']").val('');
-						//$(".modal").modal('hide');
-						//toastr.success('Login Berhasil', 'Success Alert', {timeOut: 5000});
-					});
-				} else {
-					alert('Error01');
-				}
-			});
-
-			$(".daftar").click(function(e) {
-				//e.preventDefault();
-				var form_action = $("#id02").find("form").attr("action");
-				var usernmae = $("#id02").find("input[name='username']").val();
-				var email = $('#id02').find("input[name='email']").val();
-				var password1 = $('#id02').find("input[name='password1']").val();
-				var password2 = $("#id01").find("input[name='password2']").val();
-				if(username != '' && password != '') {
-					$.ajax({
-						dataType: 'json',
-						type: 'POST',
-						url: form_action,
-						data: {username:username, email:email, password1:password1, password2:password2}
-					}).done(function(data){
-						//$("#id01").find("input[name='username']").val('');
-						//$("#id01").find("input[name='password']").val('');
-						 window.location.assign("/explore")
-						//$(".modal").modal('hide');
-						//toastr.success('Login Berhasil', 'Success Alert', {timeOut: 5000});
-					});
-				} else {
-					alert('You are missing title or description');
-				}
-			});
+		function csrfSafeMethod(method) {
+		    // these HTTP methods do not require CSRF protection
+		    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+		    beforeSend: function(xhr, settings) {
+		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		        }
+		    }
 		});
+		
+		function melebu(event){
+			//alert('berhasil');
+			var username = $("#id01").find("input[name='username']").val();
+			var password = $("#id01").find("input[name='password']").val();
+			$.post('/api/auth',{
+				username: username,
+				password: password
+			}, function(data){
+				if(data['status'] == 'success'){
+					window.location = "explore";
+				} else {
+					alert('Gaisok');
+					window.location = "";
+				}
+			});
+		};
+
+		function daftar(event){
+			//alert('berhasil');
+			var username = $("#id02").find("input[name='username']").val();
+			var email = $("#id02").find("input[name='email']");
+			var password1 = $("#id02").find("input[name='password1']").val();
+			var password2 = $("#id02").find("input[name='password2']").val();
+			$.post('/api/registration',{
+				username: username,
+				email: email,
+				password1: password1,
+				password2: password2
+			}, function(data){
+				if(data['status'] == 'success'){
+					window.location = "explore";
+				} else {
+					alert('Gaisok');
+					window.location = "";
+				}
+			});
+		};
 
 		// Get the modal
 		var modal = document.getElementById('id01');
@@ -316,8 +316,9 @@
 	</div>
 
 	<!-- LOGIN -->
-	<div id="id01" class="modal">
-	  <form class="modal-content animate" action="/api/auth" method="post">
+	<div id="id01" class="modal ">
+		<div class="modal-content animate">
+	  <!-- <form class="modal-content animate" method="post"> -->
 	  	{% csrf_token %}
 	    <div class="container">
 	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign in </h1></label>
@@ -326,7 +327,7 @@
 	    <div class="container">
 	      <input type="text" placeholder="Username" name="username" required>
 	      <input type="password" placeholder="Password" name="password" required>  
-	      <button class="masuk" id="butt" type="submit">Login</button>
+	      <button id="butt" onclick="melebu()">Login</button>
 	    </div>
 	    <div class="container">
 	    	<input type="checkbox" checked="checked"> Remember my account
@@ -337,12 +338,13 @@
 	      <span class="psw">Forgot <a href="#">password?</a></span>
 	    </div>
 
-	  </form>
+	  </div>
+	  <!-- </form> -->
 	</div>
 
 	<!-- SIGN UP -->
 	<div id="id02" class="modal2">
-	  <form class="modal-content2 animate2" action="/api/registration" method="post">
+	  <div class="modal-content2 animate2">
 	  	{% csrf_token %}
 	    <div class="container">
 	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign Up </h1></label>
@@ -353,7 +355,7 @@
 	      <input type="email" placeholder="Emali" name="email" required>
 	      <input type="password" placeholder="Password" name="password1" required>  
 	      <input type="password" placeholder="Confirm Password" name="password2">
-	      <button class="daftar" id="butt" type="submit">Sign Up</button>
+	      <button id="butt" onclick="daftar()">Sign Up</button>
 	    </div>
 
 	    <div class="container">
@@ -365,7 +367,7 @@
 	      <span class="psw">Forgot <a href="#">password?</a></span>
 	    </div>
 
-	  </form>
+	  </div>
 	</div>
     
     <!-- HAL2  -->

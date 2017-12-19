@@ -4,15 +4,15 @@ from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.db.models import Count
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm, PageForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm
 from api.models import Tutorial
 # Create your views here.
 
 class RegistrationView(View):
 
     def post(self, request, *args, **kwargs):
-        # return JsonResponse(request.POST)
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -26,7 +26,6 @@ class AuthView(View):
         return JsonResponse({'logged_in': request.user.is_authenticated})
 
     def post(self, request, *args, **kwargs):
-        # return JsonResponse(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
 
@@ -78,13 +77,11 @@ class UserView(View):
 class PageView(View):
 
     def get(self, request, *args, **kwargs):
-        form = PageView(request.GET)
-
-        if not form.is_valid:
-            return JsonResponse({'status': 'failed', 'errors': form.errors})
-
-        page = form.cleaned_data['page']
-        page_length = form.cleaned_data['page_length']
+        try:
+            page = int(request.GET.get('page'))
+            page_length = int(request.GET.get('page_length'))
+        except:
+            return JsonResponse({'status': 'failed', 'errors': request.GET})
 
         tutorials = Tutorial.objects.all()
 
@@ -100,7 +97,17 @@ class PageView(View):
             regex_q = r'(' + q.replace(',', '|') + r')'
             tutorials = tutorials.filter(name__iregex=regex_q)
 
-        data = [tutorials[(page - 1) * page_length:page * page_length]]
+        if 'ordering' in request.GET:
+            ordering = request.GET.get('ordering')
+            if ordering == 'new':
+                tutorials = tutorials.order_by('-pk')
+            else if ordering = 'popular':
+                tutorials = tutorials.annotate(buyers_count=Count('buyers')).order_by('-buyers_count')
+            else:
+                tutorials = tutorials.order_by('?')
+
+
+        data = tutorials[(page - 1) * page_length:page * page_length + 1]
         return JsonResponse({'status': 'success', 'data': data})
 
 class TransactionView(View):

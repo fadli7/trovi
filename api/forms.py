@@ -7,7 +7,7 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email',)
 
 class PasswordForm(forms.ModelForm):
     error_messages = {
@@ -68,9 +68,3 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         model = Transaction
         exclude = ('is_reviewed',)
-
-class PageForm(forms.Form):
-
-    page = forms.IntegerField()
-    page_length = forms.IntegerField()
-

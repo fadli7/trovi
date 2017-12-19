@@ -38,7 +38,7 @@
 			font-size: 48px; 
 		}
         .hal2{
-            margin-top: 400px;
+            margin-top: 144px;
             background-color: white;
         }
 		#jumbo {
@@ -188,6 +188,11 @@
 		       width: 100%;
 		    }
 		}
+
+		.nav>li>a:hover {
+		    text-decoration: none;
+		    background-color: #16a2f4;
+		}
 	</style>
 
 	{% csrf_token %}
@@ -286,15 +291,15 @@
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
-			<div class="navbar-header">
+			<div class="navbar-header" style="margin-right: 468px">
 				<a class="navbar-brand" href=""> B-Cak</a>
 			</div>
 			<!-- <div class="pull-right"> -->
 				<ul class="nav">
-					<li class="active"><a href="">Home</a></li>
-					<li><a href="">About</a></li>
-					<li><a href="">Features</a></li>
-					<li><a href="">Contact</a></li>
+					<li class="active"><a href="" style="color: white;">Home</a></li>
+					<li><a href="" style="color: white;">About</a></li>
+					<li><a href="" style="color: white;">Features</a></li>
+					<li><a href="" style="color: white;">Contact</a></li>
 				</ul>
 			<!-- </div> -->
 		</div>
@@ -370,16 +375,48 @@
     
     <!-- HAL2  -->
     <div class="container-fluid hal2" id="hal2">
-        <div class="row">
-           <div class="col-sm-8 deskripsi">
-                    <h2>About Company Page</h2>
-                    <p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>      
+        <div class="row" style="margin-top: 115px;margin-bottom: 100px;">
+           <div class="col-sm-4 deskripsi" style="margin-left: 150px">
+                <h2>About Company Page</h2>
+                <p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>      
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-4" style="margin-left: 100px;">
                 <span class="gambar">
                     <img src="{% static 'gambar/1.png' %}" height="90%" width="90%" style="margin-top:10px;">
                 </span>
           </div>
+        </div>
+        <div class="row" style="background-color: #81d4fa;">
+        	<div class="col-md-12">
+        		<center>
+	        	<h2>Our Features</h2>	
+	        	</center>
+	        	<br><br><br>	
+        	</div>
+        </div>
+        <div class="row" style="background-color: #81d4fa;">
+        <div class="row" style="margin-left: 50px;margin-right: 40px;margin-bottom: 55px;">
+        	<div class="col-md-4 feature">
+            	<img src="{% static 'gambar/1.png' %}" width="70%">
+            	<h2>Lorem Ipsum dolor sit amet</h2>
+            	<p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>
+          	</div>
+          	<div class="col-md-4 feature">
+            	<img src="{% static 'gambar/1.png' %}" width="70%">
+            	<h2>Lorem Ipsum dolor sit amet</h2>
+            	<p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>
+          	</div>
+          	<div class="col-md-4 feature">
+            	<img src="{% static 'gambar/1.png' %}" width="70%">
+            	<h2>Lorem Ipsum dolor sit amet</h2>
+            	<p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>
+          	</div>
+          <!-- <div class="col-sm-4">
+                <span class="gambar">
+                    <img src="{% static 'gambar/1.png' %}" height="90%" width="90%" style="margin-top:10px;">
+                </span>
+          </div> -->
+        </div>
         </div>
     </div>
     

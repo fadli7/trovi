@@ -101,7 +101,7 @@ class PageView(View):
             ordering = request.GET.get('ordering')
             if ordering == 'new':
                 tutorials = tutorials.order_by('-pk')
-            else if ordering = 'popular':
+            elif ordering == 'popular':
                 tutorials = tutorials.annotate(buyers_count=Count('buyers')).order_by('-buyers_count')
             else:
                 tutorials = tutorials.order_by('?')

@@ -86,6 +86,7 @@ class Tag(models.Model):
         return self.name
 
 class Tutorial(models.Model):
+    banner = models.ImageField(upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'tutorial', 'banner')))
     tags = models.ManyToManyField(Tag)
     buyers = models.ManyToManyField(User)
     name = models.CharField(max_length=50)

@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
+from django.contrib.auth.models import User
 
 from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm
 from api.models import Tutorial
@@ -46,10 +47,12 @@ class UserView(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         persona = user.persona
+
         if persona.picture:
             url = persona.picture.url
         else:
             url = static('1.jpg')
+
         return JsonResponse({'id': user.id, 'username': user.username,
             'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,
             'picture': url, 'description': persona.description})
@@ -83,7 +86,7 @@ class PageView(View):
         except:
             return JsonResponse({'status': 'failed', 'errors': request.GET})
 
-        tutorials = Tutorial.objects.all()
+        tutorials = Tutorial.objects.select_related('tags').all()
 
         if request.user.is_authenticated:
             tutorials = tutorials.exclude(buyers__id=request.user.id)
@@ -107,13 +110,24 @@ class PageView(View):
                 tutorials = tutorials.order_by('?')
 
 
-        data = tutorials[(page - 1) * page_length:page * page_length + 1]
+        tutorials = tutorials[(page - 1) * page_length:page * page_length]
+        tags = tutorials.tags
+
+        tutorials = list(tutorial)
+        tags = list(tags)
+
+        data = []
+        for i in len(tutorials):
+            tutorial, tag = tutorials[i], tags[i]
+            datum = {'id': tutorial.id, 'name': tutorial.name,
+                    'banner': tutorial.banner.url, 'price': tutorial.price,
+                    'tags': tag}
+
+            data.append(datum)
+
         return JsonResponse({'status': 'success', 'data': data})
 
 class TransactionView(View):
-
-    def get(self, request, *args, **kwargs):
-        return JsonResponse({'status': 'success'})
 
     def post(self, request, *args, **kwargs):
         form = PaymentForm(request.POST)
@@ -123,3 +137,19 @@ class TransactionView(View):
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
+class TutorialView(View):
+
+    def get(self, request, *args, **kwargs):
+        tutorial_id = request.GET.get('id')
+        tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id)
+        tags = list(tutorials.tags)
+        illustrations = list(tutorial.illustration_set)
+
+        data = {
+                'id': tutorial_id, 'name': tutorial.name,
+                'banner': tutorial.banner.url, 'video': tutorial.video.url,
+                'description': tutorial.description, 'tags': tags,
+                'illustrations': [illustration.url for illustration in illustrations]
+                }
+
+        return JsonResponse({'status': 'success', 'data': data})

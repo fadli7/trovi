@@ -141,15 +141,15 @@ class TutorialView(View):
 
     def get(self, request, *args, **kwargs):
         tutorial_id = request.GET.get('id')
-        tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id)
-        tags = list(tutorials.tags)
-        illustrations = list(tutorial.illustration_set)
+        tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id).first()
+        tags = list(tag.name for tag in tutorial.tags.all())
+        illustrations = list(illustration.url for illustration in tutorial.illustration_set.all())
 
         data = {
                 'id': tutorial_id, 'name': tutorial.name,
                 'banner': tutorial.banner.url, 'video': tutorial.video.url,
                 'description': tutorial.description, 'tags': tags,
-                'illustrations': [illustration.url for illustration in illustrations]
+                'illustrations': illustrations
                 }
 
         return JsonResponse({'status': 'success', 'data': data})

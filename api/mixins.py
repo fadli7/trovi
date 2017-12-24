@@ -4,12 +4,12 @@ class BaseBatchTutorialMixin:
 
     def get_batch(self, request, tutorials):
         if 'tags' in request.GET:
-            tags = request.GET.get('tags').split(',')
+            tags = request.GET.get('tags').split(' ')
             tutorials = tutorials.filter(tags__name__in=tags)
 
         if 'q' in request.GET:
             q = request.GET.get('q')
-            regex_q = r'(' + q.replace(',', '|') + r')'
+            regex_q = r'(' + q.replace(' ', '|') + r')'
             tutorials = tutorials.filter(name__iregex=regex_q)
 
         if 'ordering' in request.GET:

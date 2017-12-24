@@ -92,7 +92,6 @@ class Tag(models.Model):
 class Tutorial(models.Model):
     banner = models.ImageField(upload_to=UploadToUUIDPath('media/tutorial/banner/'))
     tags = models.ManyToManyField(Tag, blank=True)
-    buyers = models.ManyToManyField(User, blank=True)
     name = models.CharField(max_length=50)
     price = models.IntegerField()
     video = models.FileField(upload_to=UploadToUUIDPath(os.path.join('media/tutorial/video/')),

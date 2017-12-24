@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -7,8 +6,9 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
 from django.contrib.auth.models import User
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm, PaginationForm
 from api.models import Tutorial
+from api.mixins import BaseBatchTutorialMixin
 # Create your views here.
 
 class RegistrationView(View):
@@ -77,65 +77,37 @@ class UserView(View):
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
-class PageView(View):
+
+class ExploreView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
-        try:
-            page = int(request.GET.get('page'))
-            page_length = int(request.GET.get('page_length'))
-        except:
-            return JsonResponse({'status': 'failed', 'errors': request.GET})
-
-        tutorials = Tutorial.objects.select_related('tags').all()
-
+        tutorials = Tutorial.objects.all()
         if request.user.is_authenticated:
-            tutorials = tutorials.exclude(buyers__id=request.user.id)
+            tutorials = tutorials.exclude(buyers__pk=request.user.id)
 
-        if 'tags' in request.GET:
-            tags = request.GET.get('tags').split(',')
-            tutorials = tutorials.filter(tags__in=tags)
-
-        if 'q' in request.GET:
-            q = request.GET.get('q')
-            regex_q = r'(' + q.replace(',', '|') + r')'
-            tutorials = tutorials.filter(name__iregex=regex_q)
-
-        if 'ordering' in request.GET:
-            ordering = request.GET.get('ordering')
-            if ordering == 'new':
-                tutorials = tutorials.order_by('-pk')
-            elif ordering == 'popular':
-                tutorials = tutorials.annotate(buyers_count=Count('buyers')).order_by('-buyers_count')
-            else:
-                tutorials = tutorials.order_by('?')
-
-
-        tutorials = tutorials[(page - 1) * page_length:page * page_length]
-        tags = tutorials.tags
-
-        tutorials = list(tutorial)
-        tags = list(tags)
-
-        data = []
-        for i in len(tutorials):
-            tutorial, tag = tutorials[i], tags[i]
-            datum = {'id': tutorial.id, 'name': tutorial.name,
-                    'banner': tutorial.banner.url, 'price': tutorial.price,
-                    'tags': tag}
-
-            data.append(datum)
+        data = self.full_process_data(request, tutorials)
 
         return JsonResponse({'status': 'success', 'data': data})
 
-class TransactionView(View):
+class PendingView(BaseBatchTutorialMixin, View):
 
-    def post(self, request, *args, **kwargs):
-        form = PaymentForm(request.POST)
-        if form.is_valid:
-            form.save()
-            return JsonResponse({'status': 'success'})
+    def get(self, request, *args, **kwargs):
+        tutorials = Tutorial.objects.all().filter(transaction__user__pk=rquest.user.id)
+        tutorials = tutorials.filter(transaction__is_reviewed=False)
 
-        return JsonResponse({'status': 'failed', 'errors': form.errors})
+        data = self.full_process_data(request, tutorials)
+
+        return JsonResponse({'status': 'success', 'data': data})
+
+class TutorialOwnedView(View):
+
+    def get(self, request, *args, **kwargs):
+        tutorials = Tutorial.objects.all().filter(transaction__user__pk=request.user.id)
+        tutorials = tutorials.filter(transaction__is_reviewed=True)
+
+        data = self.full_process_data(request, tutorials)
+
+        return JsonResponse({'status': 'success', 'data': data})
 
 class TutorialView(View):
 
@@ -153,3 +125,14 @@ class TutorialView(View):
                 }
 
         return JsonResponse({'status': 'success', 'data': data})
+
+class TransactionView(View):
+
+    def post(self, request, *args, **kwargs):
+        form = PaymentForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return JsonResponse({'status': 'success'})
+
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
+

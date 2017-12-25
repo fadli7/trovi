@@ -31,6 +31,7 @@
         }
         body {
 			background-color: #81D4FA;
+			font-family: 'sans-serif';
 		}
 		h1.font {
 			font-family: sans-serif;
@@ -273,8 +274,7 @@
 				$('.modal').hide('slow');
 			});
 			$('a#haveaccount').click(function() {
-				$('#id02').hide('slow');
-				$('#id01').show('slow');
+				$('.modal').toggle('slow');
 			});
 		});
 
@@ -306,12 +306,12 @@
 				<a class="navbar-brand" href=""> B-Cak</a>
 			</div>
 			<!-- <div class="pull-right"> -->
-				<ul class="nav">
-					<li class="active"><a href="" style="color: white;">Home</a></li>
-					<li><a href="" style="color: white;">About</a></li>
-					<li><a href="" style="color: white;">Features</a></li>
-					<li><a href="" style="color: white;">Contact</a></li>
-				</ul>
+			<ul class="nav">
+				<li class="active"><a href="" style="color: white;">Home</a></li>
+				<li><a href="" style="color: white;">About</a></li>
+				<li><a href="" style="color: white;">Features</a></li>
+				<li><a href="" style="color: white;">Contact</a></li>
+			</ul>
 			<!-- </div> -->
 		</div>
 	</nav>

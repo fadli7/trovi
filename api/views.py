@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -7,8 +6,9 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
 from django.contrib.auth.models import User
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm, PaginationForm
 from api.models import Tutorial
+from api.mixins import BaseBatchTutorialMixin
 # Create your views here.
 
 class RegistrationView(View):
@@ -77,53 +77,52 @@ class UserView(View):
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
-class PageView(View):
+
+class ExploreView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
-        try:
-            page = int(request.GET.get('page'))
-            page_length = int(request.GET.get('page_length'))
-        except:
-            return JsonResponse({'status': 'failed', 'errors': request.GET})
-
-        tutorials = Tutorial.objects.select_related('tags').all()
-
+        tutorials = Tutorial.objects.all()
         if request.user.is_authenticated:
-            tutorials = tutorials.exclude(buyers__id=request.user.id)
+            tutorials = tutorials.exclude(buyers__pk=request.user.id)
 
-        if 'tags' in request.GET:
-            tags = request.GET.get('tags').split(',')
-            tutorials = tutorials.filter(tags__in=tags)
+        data = self.full_process_data(request, tutorials)
 
-        if 'q' in request.GET:
-            q = request.GET.get('q')
-            regex_q = r'(' + q.replace(',', '|') + r')'
-            tutorials = tutorials.filter(name__iregex=regex_q)
+        return JsonResponse({'status': 'success', 'data': data})
 
-        if 'ordering' in request.GET:
-            ordering = request.GET.get('ordering')
-            if ordering == 'new':
-                tutorials = tutorials.order_by('-pk')
-            elif ordering == 'popular':
-                tutorials = tutorials.annotate(buyers_count=Count('buyers')).order_by('-buyers_count')
-            else:
-                tutorials = tutorials.order_by('?')
+class PendingView(BaseBatchTutorialMixin, View):
 
+    def get(self, request, *args, **kwargs):
+        tutorials = Tutorial.objects.all().filter(transaction__user__pk=rquest.user.id)
+        tutorials = tutorials.filter(transaction__is_reviewed=False)
 
-        tutorials = tutorials[(page - 1) * page_length:page * page_length]
-        tags = tutorials.tags
+        data = self.full_process_data(request, tutorials)
 
-        tutorials = list(tutorial)
-        tags = list(tags)
+        return JsonResponse({'status': 'success', 'data': data})
 
-        data = []
-        for i in len(tutorials):
-            tutorial, tag = tutorials[i], tags[i]
-            datum = {'id': tutorial.id, 'name': tutorial.name,
-                    'banner': tutorial.banner.url, 'price': tutorial.price,
-                    'tags': tag}
+class TutorialOwnedView(View):
 
-            data.append(datum)
+    def get(self, request, *args, **kwargs):
+        tutorials = Tutorial.objects.all().filter(transaction__user__pk=request.user.id)
+        tutorials = tutorials.filter(transaction__is_reviewed=True)
+
+        data = self.full_process_data(request, tutorials)
+
+        return JsonResponse({'status': 'success', 'data': data})
+
+class TutorialView(View):
+
+    def get(self, request, *args, **kwargs):
+        tutorial_id = request.GET.get('id')
+        tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id).first()
+        tags = list(tag.name for tag in tutorial.tags.all())
+        illustrations = list(illustration.url for illustration in tutorial.illustration_set.all())
+
+        data = {
+                'id': tutorial_id, 'name': tutorial.name,
+                'banner': tutorial.banner.url, 'video': tutorial.video.url,
+                'description': tutorial.description, 'tags': tags,
+                'illustrations': illustrations
+                }
 
         return JsonResponse({'status': 'success', 'data': data})
 
@@ -137,19 +136,3 @@ class TransactionView(View):
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
-class TutorialView(View):
-
-    def get(self, request, *args, **kwargs):
-        tutorial_id = request.GET.get('id')
-        tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id)
-        tags = list(tutorials.tags)
-        illustrations = list(tutorial.illustration_set)
-
-        data = {
-                'id': tutorial_id, 'name': tutorial.name,
-                'banner': tutorial.banner.url, 'video': tutorial.video.url,
-                'description': tutorial.description, 'tags': tags,
-                'illustrations': [illustration.url for illustration in illustrations]
-                }
-
-        return JsonResponse({'status': 'success', 'data': data})

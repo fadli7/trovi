@@ -68,3 +68,26 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         model = Transaction
         exclude = ('is_reviewed',)
+
+class PaginationForm(forms.Form):
+
+    page = forms.IntegerField()
+    page_length = forms.IntegerField()
+
+    def raise_error_under_one(self, val, name):
+        if val < 1:
+            return forms.ValidationError(
+                    f"{name} can't be lesser than 1",
+                    code=f"{name}_value_error"
+                    )
+
+    def clean_page(self):
+        page = self.cleaned_data.get('page')
+        self.raise_error_under_one(page, "page")
+        return page
+
+    def clean_page_length(self):
+        page = self.cleaned_data.get('page_length')
+        self.raise_error_under_one(page, "page_length")
+        return page
+

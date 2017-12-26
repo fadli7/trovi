@@ -31,6 +31,7 @@
         }
         body {
 			background-color: #81D4FA;
+			font-family: 'sans-serif';
 		}
 		h1.font {
 			font-family: sans-serif;
@@ -238,6 +239,7 @@
 				password: password
 			}, function(data){
 				if(data['status'] == 'success'){
+					$('#id01').toggle('slow');
 					window.location = "explore";
 				} else {
 					alert('Gaisok');
@@ -257,7 +259,7 @@
 				email: email,
 				password1: password1,
 				password2: password2
-			}, function(data){
+			},function(data){
 				if(data['status'] == 'success'){
 					window.location = "explore";
 				} else {
@@ -266,6 +268,15 @@
 				}
 			});
 		};
+
+		$(document).ready(function() {
+			$('button.cancelbtn').click(function() {
+				$('.modal').hide('slow');
+			});
+			$('a#haveaccount').click(function() {
+				$('.modal').toggle('slow');
+			});
+		});
 
 		// Get the modal
 		var modal = document.getElementById('id01');
@@ -295,12 +306,12 @@
 				<a class="navbar-brand" href=""> B-Cak</a>
 			</div>
 			<!-- <div class="pull-right"> -->
-				<ul class="nav">
-					<li class="active"><a href="" style="color: white;">Home</a></li>
-					<li><a href="" style="color: white;">About</a></li>
-					<li><a href="" style="color: white;">Features</a></li>
-					<li><a href="" style="color: white;">Contact</a></li>
-				</ul>
+			<ul class="nav">
+				<li class="active"><a href="" style="color: white;">Home</a></li>
+				<li><a href="" style="color: white;">About</a></li>
+				<li><a href="" style="color: white;">Features</a></li>
+				<li><a href="" style="color: white;">Contact</a></li>
+			</ul>
 			<!-- </div> -->
 		</div>
 	</nav>
@@ -339,7 +350,7 @@
 	    </div>
 
 	    <div class="container" style="background-color:#f1f1f1">
-	      <button style="color: white;" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
 	      <span class="psw">Forgot <a href="#">password?</a></span>
 	    </div>
 
@@ -348,7 +359,7 @@
 	</div>
 
 	<!-- SIGN UP -->
-	<div id="id02" class="modal2">
+	<div id="id02" class="modal">
 	  <div class="modal-content2 animate2">
 	  	{% csrf_token %}
 	    <div class="container">
@@ -368,8 +379,8 @@
 	    </div>
 
 	    <div class="container" style="background-color:#f1f1f1">
-	      <button style="color: white;" type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
-	      <span class="psw">Forgot <a href="#">password?</a></span>
+	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
+	      <span class="psw"><a href="" id="haveaccount">Have An Account</a></span>
 	    </div>
 
 	  </div>
@@ -380,7 +391,16 @@
         <div class="row" style="margin-top: 115px;margin-bottom: 100px;">
            <div class="col-sm-4 deskripsi" style="margin-left: 150px">
                 <h2>About Company Page</h2>
-                <p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>      
+                <p> Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>      
+          		<p>
+          			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          		</p>
+
           </div>
           <div class="col-sm-4" style="margin-left: 100px;">
                 <span class="gambar">

@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -6,20 +6,37 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.urls import reverse
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm, PaginationForm, PersonaForm
+from api.forms import (UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm,
+        PaginationForm, PersonaForm, EmailConfirmationForm)
 from api.models import Tutorial
 # Create your views here.
 
 class RegistrationView(View):
 
+    def send_confirmation_mail(self, recipent, key):
+        head = 'Email Confirmation'
+        body = 'please confirm your account, localhost:8000/api/emailconfirmation/?key=' + key
+        send_mail(head, body, 'workshopwebpens@gmail.com', [recipent])
+
     def post(self, request, *args, **kwargs):
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            self.send_confirmation_mail(user.email, user.emailconfirmation.key)
             return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
+
+class EmailConfirmationView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = EmailConfirmationForm(request.GET)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
 
 class AuthView(View):
 

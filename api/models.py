@@ -2,11 +2,12 @@ import os
 import uuid
 import magic
 from django.conf import settings
+import hashlib
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.utils.deconstruct import deconstructible
 from django.template.defaultfilters import filesizeformat
@@ -70,6 +71,10 @@ class FileValidator:
 
 # Create your models here.
 
+class User(AbstractUser):
+
+    email = models.EmailField(unique=True)
+
 class Persona(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(null=True, upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'persona')))
@@ -82,6 +87,20 @@ class Persona(models.Model):
 def create_user_persona(sender, instance, created, **kwargs):
     if created:
         Persona.objects.create(user=instance)
+
+class EmailConfirmation(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    key = models.CharField(max_length=64)
+    time = models.DateTimeField(auto_now_add=True)
+
+@receiver(post_save, sender=User)
+def create_user_email_confirmation(sender, instance, created, **kwargs):
+    if created:
+        username, email = instance.username, instance.email
+        m = hashlib.sha256()
+        m.update(bytearray(username + email + str(uuid.uuid4()), 'utf-8'))
+        key = m.hexdigest()
+        EmailConfirmation.objects.create(user=instance, key=key)
 
 class Tag(models.Model):
     name = models.CharField(max_length=10)
@@ -119,6 +138,3 @@ class Transaction(models.Model):
     def __str__(self):
         return str(self.id)
 
-class EmailConfirmation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    key = models.CharField(max_length=64)

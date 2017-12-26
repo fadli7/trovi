@@ -7,7 +7,7 @@ from django.db.models import Count
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm, PaginationForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm, PaginationForm, PersonaForm
 from api.models import Tutorial
 # Create your views here.
 
@@ -200,4 +200,9 @@ class TransactionView(View):
 class PersonaView(View):
 
     def post(self, request, *args, **kwargs):
-        pass
+        form = PersonaForm(request.POST, request,FILE, instance=request.user.persona)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success'})
+
+        return JsonResponse({'status': 'failed', 'errors': form.errors})

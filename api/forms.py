@@ -1,13 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from api.models import Transaction
+from api.models import Transaction, Persona, EmailConfirmation
 from django.utils.translation import ugettext, ugettext_lazy as _
-
-class UserUpdateForm(forms.ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email',)
+import hashlib
 
 class PasswordMixin:
     error_messages = {
@@ -28,6 +23,37 @@ class PasswordMixin:
                 code='password_mismatch',
             )
         return password2
+
+class UserCreationForm(PasswordMixin, forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ("username", "email",)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        # user.is_active = False
+
+        if commit:
+            user.save()
+        return user
+
+class EmailConfirmationForm(forms.ModelForm):
+
+    class Meta:
+        model = EmailConfirmation
+        fields = '__all__'
+
+    def clean_key(self):
+        user = self.cleaned_data.get('user')
+
+
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email',)
 
 class PasswordChangeForm(PasswordMixin, forms.ModelForm):
 
@@ -53,19 +79,6 @@ class PasswordChangeForm(PasswordMixin, forms.ModelForm):
         if commit:
             self.instance.save()
         return self.instance
-
-class UserCreationForm(PasswordMixin, forms.ModelForm):
-
-    class Meta:
-        model = User
-        fields = ("username", "email",)
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-        return user
 
 class TransactionForm(forms.ModelForm):
 
@@ -108,4 +121,5 @@ class PaginationForm(forms.Form):
 class PersonaForm(forms.ModelForm):
 
     class Meta:
+        model = Persona
         fields = '__all__'

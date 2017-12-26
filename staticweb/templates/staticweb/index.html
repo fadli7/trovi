@@ -234,7 +234,7 @@
 			//alert('berhasil');
 			var username = $("#id01").find("input[name='username']").val();
 			var password = $("#id01").find("input[name='password']").val();
-			$.post('/api/auth',{
+			$.post('/api/auth/',{
 				username: username,
 				password: password
 			}, function(data){
@@ -254,7 +254,7 @@
 			var email = $("#id02").find("input[name='email']").val();
 			var password1 = $("#id02").find("input[name='password1']").val();
 			var password2 = $("#id02").find("input[name='password2']").val();
-			$.post('/api/registration',{
+			$.post('/api/registration/',{
 				username: username,
 				email: email,
 				password1: password1,
@@ -274,8 +274,9 @@
 			$('button.cancelbtn').click(function() {
 				$('.modal').hide('slow');
 			});
-			$('a#haveaccount').click(function() {
-				$('.modal').toggle('slow');
+			$('#haveaccount').click(function() {
+				$('#id02').hide('slow');
+				$("#id01").show('slow');
 			});
 		});
 
@@ -381,7 +382,7 @@
 
 	    <div class="container" style="background-color:#f1f1f1">
 	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
-	      <span class="psw"><a href="" id="haveaccount">Have An Account</a></span>
+	      <span class="psw"><button id="haveaccount"><a href="" >Have An Account</a></button></span>
 	    </div>
 
 	  </div>

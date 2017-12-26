@@ -4,7 +4,7 @@ from api.models import Transaction, Persona, EmailConfirmation
 from django.utils.translation import ugettext, ugettext_lazy as _
 import hashlib
 
-class PasswordMixin(forms.ModelForm):
+class PasswordMixin(forms.Form):
     error_messages = {
         'password_mismatch': _("The two password fields didn't match."),
     }
@@ -25,7 +25,7 @@ class PasswordMixin(forms.ModelForm):
             )
         return password2
 
-class UserCreationForm(PasswordMixin):
+class UserCreationForm(PasswordMixin, forms.ModelForm):
 
     class Meta:
         model = User
@@ -56,7 +56,7 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email',)
 
-class PasswordChangeForm(PasswordMixin):
+class PasswordChangeForm(PasswordMixin, forms.ModelForm):
 
     password = forms.CharField(label=_("auth"),
             widget=forms.PasswordInput)

@@ -5,10 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, PaymentForm, PaginationForm
+from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm, PaginationForm
 from api.models import Tutorial
-from api.mixins import BaseBatchTutorialMixin
 # Create your views here.
 
 class RegistrationView(View):
@@ -77,15 +77,76 @@ class UserView(View):
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
+class BaseBatchTutorialMixin:
+
+    def get_batch(self, request, tutorials):
+        if 'tags' in request.GET:
+            tags = request.GET.get('tags').split(' ')
+            tutorials = tutorials.filter(tags__name__in=tags)
+
+        if 'q' in request.GET:
+            q = request.GET.get('q')
+            regex_q = r'(' + q.replace(' ', '|') + r')'
+            tutorials = tutorials.filter(name__iregex=regex_q)
+
+        if 'ordering' in request.GET:
+            ordering = request.GET.get('ordering')
+            if ordering == 'new':
+                tutorials = tutorials.order_by('-pk')
+            elif ordering == 'popular':
+                tutorials = tutorials.annotate(buyers_count=Count('buyers')).order_by('-buyers_count')
+            else:
+                tutorials = tutorials.order_by('?')
+
+        return tutorials.distinct()
+
+    def paginate(self, request, tutorials):
+        form = PaginationForm(request.GET)
+
+        if not form.is_valid():
+            raise ValidationError(form.errors, code='pagination_error')
+
+        page, page_length = form.cleaned_data['page'], form.cleaned_data['page_length']
+        tutorials = tutorials[(page - 1) * page_length:page * page_length]
+        tags = tutorials.tags
+
+        print('------------------------------------------------------------------')
+        print(tutorials, tags)
+        return (tutorials, tags,)
+
+    def clean_data(self, request, tutorials, tags):
+        tutorials = list(tutorial)
+        tags_set = list(tags.all())
+
+        data = []
+        for i in len(tutorials):
+            tutorial, tags = tutorials[i], tags_set[i]
+            datum = {'id': tutorial.id, 'name': tutorial.name,
+                    'banner': tutorial.banner.url, 'price': tutorial.price,
+                    'tags': [tag.name for tag in tags]}
+
+            data.append(datum)
+
+        return data
+
+    def full_process_data(self, request, tutorials):
+        tutorials = self.get_batch(request, tutorials)
+        tutorials, tags = self.paginate(request, tutorials)
+        data = self.clean_data(request, tutorials, tags)
+
+        return data
 
 class ExploreView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
         tutorials = Tutorial.objects.all()
         if request.user.is_authenticated:
-            tutorials = tutorials.exclude(buyers__pk=request.user.id)
+            tutorials = tutorials.exclude(transaction__user__pk=request.user.id)
 
-        data = self.full_process_data(request, tutorials)
+        try:
+            data = self.full_process_data(request, tutorials)
+        except ValidationError as e:
+            return JsonResponse({'status': 'failed', 'errors': str(e)})
 
         return JsonResponse({'status': 'success', 'data': data})
 
@@ -129,10 +190,14 @@ class TutorialView(View):
 class TransactionView(View):
 
     def post(self, request, *args, **kwargs):
-        form = PaymentForm(request.POST)
+        form = TransactionForm(request.POST, request.FILE)
         if form.is_valid:
-            form.save()
+            form.save(request.user)
             return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
+class PersonaView(View):
+
+    def post(self, request, *args, **kwargs):
+        pass

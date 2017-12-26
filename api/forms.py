@@ -9,7 +9,7 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email',)
 
-class PasswordForm(forms.ModelForm):
+class PasswordMixin:
     error_messages = {
         'password_mismatch': _("The two password fields didn't match."),
     }
@@ -29,10 +29,14 @@ class PasswordForm(forms.ModelForm):
             )
         return password2
 
-class PasswordChangeForm(PasswordForm):
+class PasswordChangeForm(PasswordMixin, forms.ModelForm):
 
     password = forms.CharField(label=_("auth"),
             widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
     def clean_password(self):
         password = self.cleaned_data.get("password")
@@ -50,7 +54,7 @@ class PasswordChangeForm(PasswordForm):
             self.instance.save()
         return self.instance
 
-class UserCreationForm(PasswordForm):
+class UserCreationForm(PasswordMixin, forms.ModelForm):
 
     class Meta:
         model = User
@@ -63,11 +67,21 @@ class UserCreationForm(PasswordForm):
             user.save()
         return user
 
-class PaymentForm(forms.ModelForm):
+class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        exclude = ('is_reviewed',)
+        fields = ('tutorial', 'payment_proof')
+
+    def save(self, user, commit=True):
+        transaction = super().save(commit=False)
+        transaction.user = user
+        transaction.price = self.cleaned_data['tuorial'].price
+
+        if commit:
+            transaction.save()
+
+        return transaction
 
 class PaginationForm(forms.Form):
 
@@ -77,8 +91,8 @@ class PaginationForm(forms.Form):
     def raise_error_under_one(self, val, name):
         if val < 1:
             return forms.ValidationError(
-                    f"{name} can't be lesser than 1",
-                    code=f"{name}_value_error"
+                    "{} can't be lesser than 1".format(name),
+                    code="{}_value_error".format(name)
                     )
 
     def clean_page(self):
@@ -91,3 +105,7 @@ class PaginationForm(forms.Form):
         self.raise_error_under_one(page, "page_length")
         return page
 
+class PersonaForm(forms.ModelForm):
+
+    class Meta:
+        fields = '__all__'

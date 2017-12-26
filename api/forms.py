@@ -91,8 +91,8 @@ class PaginationForm(forms.Form):
     def raise_error_under_one(self, val, name):
         if val < 1:
             return forms.ValidationError(
-                    f"{name} can't be lesser than 1",
-                    code=f"{name}_value_error"
+                    "{} can't be lesser than 1".format(name),
+                    code="{}_value_error".format(name)
                     )
 
     def clean_page(self):

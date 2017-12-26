@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from api.forms import UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm, PaginationForm
 from api.models import Tutorial
@@ -103,13 +104,15 @@ class BaseBatchTutorialMixin:
         form = PaginationForm(request.GET)
 
         if not form.is_valid():
-            return JsonResponse({'status': 'failed', 'errors': form.errors})
+            raise ValidationError(form.errors, code='pagination_error')
 
         page, page_length = form.cleaned_data['page'], form.cleaned_data['page_length']
         tutorials = tutorials[(page - 1) * page_length:page * page_length]
         tags = tutorials.tags
 
-        return tutorials, tags
+        print('------------------------------------------------------------------')
+        print(tutorials, tags)
+        return (tutorials, tags,)
 
     def clean_data(self, request, tutorials, tags):
         tutorials = list(tutorial)
@@ -138,9 +141,12 @@ class ExploreView(BaseBatchTutorialMixin, View):
     def get(self, request, *args, **kwargs):
         tutorials = Tutorial.objects.all()
         if request.user.is_authenticated:
-            tutorials = tutorials.exclude(buyers__pk=request.user.id)
+            tutorials = tutorials.exclude(transaction__user__pk=request.user.id)
 
-        data = self.full_process_data(request, tutorials)
+        try:
+            data = self.full_process_data(request, tutorials)
+        except ValidationError as e:
+            return JsonResponse({'status': 'failed', 'errors': str(e)})
 
         return JsonResponse({'status': 'success', 'data': data})
 

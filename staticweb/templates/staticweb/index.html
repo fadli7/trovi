@@ -251,7 +251,7 @@
 		function daftar(event){
 			//alert('berhasil');
 			var username = $("#id02").find("input[name='username']").val();
-			var email = $("#id02").find("input[name='email']");
+			var email = $("#id02").find("input[name='email']").val();
 			var password1 = $("#id02").find("input[name='password1']").val();
 			var password2 = $("#id02").find("input[name='password2']").val();
 			$.post('/api/registration',{
@@ -260,6 +260,7 @@
 				password1: password1,
 				password2: password2
 			},function(data){
+				alert('berhasil');
 				if(data['status'] == 'success'){
 					window.location = "explore";
 				} else {
@@ -368,7 +369,7 @@
 
 	    <div class="container">
 	      <input type="text" placeholder="Username" name="username" required>
-	      <input type="email" placeholder="Emali" name="email" required>
+	      <input type="email" placeholder="Email" name="email" required>
 	      <input type="password" placeholder="Password" name="password1" required>  
 	      <input type="password" placeholder="Confirm Password" name="password2">
 	      <button id="butt" onclick="daftar()">Sign Up</button>

@@ -170,6 +170,38 @@ a{
 </style>
 
 <script>
+
+  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
   $(document).ready(function(){
 
     $.get("/api/user/", function(data){
@@ -177,13 +209,28 @@ a{
       var img = data['picture'];
       var username = data['username'];
       var email = data['email'];
-      var firstname = data['username'];
+      var firstname = data['firstname'];
       var lastname = data['lastname'];
       $("#profile").attr("src", img);
       $("#username").attr("value", username);
       $("#email").attr("value", email);
       $("#firstname").attr("value", firstname);
       $("#lastname").attr("value", lastname);
+    });
+
+    $("#update").click(function(){
+      // alert("Sip");
+      var password = $("#password").val();
+      var password1 = $("#password1").val();
+      var password2 = $("#password2").val();
+      $.post("/api/user/", {
+        password: password,
+        password1: password1,
+        password2: password2
+      }, function(data, status){
+        alert(status);
+        //alert("Update Succesfully");
+      });
     });
   });
 </script>
@@ -192,7 +239,7 @@ a{
 <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-right: 468px">
-                <a class="navbar-brand" href="localhost:8000"> B-Cak</a>
+                <a class="navbar-brand" href="../"> B-Cak</a>
             </div>
             <!-- <div class="pull-right"> -->
                 <form class="navbar-form" role="search">
@@ -251,7 +298,7 @@ a{
                     </div>
                     <div class="nav">
                         <li>
-                            <a href="#" target="_blank">
+                            <a href="">
                               Settings </a>
                         </li>
                     </div>
@@ -292,18 +339,18 @@ a{
                 <div class="row">
                   <div>
                       <h3 class="judul">Old Password</h3>
-                      <input class="form" type="text" placeholder="Old Password" style="border-radius:8px">
+                      <input id="password" class="form" type="password" placeholder="Old Password" style="border-radius:8px">
                   </div>
                   <div>
                       <h3 class="judul">New Password</h3>
-                      <input class="form" type="text" placeholder="New Password" style="border-radius:8px">
+                      <input id="password1" class="form" type="password" placeholder="New Password" style="border-radius:8px">
                   </div>
                   <div>
                       <h3 class="judul">Confirm Password</h3>
-                      <input class="form" type="text" placeholder="Confirm Password" style="border-radius:8px">
+                      <input id="password2" class="form" type="password" placeholder="Confirm Password" style="border-radius:8px">
                   </div>
                   <div style="margin-left:600px;margin-top:40px;">
-                      <button class="btn btn-info">Confirm Update</button>
+                      <button id="update" class="btn btn-info">Confirm Update</button>
                   </div>
                </div>
         </div>

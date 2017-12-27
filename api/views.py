@@ -193,7 +193,8 @@ class TutorialView(View):
         tutorial_id = request.GET.get('id')
         tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id).first()
         tags = list(tag.name for tag in tutorial.tags.all())
-        illustrations = list(illustration.url for illustration in tutorial.illustration_set.all())
+        illustrations = list({'url': illustration.url, 'description': illustration.description}\
+                for illustration in tutorial.illustration_set.all())
 
         data = {
                 'id': tutorial_id, 'name': tutorial.name,

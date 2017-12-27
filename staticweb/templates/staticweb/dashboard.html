@@ -1,0 +1,313 @@
+<html lang="en">
+<head>
+  <title>B-Cak</title>
+  <meta charset="utf-8">
+  {% load static %}
+    <title>B-Cak</title>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'b3/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'b3/js/bootstrap.min.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'js/twitter.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pagination.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
+</head>
+<style type="text/css">
+    .stylish-input-group .input-group-addon{
+        background: white !important; 
+        }
+    .stylish-input-group .form-control{
+        border-right:0; 
+        box-shadow:0 0 0; 
+        border-color:#ccc;
+        border-radius: 15px;
+    }
+    .stylish-input-group button{
+        border:0;
+        background:transparent; 
+    }
+    .navbar{
+        background-color:  rgb(169, 195, 255);
+    }
+    .profile {
+  margin: 20px 0;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  background: #fff;
+  border-radius: 15px;
+  margin-top: 50px;
+  max-height: 100%;
+  min-height: 100%;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+  height: 200px;
+  width: 200px;
+}
+
+.profile-usertitle {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.profile-usertitle-name {
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+  text-transform: uppercase;
+  color: #5b9bd1;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px;
+}
+    
+.profile-usermenu {
+  margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #93a3b5;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 14px;
+
+}
+
+.profile-usermenu ul li a i:hover {
+  background-color: #fafcfd;
+  color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
+}
+
+/* Profile Content */
+.profile-content {
+  padding: 20px;
+  background: #fff;
+  min-height: 460px;
+  border-radius: 15px;
+}
+
+body{
+    background-color: #F0F8FF;
+}
+.isi{
+    margin-top: 50px;
+    border-radius: 15px;
+}
+a{
+    width: 247.5px;
+}
+.form{
+  padding: 5px;
+  height: 50px;
+  width: 500px;
+}
+.judul{
+  color:#A9A9A9 ;
+}
+</style>
+
+<script>
+  $(document).ready(function(){
+
+    $.get("/api/user/", function(data){
+      //alert("iso");
+      var img = data['picture'];
+      var username = data['username'];
+      var email = data['email'];
+      var firstname = data['username'];
+      var lastname = data['lastname'];
+      $("#profile").attr("src", img);
+      $("#username").attr("value", username);
+      $("#email").attr("value", email);
+      $("#firstname").attr("value", firstname);
+      $("#lastname").attr("value", lastname);
+    });
+  });
+</script>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-right: 468px">
+                <a class="navbar-brand" href="localhost:8000"> B-Cak</a>
+            </div>
+            <!-- <div class="pull-right"> -->
+                <form class="navbar-form" role="search">
+                    <div class="input-group stylish-input-group">
+                        <input type="text" class="form-control"  placeholder="Search" >
+                        <span class="input-group-addon">
+                            <button type="submit">
+                                <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
+                            </button>  
+                        </span>
+                    </div>
+                </form>
+                
+            <!-- </div> -->
+        </div>
+    </nav>
+
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <center>
+                        <img id="profile" src="gambar/4.png">
+                    </center>
+                    <!-- <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> -->
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        Name
+                    </div>
+                </div>
+                <div class="profile-usermenu">
+                    <div class="nav">
+                        <li class="active">
+                            <a href="../explore">
+                            Home </a>
+                        </li>
+                    </div>
+                    <div class="nav">
+                        <li>
+                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                            General </a>
+                                <ul class="collapse list-unstyled nav" id="homeSubmenu">
+                                   <li><a href="#">All Course</a></li>
+                                    <li><a href="#">Paid Course</a></li>
+                                    <li><a href="#">Popular Courser</a></li>
+                                    <li><a href="#">Favourite Courser</a></li>
+                                    
+                                </ul>
+                        </li>
+
+                    </div>
+                    <div class="nav">
+                        <li>
+                            <a href="#" target="_blank">
+                              Settings </a>
+                        </li>
+                    </div>
+                    <div class="nav">
+                        <li>
+                            <a href="#">
+                            Logout </a>
+                        </li>
+                    </div>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+        <div class="col-md-9 isi">
+            <div class="profile-content">
+               <h2 class="judul"><b>Profile</b></h2>
+               <div class="row">
+                  <div>
+                      <h3 class="judul">Username</h3>
+                      <input id="username" class="form" value="" type="text" placeholder="Username" style="border-radius:8px" disabled>
+                  </div>  
+                  <div>
+                      <h3 class="judul">Email</h3>
+                      <input id="email" class="form" value="" type="text" placeholder="Email" style="border-radius:8px" disabled>
+                  </div>
+                  <div>
+                      <h3 class="judul">First Name</h3>
+                      <input id="firstname" class="form" value="" type="text" placeholder="First Name" style="border-radius:8px">
+                  </div>  
+                  <div>
+                      <h3 class="judul">Last Name</h3>
+                      <input id="lastname" class="form" value="" type="text" placeholder="Last Name" style="border-radius:8px">
+                  </div>            
+                  <hr class="my-4" style="color:#F0F8FF">
+                </div>
+                
+                  <h2 class="judul"><b>Security</b></h2>
+                <div class="row">
+                  <div>
+                      <h3 class="judul">Old Password</h3>
+                      <input class="form" type="text" placeholder="Old Password" style="border-radius:8px">
+                  </div>
+                  <div>
+                      <h3 class="judul">New Password</h3>
+                      <input class="form" type="text" placeholder="New Password" style="border-radius:8px">
+                  </div>
+                  <div>
+                      <h3 class="judul">Confirm Password</h3>
+                      <input class="form" type="text" placeholder="Confirm Password" style="border-radius:8px">
+                  </div>
+                  <div style="margin-left:600px;margin-top:40px;">
+                      <button class="btn btn-info">Confirm Update</button>
+                  </div>
+               </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

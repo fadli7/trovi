@@ -217,6 +217,15 @@ a{
 	    		}
 	    	});
 	    });
+
+	    $.get("/api/explore/",{
+	    	page: 1,
+	    	page_length: 4
+	    }, function(data){
+	    	for(var i=0; i<4; i++){
+	    		$(".pop").append("<div class='col-sm-3' id=''><div class='card'><div class='card-block'><img src='' height='170px' width='170px'></div></div><h4 style='text-align: center;'>Title</h4><p style='text-align: center;'>by Anonimous</p></div>");
+	    	}
+	    });
 	});
 </script>
 
@@ -301,44 +310,28 @@ a{
         <div class="col-md-9 isi">
             <div class="profile-content">
             <h3>Popular Course</h3>
-               <div class="row">
-                    <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-block">
+               <div class="row pop">
+
+                    <div class='col-sm-3'>
+                        <div class='card'>
+                            <div class='card-block'>
                                  <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
                             </div>
                         </div>
                         <h4 style="text-align: center;">Title</h4>
                         <p style="text-align: center;">by Anonimous</p>
                     </div>
-                      <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-block">
-                               <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+
+                    <div class='col-sm-3'>
+                        <div class='card'>
+                            <div class='card-block'>
+                                 <img src='' height='170px' width='170px'>
                             </div>
                         </div>
-                        <h4 style="text-align: center;">Title</h4>
-                        <p style="text-align: center;">by Anonimous</p>
+                        <h4 style='text-align: center;'>Title</h4>
+                        <p style='text-align: center;'>by Anonimous</p>
                     </div>
-                      <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-block">
-                                <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
-                            </div>
-                        </div>
-                        <h4 style="text-align: center;">Title</h4>
-                        <p style="text-align: center;">by Anonimous</p>
-                    </div>
-                      <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-block">
-                                <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
-                            </div>
-                        </div>
-                        <h4 style="text-align: center;">Title</h4>
-                        <p style="text-align: center;">by Anonimous</p>
-                    </div>
-                   
+
                </div>
                 <h3>New Course</h3>
                  <div class="row" style="margin-top: 20px">

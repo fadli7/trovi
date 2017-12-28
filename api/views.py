@@ -134,8 +134,6 @@ class BaseBatchTutorialMixin:
         tutorials = tutorials[(page - 1) * page_length:page * page_length]
         tags = tutorials.tags
 
-        print('------------------------------------------------------------------')
-        print(tutorials, tags)
         return (tutorials, tags,)
 
     def clean_data(self, request, tutorials, tags):

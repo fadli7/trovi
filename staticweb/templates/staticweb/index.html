@@ -246,10 +246,10 @@
 			},function(data){
 				//alert('berhasil');
 				if(data['status'] == 'success'){
-					alert('berhasil');
-					window.location = "/dashboard/";
+					alert('Pendaftaran Berhasil Silahkan Cek Email Anda dan Login');
+					//window.location = "/dashboard/";
 				} else {
-					alert(data);
+					console.log(data['status'] + data['errors']);
 					window.location = "";
 				}
 			});

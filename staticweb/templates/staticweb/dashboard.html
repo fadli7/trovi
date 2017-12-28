@@ -216,6 +216,7 @@ a{
       $("#email").attr("value", email);
       $("#firstname").attr("value", firstname);
       $("#lastname").attr("value", lastname);
+      $("#nama").text(firstname);
     });
 
     $("#update").click(function(){
@@ -239,7 +240,7 @@ a{
 <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-right: 468px">
-                <a class="navbar-brand" href="../"> B-Cak</a>
+                <a class="navbar-brand" href="../"><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
             </div>
             <!-- <div class="pull-right"> -->
                 <form class="navbar-form" role="search">
@@ -271,8 +272,8 @@ a{
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                        Name
+                    <div id="nama" class="profile-usertitle-name">
+                        <!-- Name -->
                     </div>
                 </div>
                 <div class="profile-usermenu">
@@ -304,7 +305,7 @@ a{
                     </div>
                     <div class="nav">
                         <li>
-                            <a href="#">
+                            <a href="" id="keluar">
                             Logout </a>
                         </li>
                     </div>

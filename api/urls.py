@@ -4,6 +4,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from api.views import (AuthView, RegistrationView, UserView, ExploreView,
         TutorialView, TutorialOwnedView, PendingView, TransactionView, EmailConfirmationView)
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
         url(r'^auth/$', AuthView.as_view()),
@@ -15,4 +16,5 @@ urlpatterns = [
         url(r'^pending/$', login_required(PendingView.as_view())),
         url(r'^transaction/$', login_required(TransactionView.as_view())),
         url(r'^emailconfirmation/$', EmailConfirmationView.as_view()),
+        url(r'^favicon\.ico$', RedirectView.as_view(url='/static/gambar/logo.png', permanent=True))
         ]

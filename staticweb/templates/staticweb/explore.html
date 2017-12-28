@@ -160,12 +160,41 @@ a{
     width: 247.5px;
 }
 </style>
+
+<script>
+	$(document).ready(function(){
+		$.get("/api/user/", function(data){
+	      //alert("iso");
+	      var img = data['picture'];
+	      var username = data['username'];
+	      var email = data['email'];
+	      var firstname = data['firstname'];
+	      var lastname = data['lastname'];
+
+	      $("#profile").attr("src", img);
+	      $("#nama").text(firstname);
+	    });
+
+	    $("#keluar").click(function(event){
+	    	event.preventDefault();
+	    	$.ajax({
+	    		url: "/api/user",
+	    		type: "delete",
+	    		success: function(data) {
+	    			alert("Anda berhasil keluar");
+	    			window.location = "../";
+	    		}
+	    	});
+	    });
+	});
+</script>
+
 <body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-right: 468px">
-                <a class="navbar-brand" href="localhost:8000"> B-Cak</a>
+                <a class="navbar-brand" href="../"><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
             </div>
             <!-- <div class="pull-right"> -->
                 <form class="navbar-form" role="search">
@@ -190,15 +219,15 @@ a{
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
                     <center>
-                        <img src="{% static 'gambar/4.png' %}">
+                        <img id="profile" src="{% static '/4.png' %}">
                     </center>
                     <!-- <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> -->
                 </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                        Name
+                    <div id="nama" class="profile-usertitle-name">
+                        <!-- <h4 class="profile-usertitle-name" value="asfaf"></h3> -->
                     </div>
                 </div>
                 <div class="profile-usermenu">
@@ -230,7 +259,7 @@ a{
                     </div>
                     <div class="nav">
                         <li>
-                            <a href="#">
+                            <a href="" id="keluar">
                             Logout </a>
                         </li>
                     </div>

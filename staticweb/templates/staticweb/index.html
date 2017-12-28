@@ -59,7 +59,7 @@
 
         /* Full-width input fields */
 		input[type=text], input[type=password], input[type=email] {
-		    width: 80%;
+		    width: 78%;
 		    padding: 12px 20px;
 		    margin: 8px 0;
 		    display: inline-block;
@@ -75,7 +75,7 @@
 		    margin: 8px 0;
 		    border: none;
 		    cursor: pointer;
-		    width: 80%;
+		    width: 78%;
 		}
 
 		button:hover {
@@ -111,21 +111,7 @@
 		    overflow: auto; /* Enable scroll if needed */
 		    background-color: rgb(0,0,0); /* Fallback color */
 		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-		    padding-top: 60px;
-		}
-
-		.modal2 {
-		    display: none; /* Hidden by default */
-		    position: fixed; /* Stay in place */
-		    z-index: 1; /* Sit on top */
-		    left: 0;
-		    top: 0;
-		    width: 100%; /* Full width */
-		    height: 100%; /* Full height */
-		    overflow: auto; /* Enable scroll if needed */
-		    background-color: rgb(0,0,0); /* Fallback color */
-		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-		    padding-top: 60px;
+		    padding-top: 10px;
 		}
 
 		/* Modal Content/Box */
@@ -133,15 +119,8 @@
 		    background-color: #fefefe;
 		    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 		    border: 1px solid #888;
-		    width: 90%; /* Could be more or less, depending on screen size */
+		    width: 30%; /* Could be more or less, depending on screen size */
 		}
-		.modal-content2 {
-		    background-color: #fefefe;
-		    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-		    border: 1px solid #888;
-		    width: 90%; /* Could be more or less, depending on screen size */
-		}
-
 
 		/* The Close Button (x) */
 		.close {
@@ -194,6 +173,10 @@
 		.nav>li>a:hover {
 		    text-decoration: none;
 		    background-color: #16a2f4;
+		}
+
+		.bawah {
+			width: 400px;
 		}
 	</style>
 
@@ -261,11 +244,12 @@
 				password1: password1,
 				password2: password2
 			},function(data){
-				alert('berhasil');
+				//alert('berhasil');
 				if(data['status'] == 'success'){
-					window.location = "explore";
+					alert('berhasil');
+					window.location = "/dashboard/";
 				} else {
-					alert('Gaisok');
+					alert(data);
 					window.location = "";
 				}
 			});
@@ -306,7 +290,7 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header" style="margin-right: 468px">
-				<a class="navbar-brand" href=""> B-Cak</a>
+				<a class="navbar-brand" href=""><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
 			</div>
 			<!-- <div class="pull-right"> -->
 			<ul class="nav">
@@ -322,7 +306,7 @@
 	<!-- HOME -->
 	<div class="container">
 		<div id="jumbo" class="jumbotron text-center">
-			<h1 class="font">Want to make your payment problem easier? B-cak is the answer</h1>	
+			<h1 class="font">Want to make your payment problem easier? Trovi is the answer</h1>	
 		</div>
 		<div id="margin">
 			<div class="pull-left">
@@ -339,11 +323,11 @@
 		<div class="modal-content animate">
 	  <!-- <form class="modal-content animate" method="post"> -->
 	  	{% csrf_token %}
-	    <div class="container">
-	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign in </h1></label>
+	    <div class="container" style="text-align: center; width: 220px; margin">
+	    	<label><h1 style="font-family: sans-serif; font-weight: bold;"> Sign in </h1></label>
 	    </div>
 
-	    <div class="container">
+	    <div class="container" style="width: 500px;">
 	      <input type="text" placeholder="Username" name="username" required>
 	      <input type="password" placeholder="Password" name="password" required>  
 	      <button id="butt" onclick="melebu()">Login</button>
@@ -352,7 +336,7 @@
 	    	<input type="checkbox" checked="checked"> Remember my account
 	    </div>
 
-	    <div class="container" style="background-color:#f1f1f1">
+	    <div class="container bawah" style="background-color:#f1f1f1">
 	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
 	      <span class="psw">Forgot <a href="#">password?</a></span>
 	    </div>
@@ -363,16 +347,16 @@
 
 	<!-- SIGN UP -->
 	<div id="id02" class="modal">
-	  <div class="modal-content2 animate2">
+	  <div class="modal-content animate">
 	  	{% csrf_token %}
-	    <div class="container">
+	    <div class="container" style="text-align: center; width: 220px;">
 	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign Up </h1></label>
 	    </div>
 
-	    <div class="container">
-	      <input type="text" placeholder="Username" name="username" required>
-	      <input type="email" placeholder="Email" name="email" required>
-	      <input type="password" placeholder="Password" name="password1" required>  
+	    <div class="container" style="width: 500px;">
+	      <input type="text" placeholder="Username" name="username" required />
+	      <input type="email" placeholder="Email" name="email" required />
+	      <input type="password" placeholder="Password" name="password1" required />  
 	      <input type="password" placeholder="Confirm Password" name="password2">
 	      <button id="butt" onclick="daftar()">Sign Up</button>
 	    </div>
@@ -381,7 +365,7 @@
 	    	<input type="checkbox" checked="checked"> Remember my account
 	    </div>
 
-	    <div class="container" style="background-color:#f1f1f1">
+	    <div class="container bawah" style="background-color:#f1f1f1">
 	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
 	      <span class="psw"><button id="haveaccount"><a href="" >Have An Account</a></button></span>
 	    </div>

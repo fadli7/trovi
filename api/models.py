@@ -124,7 +124,7 @@ class Illustration(models.Model):
     tutorial = models.ManyToManyField(Tutorial)
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to=UploadToUUIDPath(os.path.join('media/tutorial/illustration/')))
-    description = models.TextFild()
+    description = models.TextField()
 
     def __str__(self):
         return str(self.id) + " " + self.tutorial.name

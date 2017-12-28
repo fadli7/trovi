@@ -216,15 +216,15 @@
 		
 		function melebu(event){
 			//alert('berhasil');
-			var username = $("#id01").find("input[name='username']").val();
-			var password = $("#id01").find("input[name='password']").val();
-			$.post('/api/auth/',{
+			var username = $("#masuk").find("input[name='username']").val();
+			var password = $("#masuk").find("input[name='password']").val();
+			$.post('../api/auth/',{
 				username: username,
 				password: password
 			}, function(data){
 				if(data['status'] == 'success'){
-					$('#id01').toggle('slow');
-					window.location = "explore";
+					// $('#id01').toggle('slow');
+					window.location = "../explore";
 				} else {
 					alert('Gaisok');
 					window.location = "";
@@ -304,7 +304,7 @@
 	</nav>
 
 	<!-- LOGIN -->
-	<div id="" class="" style="margin-top: 100px;">
+	<div id="masuk" class="" style="margin-top: 100px;">
 		<div class="">
 	  <!-- <form class="modal-content animate" method="post"> -->
 	  	{% csrf_token %}

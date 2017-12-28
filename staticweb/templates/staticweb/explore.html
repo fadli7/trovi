@@ -192,7 +192,7 @@ a{
 		        }
 		    }
 		});
-		
+
 	$(document).ready(function(){
 		$.get("/api/user/", function(data){
 	      //alert("iso");
@@ -209,7 +209,7 @@ a{
 	    $("#keluar").click(function(event){
 	    	event.preventDefault();
 	    	$.ajax({
-	    		url: "/api/user",
+	    		url: "/api/auth",
 	    		type: "delete",
 	    		success: function(data) {
 	    			alert("Anda berhasil keluar");

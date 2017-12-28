@@ -122,7 +122,7 @@ class Tutorial(models.Model):
         return self.name
 
 class Illustration(models.Model):
-    tutorial = models.ManyToManyField(Tutorial)
+    tutorial = models.ForeignKey(Tutorial)
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to=UploadToUUIDPath(os.path.join('media/tutorial/illustration/')))
     description = models.TextField()

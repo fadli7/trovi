@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Count
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.urls import reverse
 
@@ -117,7 +117,12 @@ class BaseBatchTutorialMixin:
             else:
                 tutorials = tutorials.order_by('?')
 
-        return tutorials.distinct()
+        ret =  tutorials.distinct()
+
+        if ret.exists():
+            return ret
+        else:
+            return None
 
     def paginate(self, request, tutorials):
         form = PaginationForm(request.GET)
@@ -150,6 +155,10 @@ class BaseBatchTutorialMixin:
 
     def full_process_data(self, request, tutorials):
         tutorials = self.get_batch(request, tutorials)
+
+        if tutorials is None:
+            return 'no data'
+
         tutorials, tags = self.paginate(request, tutorials)
         data = self.clean_data(request, tutorials, tags)
 
@@ -193,7 +202,13 @@ class TutorialView(View):
 
     def get(self, request, *args, **kwargs):
         tutorial_id = request.GET.get('id')
-        tutorial = Tutorial.objects.prefetch_related().filter(pk=tutorial_id).first()
+
+        try:
+            tutorial = Tutorial.objects.prefetch_related().get(pk=tutorial_id, transaction__buyers=request.user.id)
+        except ObjectDoesNotExist:
+            return JsonResponse({'status': 'failed', 'errors': 'tutorial not bought'})
+
+
         tags = list(tag.name for tag in tutorial.tags.all())
         illustrations = list({'url': illustration.url, 'description': illustration.description}\
                 for illustration in tutorial.illustration_set.all())

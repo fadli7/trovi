@@ -36,7 +36,7 @@ class EmailConfirmationView(View):
         form = EmailConfirmationForm(request.GET)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('login'))
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 

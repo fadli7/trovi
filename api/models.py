@@ -98,7 +98,7 @@ def create_user_email_confirmation(sender, instance, created, **kwargs):
     if created:
         username, email = instance.username, instance.email
         m = hashlib.sha256()
-        m.update(bytearray(username + email + str(uuid.uuid4()), 'utf-8'))
+        m.update(bytearray(username + email), 'utf-8')
         key = m.hexdigest()
         EmailConfirmation.objects.create(user=instance, key=key)
 

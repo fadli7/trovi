@@ -38,6 +38,8 @@ class EmailConfirmationView(View):
             form.save()
             return HttpResponseRedirect(reverse('index'))
 
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
+
 class AuthView(View):
 
     def get(self, request, *args, **kwargs):

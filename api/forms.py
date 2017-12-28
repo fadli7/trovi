@@ -49,7 +49,7 @@ class EmailConfirmationForm(forms.ModelForm):
         try:
             self.instance = EmailConfirmation.objects.get(key=key)
         except:
-            raise ValidationError(
+            raise forms.ValidationError(
                     'error in getting EmailConfirmation object',
                     code='get_object_failed'
                     )

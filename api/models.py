@@ -96,11 +96,12 @@ class EmailConfirmation(models.Model):
 @receiver(post_save, sender=User)
 def create_user_email_confirmation(sender, instance, created, **kwargs):
     if created:
-        username, email = instance.username, instance.email
-        m = hashlib.sha256()
-        m.update(bytearray(username + email), 'utf-8')
-        key = m.hexdigest()
-        EmailConfirmation.objects.create(user=instance, key=key)
+        if not instance.is_staff
+            username, email = instance.username, instance.email
+            m = hashlib.sha256()
+            m.update(bytearray(username + email, 'utf-8'))
+            key = m.hexdigest()
+            EmailConfirmation.objects.create(user=instance, key=key)
 
 class Tag(models.Model):
     name = models.CharField(max_length=10)

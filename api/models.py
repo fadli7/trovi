@@ -96,7 +96,7 @@ class EmailConfirmation(models.Model):
 @receiver(post_save, sender=User)
 def create_user_email_confirmation(sender, instance, created, **kwargs):
     if created:
-        if not instance.is_staff
+        if not instance.is_staff:
             username, email = instance.username, instance.email
             m = hashlib.sha256()
             m.update(bytearray(username + email, 'utf-8'))

@@ -54,7 +54,7 @@ class Illustration(models.Model):
         return str(self.id) + " " + self.tutorial.name
 
 class Transaction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,    )
     tutorial = models.ForeignKey(Tutorial, on_delete=models.CASCADE)
     price = models.IntegerField()
     payment_proof = models.ImageField(upload_to=UploadToUUIDPath(os.path.join('media/user/payment_proof/')))

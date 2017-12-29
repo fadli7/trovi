@@ -1,6 +1,7 @@
 from django import forms
 from api.models import Transaction, Persona, EmailConfirmation, User
 from django.utils.translation import ugettext, ugettext_lazy as _
+from django.core.exceptions import ObjectDoesNotExist
 import hashlib
 
 class PasswordMixin(forms.Form):
@@ -48,7 +49,7 @@ class EmailConfirmationForm(forms.ModelForm):
         key = self.cleaned_data.get('key')
         try:
             self.instance = EmailConfirmation.objects.get(key=key)
-        except:
+        except ObjectDoesNotExist:
             raise forms.ValidationError(
                     'error in getting EmailConfirmation object',
                     code='get_object_failed'

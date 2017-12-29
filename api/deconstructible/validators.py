@@ -4,7 +4,6 @@ import magic
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
-
 @deconstructible
 class FileValidator:
     error_messages = {

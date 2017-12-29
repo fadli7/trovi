@@ -45,7 +45,7 @@ class Tutorial(models.Model):
         return self.name
 
 class Illustration(models.Model):
-    tutorial = models.ForeignKey(Tutorial)
+    tutorial = models.ForeignKey(Tutorial, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to=UploadToUUIDPath(os.path.join('media/tutorial/illustration/')))
     description = models.TextField()

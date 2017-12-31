@@ -21,7 +21,8 @@
     
     <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
 
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/w3.css' %}">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -236,26 +237,40 @@ a{
 
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+	<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-right: 468px">
                 <a class="navbar-brand" href="../"><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
             </div>
-            <!-- <div class="pull-right"> -->
-                <form class="navbar-form" role="search">
-                    <div class="input-group stylish-input-group">
-                        <input type="text" class="form-control"  placeholder="Search" >
-                        <span class="input-group-addon">
-                            <button type="submit">
-                                <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
-                            </button>  
-                        </span>
-                    </div>
-                </form>
-                
-            <!-- </div> -->
+            <form class="navbar-form" role="search">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control"  placeholder="Search" >
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
+                        </button>  
+                    </span>
+                </div>
+            </form>
         </div>
-    </nav>
+    </nav> -->
+
+    <div class="w3-top w3-blue">
+	  <div class="w3-bar w3-card" id="myNavbar">
+	    <a href="#home" class="w3-bar-item w3-button w3-wide to-home">LOGO</a>
+	    <!-- Right-sided navbar links -->
+	    <div class="w3-right w3-hide-small">
+	      <a href="#about" class="w3-bar-item w3-button to-about">ABOUT</a>
+	      <a href="#work" class="w3-bar-item w3-button to-features"><i class="fa fa-th"></i> FEATURES</a>
+	      <a href="#contact" class="w3-bar-item w3-button to-contact"><i class="fa fa-envelope"></i> CONTACT</a>
+	    </div>
+	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+	      <i class="fa fa-bars"></i>
+	    </a>
+	  </div>
+	</div>
 
 <div class="container">
     <div class="row profile">

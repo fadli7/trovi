@@ -1,3 +1,4 @@
+from django.contrib.syndication.views import Feed
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views import View
 from django.shortcuts import render
@@ -13,6 +14,22 @@ from api.forms import (UserUpdateForm, UserCreationForm, PasswordChangeForm, Tra
         PaginationForm, PersonaForm, EmailConfirmationForm)
 from api.models import Tutorial
 # Create your views here.
+
+class LatestTuroialFeed(Feed):
+    title = 'Latest tutorial of trovi'
+    description = 'this feed is about the latest and newest tutorial than we provide'
+
+    def items(self):
+        return Tutorial.objects.order_by('-pk')[:5]
+
+    def item_title(self, item):
+        return item.name
+
+    def item_description(self, item):
+        return item.description
+
+    def item_link(self, item):
+        return reverse('index')
 
 class RegistrationView(View):
 

@@ -1,20 +1,21 @@
 from django.contrib.auth.decorators import login_required
 
+from django.urls import path
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from api.views import (AuthView, RegistrationView, UserView, ExploreView,
-        TutorialView, TutorialOwnedView, PendingView, TransactionView, EmailConfirmationView)
+from api import views
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-        url(r'^auth/$', AuthView.as_view()),
-        url(r'^registration/$', RegistrationView.as_view()),
-        url(r'^user/$', login_required(UserView.as_view())),
-        url(r'^explore/$', ExploreView.as_view()),
-        url(r'^tutorial/$', login_required(TutorialView.as_view())),
-        url(r'^owned/$', login_required(TutorialOwnedView.as_view())),
-        url(r'^pending/$', login_required(PendingView.as_view())),
-        url(r'^transaction/$', login_required(TransactionView.as_view())),
-        url(r'^emailconfirmation/$', EmailConfirmationView.as_view()),
+        path('auth/', views.AuthView.as_view()),
+        path('registration/', views.RegistrationView.as_view()),
+        path('user/', login_required(views.UserView.as_view())),
+        path('explore/', views.ExploreView.as_view()),
+        path('tutorial/', login_required(views.TutorialView.as_view())),
+        path('owned/', login_required(views.TutorialOwnedView.as_view())),
+        path('pending/', login_required(views.PendingView.as_view())),
+        path('transaction/', login_required(views.TransactionView.as_view())),
+        path('emailconfirmation/', views.EmailConfirmationView.as_view()),
+        path('feed/', views.LatestTuroialFeed())
         url(r'^favicon\.ico$', RedirectView.as_view(url='/static/gambar/logo.png', permanent=True))
         ]

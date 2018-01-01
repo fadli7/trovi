@@ -16,6 +16,6 @@ urlpatterns = [
         path('pending/', login_required(views.PendingView.as_view())),
         path('transaction/', login_required(views.TransactionView.as_view())),
         path('emailconfirmation/', views.EmailConfirmationView.as_view()),
-        path('feed/', views.LatestTuroialFeed())
+        path('feed/', views.LatestTuroialFeed()),
         url(r'^favicon\.ico$', RedirectView.as_view(url='/static/gambar/logo.png', permanent=True))
         ]

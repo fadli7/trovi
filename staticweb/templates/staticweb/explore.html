@@ -259,10 +259,17 @@ a{
 	  <div class="w3-bar w3-card" id="myNavbar">
 	    <a href="#home" class="w3-bar-item w3-button w3-wide to-home">LOGO</a>
 	    <!-- Right-sided navbar links -->
-	    <div class="w3-right w3-hide-small">
-	      <a href="#about" class="w3-bar-item w3-button to-about">ABOUT</a>
-	      <a href="#work" class="w3-bar-item w3-button to-features"><i class="fa fa-th"></i> FEATURES</a>
-	      <a href="#contact" class="w3-bar-item w3-button to-contact"><i class="fa fa-envelope"></i> CONTACT</a>
+	    <div class="w3-right">
+	      	<form class="navbar-form" role="search">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control"  placeholder="Search" >
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
+                        </button>  
+                    </span>
+                </div>
+            </form>
 	    </div>
 	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -332,7 +339,7 @@ a{
             <h3>Popular Course</h3>
                <div class="row pop">
 
-                    <div class='col-sm-3'>
+                    <!-- <div class='col-sm-3'>
                         <div class='card'>
                             <div class='card-block'>
                                  <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
@@ -340,9 +347,9 @@ a{
                         </div>
                         <h4 style="text-align: center;">Title</h4>
                         <p style="text-align: center;">by Anonimous</p>
-                    </div>
+                    </div> -->
 
-                    <div class='col-sm-3'>
+                    <!-- <div class='col-sm-3'>
                         <div class='card'>
                             <div class='card-block'>
                                  <img src='' height='170px' width='170px'>
@@ -350,7 +357,7 @@ a{
                         </div>
                         <h4 style='text-align: center;'>Title</h4>
                         <p style='text-align: center;'>by Anonimous</p>
-                    </div>
+                    </div> -->
 
                </div>
                 <h3>New Course</h3>
@@ -450,57 +457,3 @@ a{
 	</script>
 </head>
 <body>
-	<!-- <div class="left col-sm-2">
-		<img src="{% static 'gambar/1.png'%}" class="img-responsive" width="200" height="300" style="margin-top: 30px;" />
-		<div style="text-align: center; font-family: 'sans-serif';">
-			<span>
-				Osas Bla Bla BLa
-			</span>
-		</div>
-		<hr>
-		<div class="btn">
-			<div class="btn-lg btn-default"><li class="nav">HOME</li></div>
-		</div>
-		<hr>
-		<div class="btn dropdown">
-			<div class=" btn-lg btn-default dropdown-toggle" type="button" data-toggle="dropdown">GENERAL</div>
-			<ul class="nav dropdown-menu">
-				<li class=" btn-lg btn-default">All Course</li>
-				<li class=" btn-lg btn-default">Paid Course</li>
-				<li class=" btn-lg btn-default">Popular Courser</li>
-				<li class=" btn-lg btn-default">Favorite Courser</li>
-			</ul>
-		</div>
-		<hr>
-		<div class="btn">
-			<div class="btn-lg btn-default set"><li class="nav">SETTINGS</li></div>
-		</div>
-		<hr>
-		<div class="btn">
-			<div class="btn-lg btn-default"><li class="nav">LOGOUT</li></div>
-		</div>
-	</div>
-	<div class="col-sm-1"></div>
-	<div class="right col-sm-9">
-		<h2>Popular Course</h2>
-		<div class="">
-			
-		</div>
-		<br>
-		<h2>New Course</h2>
-		<div class="">
-			
-		</div>
-		<br>
-		<h2>Top Rated Course</h2>
-		<div class="">
-			
-		</div>
-	</div> -->
-
-	<!-- SETTING -->
-<!-- 	<div class="d_set">
-		
-	</div>
-</body>
-</html> -->

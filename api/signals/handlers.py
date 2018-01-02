@@ -1,4 +1,4 @@
-from api.models import User
+from api.models import User, Persona, EmailConfirmation
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 import hashlib

@@ -158,7 +158,7 @@ class BaseBatchTutorialMixin:
         tags_set = list(tags.all())
 
         data = []
-        for i in len(tutorials):
+        for tutorial, tags in zip(tutorials, tags_set):
             tutorial, tags = tutorials[i], tags_set[i]
             datum = {'id': tutorial.id, 'name': tutorial.name,
                     'banner': tutorial.banner.url, 'price': tutorial.price,
@@ -222,7 +222,6 @@ class TutorialView(View):
             tutorial = Tutorial.objects.prefetch_related().get(pk=tutorial_id, transaction__buyers=request.user.id)
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'failed', 'errors': 'tutorial not bought'})
-
 
         tags = list(tag.name for tag in tutorial.tags.all())
         illustrations = list({'url': illustration.url, 'description': illustration.description}\

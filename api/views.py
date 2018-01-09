@@ -108,7 +108,7 @@ class UserView(View):
 
         put = QueryDict(request.body)
         form_user = UserUpdateForm(put, instance=request.user)
-        form_picture = UserPictureUpdateForm(request.FILE, instance=Persona.objects.get(user=request.user))
+        form_picture = UserPictureUpdateForm(request.FILES, instance=Persona.objects.get(user=request.user))
 
         if not form_user.is_valid():
             return JsonResponse({'status': 'failed', 'errors': form_user.errors})
@@ -247,7 +247,7 @@ class TutorialView(View):
 class TransactionView(View):
 
     def post(self, request, *args, **kwargs):
-        form = TransactionForm(request.POST, request.FILE)
+        form = TransactionForm(request.POST, request.FILES)
         if form.is_valid:
             form.save(request.user)
             return JsonResponse({'status': 'success'})
@@ -257,7 +257,7 @@ class TransactionView(View):
 class PersonaView(View):
 
     def post(self, request, *args, **kwargs):
-        form = PersonaForm(request.POST, request,FILE, instance=request.user.persona)
+        form = PersonaForm(request.POST, request,FILES, instance=request.user.persona)
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success'})

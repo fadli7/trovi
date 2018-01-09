@@ -11,8 +11,8 @@ from django.core.mail import send_mail
 from django.urls import reverse
 
 from api.forms import (UserUpdateForm, UserCreationForm, PasswordChangeForm, TransactionForm,
-        PaginationForm, PersonaForm, EmailConfirmationForm)
-from api.models import Tutorial
+        PaginationForm, PersonaForm, EmailConfirmationForm, UserPictureUpdateForm)
+from api.models import Tutorial, Persona
 # Create your views here.
 
 class LatestTuroialFeed(Feed):
@@ -105,13 +105,19 @@ class UserView(View):
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
     def put(self, request, *args, **kwarggs):
-        put = QueryDict(request.body)
-        form = UserUpdateForm(put, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'status': 'success'})
 
-        return JsonResponse({'status': 'failed', 'errors': form.errors})
+        put = QueryDict(request.body)
+        form_user = UserUpdateForm(put, instance=request.user)
+        form_picture = UserPictureUpdateForm(request.FILE, instance=Persona.objects.get(user=request.user))
+
+        if not form_user.is_valid():
+            return JsonResponse({'status': 'failed', 'errors': form_user.errors})
+
+        if not form_picture.is_valid():
+            return JsonResponse({'status': 'failed', 'errors': form_picture.errors})
+
+        return JsonResponse({'status': 'success'})
+
 
 class BaseBatchTutorialMixin:
 

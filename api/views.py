@@ -170,7 +170,7 @@ class BaseBatchTutorialMixin:
         for tutorial, tags in zip(tutorials, tags_set):
             datum = {'id': tutorial.id, 'name': tutorial.name,
                     'banner': tutorial.banner.url, 'price': tutorial.price,
-                    'tags': [tag for tag in tags]}
+                    'tags': [tag.name for tag in tags]}
 
             data.append(datum)
 

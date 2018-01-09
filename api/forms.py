@@ -70,6 +70,19 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name',)
 
+    # def save(self):
+    #     data = self.cleaned_data
+    #     user = self.isntance.user
+    #     user.first_name = data['first_name']
+    #     user.last_name = data['last_name']
+    #     user.save()
+
+class UserPictureUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = 
+
 class PasswordChangeForm(PasswordMixin, forms.ModelForm):
 
     password = forms.CharField(label=_("auth"),

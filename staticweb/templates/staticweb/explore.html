@@ -270,7 +270,7 @@ a{
     }
 
 </style>
-
+{% csrf_token %}
 <script>
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 		
@@ -379,14 +379,39 @@ a{
 
   function kirim(id) {
     //var proof = document.getElementById("pic").value;
-    $(document).ready(function(){
-      var proof = $("#pic").val();
-      $.post("/api/transaction/",{
-        tutorial: id,
-        payment_proof: proof 
-      }, function(data){
-        console.log(data);
-      });
+    jQuery("#pic").on("change", function(){
+        var formData = new FormData();
+        var file = this.files[0];
+
+        // console.log(formData.__proto__['values']);
+
+        if (formData) {
+          formData.append("image", file);
+          formData.append("tutorial", id);
+
+        }
+
+        jQuery.ajax({
+          url: "/api/transaction/",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            console.log(data);
+          }
+        });
+        // $.ajax({
+        //   url: "/api/transaction",
+        //   type: "POST",
+        //   data: formData,
+        //   success: function(data) {
+        //     alert(data);
+        //   },
+        //   cache: false,
+        //   contentType: false,
+        //   processData: false
+        // });
     });
   }
 </script>
@@ -530,17 +555,21 @@ a{
 
   <div id="id01" class="modal">
     <div class="modal-content animate">
-      <div class="container" style="width: 400px;">
-        <div>
-          <h3>Mohon Konfirmasi</h3>
-        </div>
-        <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
-          <br/>
-        Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
-        <input id="pic" type="file" name="pic" accept="image/*" style="width: 400px;">  
-        <hr>
-        <button id="" class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
-        <button class="w3-button" onclick="keluar()">Cancel</button>
+      <div class="container form" style="width: 400px;">
+        {% csrf_token %}
+        <!-- <form id="asd" method="post" enctype="multipart/form-data"> -->
+          {% csrf_token %}
+          <div>
+            <h3>Mohon Konfirmasi</h3>
+          </div>
+          <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
+            <br/>
+          Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
+          <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;">  
+          <hr>
+          <button id="" class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
+          <button class="w3-button" onclick="keluar()">Cancel</button>
+        <!-- </form> -->
       </div>
     </div>
   </div>

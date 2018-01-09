@@ -204,8 +204,8 @@ class ExploreView(BaseBatchTutorialMixin, View):
 class PendingView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
-        tutorials = Tutorial.objects.all().prefetch_related().filter(transaction__user__pk=rquest.user.id)
-        tutorials = tutorials.filter(transaction__is_reviewed=False)
+        tutorials = Tutorial.objects.all().prefetch_related().filter(transactions__user__pk=rquest.user.id)
+        tutorials = tutorials.filter(transactions__is_reviewed=False)
 
         data = self.full_process_data(request, tutorials)
 
@@ -214,8 +214,8 @@ class PendingView(BaseBatchTutorialMixin, View):
 class TutorialOwnedView(View):
 
     def get(self, request, *args, **kwargs):
-        tutorials = Tutorial.objects.all().prefetch_related().filter(transaction__user__pk=request.user.id)
-        tutorials = tutorials.filter(transaction__is_reviewed=True)
+        tutorials = Tutorial.objects.all().prefetch_related().filter(transactions__user__pk=request.user.id)
+        tutorials = tutorials.filter(transactions__is_reviewed=True)
 
         data = self.full_process_data(request, tutorials)
 
@@ -227,7 +227,7 @@ class TutorialView(View):
         tutorial_id = request.GET.get('id')
 
         try:
-            tutorial = Tutorial.objects.prefetch_related().get(pk=tutorial_id, transaction__buyers=request.user.id)
+            tutorial = Tutorial.objects.prefetch_related().get(pk=tutorial_id, transactions__user=request.user.id)
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'failed', 'errors': 'tutorial not bought'})
 
@@ -248,6 +248,7 @@ class TransactionView(View):
 
     def post(self, request, *args, **kwargs):
         form = TransactionForm(request.POST, request.FILES)
+        print(request.POST)
         if form.is_valid():
             form.save(request.user)
             return JsonResponse({'status': 'success'})

@@ -139,7 +139,7 @@ class BaseBatchTutorialMixin:
             if ordering == 'new':
                 tutorials = tutorials.order_by('-pk')
             elif ordering == 'popular':
-                tutorials = tutorials.annotate(buyers_count=Count('buyers')).order_by('-buyers_count')
+                tutorials = tutorials.annotate(buyers_count=Count('transactions__user')).order_by('-buyers_count')
             else:
                 tutorials = tutorials.order_by('?')
 
@@ -192,7 +192,7 @@ class ExploreView(BaseBatchTutorialMixin, View):
     def get(self, request, *args, **kwargs):
         tutorials = Tutorial.objects.prefetch_related().all()
         if request.user.is_authenticated:
-            tutorials = tutorials.exclude(transaction__user__pk=request.user.id)
+            tutorials = tutorials.exclude(transactions__user__pk=request.user.id)
 
         try:
             data = self.full_process_data(request, tutorials)

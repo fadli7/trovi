@@ -80,8 +80,8 @@ class UserUpdateForm(forms.ModelForm):
 class UserPictureUpdateForm(forms.ModelForm):
 
     class Meta:
-        model = User
-        fields = 
+        model = Persona
+        fields = ('picture',)
 
 class PasswordChangeForm(PasswordMixin, forms.ModelForm):
 

@@ -1,5 +1,5 @@
 from django.contrib.syndication.views import Feed
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, QueryDict
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -105,7 +105,8 @@ class UserView(View):
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
     def put(self, request, *args, **kwarggs):
-        form = UserUpdateForm(request.POST, instance=request.user)
+        put = QueryDict(request.body)
+        form = UserUpdateForm(put, instance=request.user)
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success'})

@@ -26,15 +26,8 @@ class EmailConfirmation(models.Model):
     key = models.CharField(max_length=64)
     time = models.DateTimeField(auto_now_add=True)
 
-class Tag(models.Model):
-    name = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.name
-
 class Tutorial(models.Model):
     banner = models.ImageField(upload_to=UploadToUUIDPath('media/tutorial/banner/'))
-    tags = models.ManyToManyField(Tag, blank=True)
     name = models.CharField(max_length=50)
     price = models.IntegerField()
     video = models.FileField(upload_to=UploadToUUIDPath(os.path.join('media/tutorial/video/')),
@@ -44,8 +37,15 @@ class Tutorial(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=10)
+    tutorials = models.ManyToManyField(Tutorial, related_name='tags', blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Illustration(models.Model):
-    tutorial = models.ForeignKey(Tutorial, on_delete=models.CASCADE)
+    tutorial = models.ForeignKey(Tutorial, related_name='illustrations', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to=UploadToUUIDPath(os.path.join('media/tutorial/illustration/')))
     description = models.TextField()

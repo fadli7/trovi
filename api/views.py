@@ -233,7 +233,7 @@ class TutorialView(View):
 
         tags = list(tag.name for tag in tutorial.tags.all())
         illustrations = list({'url': illustration.url, 'description': illustration.description}\
-                for illustration in tutorial.illustration_set.all())
+                for illustration in tutorial.illustrations.all())
 
         data = {
                 'id': tutorial_id, 'name': tutorial.name,

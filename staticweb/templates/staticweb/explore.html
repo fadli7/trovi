@@ -1,0 +1,464 @@
+<html lang="en">
+<head>
+  <title>Welcome ... | B-Cak</title>
+  <meta charset="utf-8">
+  {% load static %}
+    <title>B-Cak</title>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'b3/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'b3/js/bootstrap.min.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'js/twitter.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pagination.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
+
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/w3.css' %}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style type="text/css">
+    .stylish-input-group .input-group-addon{
+        background: white !important; 
+        }
+    .stylish-input-group .form-control{
+        border-right:0; 
+        box-shadow:0 0 0; 
+        border-color:#ccc;
+        border-radius: 15px;
+    }
+    .stylish-input-group button{
+        border:0;
+        background:transparent; 
+    }
+    .navbar{
+        background-color:  rgb(169, 195, 255);
+    }
+    .profile {
+  margin: 20px 0;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  background: #fff;
+  border-radius: 15px;
+  margin-top: 50px;
+  max-height: 100%;
+  min-height: 100%;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+  height: 200px;
+  width: 200px;
+}
+
+.profile-usertitle {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.profile-usertitle-name {
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+  text-transform: uppercase;
+  color: #5b9bd1;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px;
+}
+    
+.profile-usermenu {
+  margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #93a3b5;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 14px;
+
+}
+
+.profile-usermenu ul li a i:hover {
+  background-color: #fafcfd;
+  color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
+}
+
+/* Profile Content */
+.profile-content {
+  padding: 20px;
+  background: #fff;
+  min-height: 460px;
+  border-radius: 15px;
+}
+
+body{
+    background-color: #F0F8FF;
+}
+.isi{
+    margin-top: 50px;
+    border-radius: 15px;
+}
+a{
+    width: 247.5px;
+}
+</style>
+
+<script>
+	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+		
+		function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+		function csrfSafeMethod(method) {
+		    // these HTTP methods do not require CSRF protection
+		    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+		    beforeSend: function(xhr, settings) {
+		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		        }
+		    }
+		});
+
+	$(document).ready(function(){
+		$.get("/api/user/", function(data){
+	      //alert("iso");
+	      var img = data['picture'];
+	      var username = data['username'];
+	      var email = data['email'];
+	      var firstname = data['firstname'];
+	      var lastname = data['lastname'];
+
+	      $("#profile").attr("src", img);
+	      $("#nama").text(firstname);
+	    });
+
+	    $("#keluar").click(function(event){
+	    	event.preventDefault();
+	    	$.ajax({
+	    		url: "/api/auth",
+	    		type: "delete",
+	    		success: function(data) {
+	    			alert("Anda berhasil keluar");
+	    			window.location = "../";
+	    		}
+	    	});
+	    });
+
+	    $.get("/api/explore/",{
+	    	page: 1,
+	    	page_length: 4
+	    }, function(data){
+	    	for(var i=0; i<4; i++){
+	    		$(".pop").append("<div class='col-sm-3' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='' height='170px' width='170px'></div></div><h4 style='text-align: center;'>Title</h4><p style='text-align: center;'>by Anonimous</p></div>");
+	    	}
+
+        for(var i=0; i<4; i++){
+          $("#img"+i).attr("src", data[i].banner);
+        }
+
+	    });
+	});
+</script>
+
+<body>
+
+	<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-right: 468px">
+                <a class="navbar-brand" href="../"><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
+            </div>
+            <form class="navbar-form" role="search">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control"  placeholder="Search" >
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
+                        </button>  
+                    </span>
+                </div>
+            </form>
+        </div>
+    </nav> -->
+
+  <div class="w3-top w3-blue">
+	  <div class="w3-bar w3-card" id="myNavbar">
+	    <a href="#home" class="w3-bar-item w3-button w3-wide to-home">LOGO</a>
+	    <!-- Right-sided navbar links -->
+	    <div class="w3-right">
+	      	<form class="navbar-form" role="search">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control"  placeholder="Search" >
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
+                        </button>  
+                    </span>
+                </div>
+            </form>
+	    </div>
+	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+	      <i class="fa fa-bars"></i>
+	    </a>
+	  </div>
+	</div>
+
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <center>
+                        <img id="profile" src="{% static '/4.png' %}">
+                    </center>
+                    <!-- <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> -->
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div id="nama" class="profile-usertitle-name">
+                        <!-- <h4 class="profile-usertitle-name" value="asfaf"></h3> -->
+                    </div>
+                </div>
+                <div class="profile-usermenu">
+                    <div class="nav">
+                        <li class="active">
+                            <a href="">
+                            Home </a>
+                        </li>
+                    </div>
+                    <div class="nav">
+                        <li>
+                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                            General </a>
+                                <ul class="collapse list-unstyled nav" id="homeSubmenu">
+                                   <li><a href="#">All Course</a></li>
+                                    <li><a href="#">Paid Course</a></li>
+                                    <li><a href="#">Popular Courser</a></li>
+                                    <li><a href="#">Favourite Courser</a></li>
+                                    
+                                </ul>
+                        </li>
+
+                    </div>
+                    <div class="nav">
+                        <li>
+                            <a href="../dashboard">
+                              Settings </a>
+                        </li>
+                    </div>
+                    <div class="nav">
+                        <li>
+                            <a href="" id="keluar">
+                            Logout </a>
+                        </li>
+                    </div>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+        <div class="col-md-9 isi">
+            <div class="profile-content">
+            <h3>Popular Course</h3>
+               <div class="row pop">
+
+                    <!-- <div class='col-sm-3'>
+                        <div class='card'>
+                            <div class='card-block'>
+                                 <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+                            </div>
+                        </div>
+                        <h4 style="text-align: center;">Title</h4>
+                        <p style="text-align: center;">by Anonimous</p>
+                    </div> -->
+
+                    <!-- <div class='col-sm-3'>
+                        <div class='card'>
+                            <div class='card-block'>
+                                 <img src='' height='170px' width='170px'>
+                            </div>
+                        </div>
+                        <h4 style='text-align: center;'>Title</h4>
+                        <p style='text-align: center;'>by Anonimous</p>
+                    </div> -->
+
+               </div>
+                <h3>New Course</h3>
+                 <div class="row" style="margin-top: 20px">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-block">
+                                 <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+                            </div>
+                        </div>
+                        <h4 style="text-align: center;">Title</h4>
+                        <p style="text-align: center;">by Anonimous</p>
+                    </div>
+                      <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-block">
+                               <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+                            </div>
+                        </div>
+                        <h4 style="text-align: center;">Title</h4>
+                        <p style="text-align: center;">by Anonimous</p>
+                    </div>
+                      <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-block">
+                                <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+                            </div>
+                        </div>
+                        <h4 style="text-align: center;">Title</h4>
+                        <p style="text-align: center;">by Anonimous</p>
+                    </div>
+                      <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-block">
+                                <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+                            </div>
+                        </div>
+                        <h4 style="text-align: center;">Title</h4>
+                        <p style="text-align: center;">by Anonimous</p>
+                    </div>
+                   
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>Welcome ... | B-Cak</title>
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    
+	<script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'b3/css/bootstrap.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'b3/js/bootstrap.min.js' %}"></script>
+	
+	<script type="text/javascript" src="{% static 'js/twitter.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/pagination.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
+
+	 CSS -->
+	<style>
+/*		.left {
+			margin-top: 100px;
+			margin-left: 50px;
+			background-color: white;
+			padding: 20px;
+			border-radius: 30px;
+		}
+		.right {
+			margin-top: 100px;
+			margin-left: -80px;
+			margin-right: 20px;
+			background-color: white;
+			padding: 20px;
+			border-radius: 30px;
+		}
+		body {
+			background-color: #81D4FA;
+			font-family: 'sans-serif';
+		}*/
+	</style>
+
+	<script>
+		// $(document).ready(function(){
+		// 	$(".set").click(function(){
+		// 		$(".d_set").toggle();
+		// 	});
+		// });
+	</script>
+</head>
+<body>

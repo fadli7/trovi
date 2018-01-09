@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>B-Cak</title>
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    
+	<script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'b3/css/bootstrap.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'b3/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/lazyLoad.min.js' %}"></script>
+	
+	<script type="text/javascript" src="{% static 'js/twitter.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/pagination.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/w3.css' %}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- <script src="{% static 'js/item-ajax.js' %}"></script> -->
+    
+    <style type="text/css">
+        .deskripsi{
+            padding-left: 50px;
+            padding-top: 30px
+        }
+        .gambar{
+            height: 50px;
+            width: 50px;
+            
+        }
+        body {
+			/*background-color: #81D4FA;*/
+			font-family: 'sans-serif';
+		}
+		h1.font {
+			font-family: sans-serif;
+			font-weight: bold;
+			font-size: 48px; 
+		}
+        .hal2{
+            margin-top: 144px;
+            background-color: white;
+        }
+		#jumbo {
+			margin-top: 180px;
+			background-color: #81D4FA;
+		}
+		#margin {
+			margin-left: 430px;
+			margin-right: 430px;
+		}
+        .paragraf{
+            margin-left: 150px;
+        
+            margin-bottom: 300px;
+        }
+
+        /* Full-width input fields */
+		input[type=text], input[type=password], input[type=email] {
+		    width: 78%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    box-sizing: border-box;
+		}
+
+		/* Set a style for all buttons */
+		#butt {
+		    background-color: #4CAF50;
+		    color: white;
+		    padding: 14px 20px;
+		    margin: 8px 0;
+		    border: none;
+		    cursor: pointer;
+		    width: 78%;
+		}
+
+		button:hover {
+		    opacity: 0.8;
+		}
+
+		/* Extra styles for the cancel button */
+		.cancelbtn {
+		    width: auto;
+		    padding: 10px 18px;
+		    background-color: #f44336;
+		}
+
+		/* Center the image and position the close button */
+		.container {
+		    padding: 16px;
+		}
+
+		span.psw {
+		    float: right;
+		    padding-top: 16px;
+		}
+
+		/* The Modal (background) */
+		.modal {
+		    display: none; /* Hidden by default */
+		    position: fixed; /* Stay in place */
+		    z-index: 1; /* Sit on top */
+		    left: 0;
+		    top: 0;
+		    width: 100%; /* Full width */
+		    height: 100%; /* Full height */
+		    overflow: auto; /* Enable scroll if needed */
+		    background-color: rgb(0,0,0); /* Fallback color */
+		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		    padding-top: 10px;
+		}
+
+		/* Modal Content/Box */
+		.modal-content {
+		    background-color: #fefefe;
+		    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+		    border: 1px solid #888;
+		    width: 30%; /* Could be more or less, depending on screen size */
+		}
+
+		/* The Close Button (x) */
+		.close {
+		    position: absolute;
+		    right: 25px;
+		    top: 0;
+		    color: #000;
+		    font-size: 35px;
+		    font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+		    color: red;
+		    cursor: pointer;
+		}
+
+		/* Add Zoom Animation */
+		.animate {
+		    -webkit-animation: animatezoom 0.6s;
+		    animation: animatezoom 0.6s
+		}
+		.animate2 {
+		    -webkit-animation: animatezoom 0.6s;
+		    animation: animatezoom 0.6s
+		}
+
+
+		@-webkit-keyframes animatezoom {
+		    from {-webkit-transform: scale(0)} 
+		    to {-webkit-transform: scale(1)}
+		}
+		    
+		@keyframes animatezoom {
+		    from {transform: scale(0)} 
+		    to {transform: scale(1)}
+		}
+
+		/* Change styles for span and cancel button on extra small screens */
+		@media screen and (max-width: 300px) {
+		    span.psw {
+		       display: block;
+		       float: none;
+		    }
+		    .cancelbtn {
+		       width: 100%;
+		    }
+		}
+
+		.nav>li>a:hover {
+		    text-decoration: none;
+		    background-color: #16a2f4;
+		}
+
+		.bawah {
+			width: 400px;
+		}
+
+		body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+		body, html {
+		    height: 100%;
+		    line-height: 1.8;
+		}
+		/* Full height image header */
+		.bgimg-1 {
+		    background-position: center;
+		    background-size: cover;
+		    /*background-image: url("/static/gambar/blue.jpg");*/
+		    background-color: #A9C3FF;
+		    min-height: 100%;
+		}
+		.w3-bar .w3-button {
+		    padding: 16px;
+		}
+	</style>
+
+	{% csrf_token %}
+	
+	<script type="text/javascript">
+		var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+		
+		function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+		function csrfSafeMethod(method) {
+		    // these HTTP methods do not require CSRF protection
+		    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+		    beforeSend: function(xhr, settings) {
+		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		        }
+		    }
+		});
+		
+		function melebu(event){
+			//alert('berhasil');
+			var username = $("#id01").find("input[name='username']").val();
+			var password = $("#id01").find("input[name='password']").val();
+			$.post('/api/auth/',{
+				username: username,
+				password: password
+			}, function(data){
+				if(data['status'] == 'success'){
+					$('#id01').toggle('slow');
+					window.location = "explore";
+				} else {
+					alert('Gaisok');
+					window.location = "";
+				}
+			});
+		};
+
+		function daftar(event){
+			//alert('berhasil');
+			var username = $("#id02").find("input[name='username']").val();
+			var email = $("#id02").find("input[name='email']").val();
+			var password1 = $("#id02").find("input[name='password1']").val();
+			var password2 = $("#id02").find("input[name='password2']").val();
+			$.post('/api/registration/',{
+				username: username,
+				email: email,
+				password1: password1,
+				password2: password2
+			},function(data){
+
+				//alert('proses');
+				if(data['status'] == 'success'){
+
+					alert('Pendaftaran Berhasil Silahkan Cek Email Anda dan Login');
+					$('.modal').hide('slow');
+					//window.location = "/dashboard/";
+				} else {
+
+					console.log(data['status'] + data['errors']);
+					window.location = "";
+				}
+			});
+		};
+
+		$(document).ready(function() {
+
+			$(document).ajaxStart(function(){
+		        $("#wait").css("display", "block");
+		    });
+		    $(document).ajaxComplete(function(){
+		        $("#wait").css("display", "none");
+		    });
+
+			$('button.cancelbtn').click(function() {
+				$('.modal').hide('slow');
+			});
+			$('#haveaccount').click(function() {
+				$('#id02').hide('slow');
+				$("#id01").show('slow');
+			});
+
+			$(".to-home").on('click', function(event) {
+				// Make sure this.hash has a value before overriding default behavior
+			    if (this.hash !== "") {
+			      // Prevent default anchor click behavior
+			      event.preventDefault();
+
+			      // Store hash
+			      var hash = this.hash;
+
+			      // Using jQuery's animate() method to add smooth page scroll
+			      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+			      $('html, body').animate({
+			        scrollTop: $(hash).offset().top
+			      }, 800, function(){
+			   
+			        // Add hash (#) to URL when done scrolling (default click behavior)
+			        window.location.hash = hash;
+			      });
+			    } // End if
+			  });
+
+			$(".to-about").on('click', function(event) {
+				// Make sure this.hash has a value before overriding default behavior
+			    if (this.hash !== "") {
+			      // Prevent default anchor click behavior
+			      event.preventDefault();
+
+			      // Store hash
+			      var hash = this.hash;
+
+			      // Using jQuery's animate() method to add smooth page scroll
+			      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+			      $('html, body').animate({
+			        scrollTop: $(hash).offset().top
+			      }, 800, function(){
+			   
+			        // Add hash (#) to URL when done scrolling (default click behavior)
+			        window.location.hash = hash;
+			      });
+			    } // End if
+			  });
+
+			$(".to-features").on('click', function(event) {
+				// Make sure this.hash has a value before overriding default behavior
+			    if (this.hash !== "") {
+			      // Prevent default anchor click behavior
+			      event.preventDefault();
+
+			      // Store hash
+			      var hash = this.hash;
+
+			      // Using jQuery's animate() method to add smooth page scroll
+			      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+			      $('html, body').animate({
+			        scrollTop: $(hash).offset().top
+			      }, 800, function(){
+			   
+			        // Add hash (#) to URL when done scrolling (default click behavior)
+			        window.location.hash = hash;
+			      });
+			    } // End if
+			  });
+
+			$(".to-contact").on('click', function(event) {
+				// Make sure this.hash has a value before overriding default behavior
+			    if (this.hash !== "") {
+			      // Prevent default anchor click behavior
+			      event.preventDefault();
+
+			      // Store hash
+			      var hash = this.hash;
+
+			      // Using jQuery's animate() method to add smooth page scroll
+			      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+			      $('html, body').animate({
+			        scrollTop: $(hash).offset().top
+			      }, 800, function(){
+			   
+			        // Add hash (#) to URL when done scrolling (default click behavior)
+			        window.location.hash = hash;
+			      });
+			    } // End if
+			  });
+		});
+
+		// Get the modal
+		var modal = document.getElementById('id01');
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		    if (event.target == modal) {
+		        modal.style.display = "none";
+		    }
+		}
+
+		//Get Modal2	
+		var modal2 = document.getElementById('id02');
+		window.onclick = function(event) {
+		    if (event.target == modal2) {
+		        modal2.style.display = "none";
+		    }
+		}
+
+		window.onscroll = function() {myFunction()};
+		function myFunction() {
+		    var navbar = document.getElementById("myNavbar");
+		    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+		        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+		    } else {
+		        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+		    }
+		}
+
+		// Modal Image Gallery
+		function onClick(element) {
+		  document.getElementById("img01").src = element.src;
+		  document.getElementById("modal01").style.display = "block";
+		  var captionText = document.getElementById("caption");
+		  captionText.innerHTML = element.alt;
+		}
+
+
+		// Toggle between showing and hiding the sidebar when clicking the menu icon
+		var mySidebar = document.getElementById("mySidebar");
+
+		function w3_open() {
+		    if (mySidebar.style.display === 'block') {
+		        mySidebar.style.display = 'none';
+		    } else {
+		        mySidebar.style.display = 'block';
+		    }
+		}
+
+		// Close the sidebar with the close button
+		function w3_close() {
+		    mySidebar.style.display = "none";
+		}
+
+		function myMap(){
+		  myCenter=new google.maps.LatLng(-7.250445, 112.768845);
+		  var mapOptions= {
+		    center:myCenter,
+		    zoom:12, scrollwheel: false, draggable: false,
+		    mapTypeId:google.maps.MapTypeId.ROADMAP
+		  };
+		  var map=new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+
+		  var marker = new google.maps.Marker({
+		    position: myCenter,
+		  });
+		  marker.setMap(map);
+		}
+
+		
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyBqy3ZNycpIgiRKmHIr7N4F8xZ3YL7PDQs&callback=initMap"></script>
+
+</head>
+
+<body>
+	<!-- NAVBAR -->
+	<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header" style="margin-right: 468px">
+				<a class="navbar-brand" href=""><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
+			</div>
+			<ul class="nav">
+				<li class="active"><a href="" style="color: white;">Home</a></li>
+				<li><a href="" style="color: white;">About</a></li>
+				<li><a href="" style="color: white;">Features</a></li>
+				<li><a href="" style="color: white;">Contact</a></li>
+			</ul>
+		</div>
+	</nav> -->
+	<!-- Navbar (sit on top) -->
+	<div class="w3-top">
+	  <div class="w3-bar w3-card" id="myNavbar">
+	    <a href="#home" class="w3-bar-item w3-button w3-wide to-home">LOGO</a>
+	    <!-- Right-sided navbar links -->
+	    <div class="w3-right w3-hide-small">
+	      <a href="#about" class="w3-bar-item w3-button to-about">ABOUT</a>
+	      <a href="#work" class="w3-bar-item w3-button to-features"><i class="fa fa-th"></i> FEATURES</a>
+	      <a href="#contact" class="w3-bar-item w3-button to-contact"><i class="fa fa-envelope"></i> CONTACT</a>
+	    </div>
+	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+	      <i class="fa fa-bars"></i>
+	    </a>
+	  </div>
+	</div>
+
+
+	<!-- Sidebar on small screens when clicking the menu icon -->
+	<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+	  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+	  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+	  <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
+	  <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">WORK</a>
+	  <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">PRICING</a>
+	  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
+	</nav>
+
+	<!-- HOME -->
+	<!-- <div class="bgimg-1 w3-display-container w3-opacity-min" id="home" style="height: 630px;">
+		<div class="w3-display-middle" style="white-space:nowrap;">
+			<div id="jumbo" class="jumbotron text-center">
+				<h1 class="font">Want to make your payment problem easier? Trovi is the answer</h1>	
+			</div>
+			<div id="margin">
+				<div class="pull-left">
+					<button class="btn btn-primary btn-lg " onclick="document.getElementById('id02').style.display='block'" style="width:auto;">SIGN UP</button>
+				</div>
+				<div class="pull-right">
+					<button class="btn btn-success btn-lg" data-toggle="modal" data-target="#login" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">LOGIN</button>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<!-- Header with full-height image -->
+	<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home" style="height: 630px;">
+	  <div class="w3-display-left w3-text-white" style="padding:48px">
+	    <span class="w3-jumbo w3-hide-small">Want to make your payment problem easier?</span><br>
+	    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Trovi is the answer</span><br>
+	    <span class="w3-large">Trovi is the answer</span>
+	    <p>
+	    	<a class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">SIGN UP</a>
+	    	<a class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">LOGIN</a>
+	    </p>
+	  </div> 
+	  <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:24px 48px">
+	    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+	    <i class="fa fa-instagram w3-hover-opacity"></i>
+	    <i class="fa fa-snapchat w3-hover-opacity"></i>
+	    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+	    <i class="fa fa-twitter w3-hover-opacity"></i>
+	    <i class="fa fa-linkedin w3-hover-opacity"></i>
+	  </div>
+	</header>
+
+	<!-- LOADING -->
+	<div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='/static/gambar/wait.gif' width="64" height="64" /><br>Loading..</div>
+
+	<!-- LOGIN -->
+	<div id="id01" class="modal ">
+		<div class="modal-content animate">
+	  <!-- <form class="modal-content animate" method="post"> -->
+	  	{% csrf_token %}
+	    <div class="container" style="text-align: center; width: 220px; margin">
+	    	<label><h1 style="font-family: sans-serif; font-weight: bold;"> Sign in </h1></label>
+	    </div>
+
+	    <div class="container" style="width: 500px;">
+	      <input type="text" placeholder="Username" name="username" required>
+	      <input type="password" placeholder="Password" name="password" required>  
+	      <button id="butt" onclick="melebu()">Login</button>
+	    </div>
+	    <div class="container">
+	    	<input type="checkbox" checked="checked"> Remember my account
+	    </div>
+
+	    <div class="container bawah" style="background-color:#f1f1f1">
+	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
+	      <span class="psw">Forgot <a href="#">password?</a></span>
+	    </div>
+
+	  </div>
+	  <!-- </form> -->
+	</div>
+
+	<!-- SIGN UP -->
+	<div id="id02" class="modal">
+	  <div class="modal-content animate">
+	  	{% csrf_token %}
+	    <div class="container" style="text-align: center; width: 220px;">
+	    	<label><h1 align="center" style="font-family: sans-serif; font-weight: bold;"> Sign Up </h1></label>
+	    </div>
+
+	    <div class="container" style="width: 500px;">
+	      <input type="text" placeholder="Username" name="username" required />
+	      <input type="email" placeholder="Email" name="email" required />
+	      <input type="password" placeholder="Password" name="password1" required />  
+	      <input type="password" placeholder="Confirm Password" name="password2">
+	      <button id="butt" onclick="daftar()">Sign Up</button>
+	    </div>
+
+	    <div class="container">
+	    	<input type="checkbox" checked="checked"> Remember my account
+	    </div>
+
+	    <div class="container bawah" style="background-color:#f1f1f1">
+	      <button style="color: white;" type="button" class="cancelbtn">Cancel</button>
+	      <span class="psw"><button id="haveaccount"><a href="" >Have An Account</a></button></span>
+	    </div>
+
+	  </div>
+	</div>
+    
+    <!-- HAL2  -->
+    <!-- <div class="container-fluid hal2" id="hal2">
+        <div class="row" style="margin-top: 115px;margin-bottom: 100px;">
+           <div class="col-sm-4 deskripsi" style="margin-left: 150px">
+                <h2>About Company Page</h2>
+                <p> Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>      
+          		<p>
+          			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          		</p>
+
+          </div>
+          <div class="col-sm-4" style="margin-left: 100px;">
+                <span class="gambar">
+                    <img class="lazyload" src="{% static 'gambar/1.png' %}" height="90%" width="90%" style="margin-top:10px;">
+                </span>
+          </div>
+        </div>
+
+
+        <div class="row" style="background-color: #81D4FA;">
+        	<div class="col-md-12">
+        		<center>
+	        	<h2>Our Features</h2>	
+	        	</center>
+	        	<br><br><br>	
+        	</div>
+        </div>
+        <div class="row" style="background-color: #81d4fa;">
+        <div class="row" style="margin-left: 50px;margin-right: 40px;margin-bottom: 55px;">
+        	<div class="col-md-4 feature">
+            	<img class="lazyload" src="{% static 'gambar/1.png' %}" width="70%">
+            	<h2>Lorem Ipsum dolor sit amet</h2>
+            	<p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>
+          	</div>
+          	<div class="col-md-4 feature">
+            	<img class="lazyload" src="{% static 'gambar/1.png' %}" width="70%">
+            	<h2>Lorem Ipsum dolor sit amet</h2>
+            	<p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>
+          	</div>
+          	<div class="col-md-4 feature">
+            	<img class="lazyload" src="{% static 'gambar/1.png' %}" width="70%">
+            	<h2>Lorem Ipsum dolor sit amet</h2>
+            	<p>Lorem Ipsum Testing jsfkgsaiubisbosbvoivosneiubvesivbiseubvisevbiseb oihfehfiueifufyuesuyes asfowifowfoweiof[wefiuewbfue fhesnfu esu fweuweb bwu bwu ewufbwe uwe bwue uweg w</p>
+          	</div>
+        </div>
+        </div>
+    </div> -->
+
+    <!-- About Section -->
+	<div class="w3-container" style="padding:128px 16px" id="about">
+	  <h3 class="w3-center">ABOUT THE COMPANY</h3>
+	  <p class="w3-center w3-large">Key features of our company</p>
+	  <div class="w3-row-padding w3-center" style="margin-top:64px">
+	    <div class="w3-quarter">
+	      <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
+	      <p class="w3-large">Responsive</p>
+	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+	    </div>
+	    <div class="w3-quarter">
+	      <i class="fa fa-heart w3-margin-bottom w3-jumbo"></i>
+	      <p class="w3-large">Passion</p>
+	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+	    </div>
+	    <div class="w3-quarter">
+	      <i class="fa fa-diamond w3-margin-bottom w3-jumbo"></i>
+	      <p class="w3-large">Design</p>
+	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+	    </div>
+	    <div class="w3-quarter">
+	      <i class="fa fa-cog w3-margin-bottom w3-jumbo"></i>
+	      <p class="w3-large">Support</p>
+	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+	    </div>
+	  </div>
+	</div>
+    
+    <!-- Features Section -->
+	<div class="w3-container w3-light-grey" style="padding:128px 16px;" id="work">
+	  <h3 class="w3-center">OUR FEATURES</h3>
+	  <p class="w3-center w3-large">What we've done for people</p>
+
+	  <div class="w3-row-padding" style="margin-top:64px">
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A microphone">
+	    </div>
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A phone">
+	    </div>
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A drone">
+	    </div>
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Soundbox">
+	    </div>
+	  </div>
+
+	  <div class="w3-row-padding w3-section">
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A tablet">
+	    </div>
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A camera">
+	    </div>
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A typewriter">
+	    </div>
+	    <div class="w3-col l3 m6">
+	      <img src="/static/gambar/1.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A tableturner">
+	    </div>
+	  </div>
+	</div>
+
+	<!-- Modal for full size images on click-->
+	<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+	  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
+	  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+	    <img id="img01" class="w3-image">
+	    <p id="caption" class="w3-opacity w3-large"></p>
+	  </div>
+	</div>
+
+	<!-- Contact Section -->
+	<div class="w3-container w3-white" style="padding:128px 16px" id="contact">
+	  <h3 class="w3-center">CONTACT</h3>
+	  <p class="w3-center w3-large">Lets get in touch. Send us a message:</p>
+	  <div class="w3-row-padding" style="margin-top:64px">
+	    <div class="w3-half">
+	      <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right w3-blue"></i> Surabaya, Indonesia</p>
+	      <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right w3-blue"></i> Phone: +6282232666431</p>
+	      <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right w3-blue"> </i> Email: d4ita2016@gmail.com</p>
+	      <br>
+	      <form action="/action_page.php" target="_blank">
+	        <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
+	        <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
+	        <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
+	        <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+	        <p>
+	          <button class="w3-button w3-blue" type="submit">
+	            <i class="fa fa-paper-plane"></i> SEND MESSAGE
+	          </button>
+	        </p>
+	      </form>
+	    </div>
+	    <div class="w3-half">
+	      <!-- Add Google Maps -->
+	      <div id="googleMap" class="w3-greyscale-max" style="width:100%;height:510px;"></div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="w3-center w3-blue w3-padding-64">
+	  <a href="#home" class="w3-button w3-light-grey to-home"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+	  <div class="w3-xlarge w3-section">
+	    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+	    <i class="fa fa-instagram w3-hover-opacity"></i>
+	    <i class="fa fa-snapchat w3-hover-opacity"></i>
+	    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+	    <i class="fa fa-twitter w3-hover-opacity"></i>
+	    <i class="fa fa-linkedin w3-hover-opacity"></i>
+	  </div>
+	  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+	</footer>
+</body>
+</html>

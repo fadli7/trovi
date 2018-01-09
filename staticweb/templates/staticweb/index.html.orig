@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>B-Cak</title>
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'b3/css/bootstrap.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'b3/js/bootstrap.min.js' %}"></script>
+	
+	<script type="text/javascript" src="{% static 'js/twitter.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/pagination.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
+	
+	<!-- <script src="{% static 'js/item-ajax.js' %}"></script> -->
+
+	<style type="text/css">
+		body {
+			background-color: #81D4FA;
+		}
+<<<<<<< HEAD
+        .jumbotron { 
+            background-color: #81D4FA; /* Orange */
+            color: dimgrey;
+        }
+        .hal2{
+            margin-top: 400px;
+        }
+=======
+		#jumbo {
+			margin-top: 80px;
+			background-color: #81D4FA;
+		}
+		#margin {
+			margin-left: 430px;
+			margin-right: 430px;
+		}
+>>>>>>> bdae4811b20abf8f8a2e4eea0ca98639cf4ed35d
+	</style>
+</head>
+<body>
+	
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"> B-Cak</a>
+			</div>
+			<!-- <div class="pull-right"> -->
+				<ul class="nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Features</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			<!-- </div> -->
+		</div>
+	</nav>
+	<div class="container">
+		<div id="jumbo" class="jumbotron text-center">
+			<h1>Want to make your payment problem easier? B-cak is the answer</h1>	
+		</div>
+		<div id="margin">
+			<div class="pull-left">
+				<button class="btn btn-primary btn-lg">SIGN UP</button>
+			</div>
+			<div class="pull-right">
+				<button class="btn btn-success btn-lg">LOGIN</button>
+			</div>
+		</div>
+	</div>
+    
+    <div class="container-fluid hal2" id="hal2">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>COBA CUYYYY</h2>
+                <p>Ini dicoba paragrafnya sjasdggagdqdbkgdiucdguwdwhdoiedoiheochowhcowhoiwheoichw</p>
+            </div>
+            <div class="col-sm-4">
+                <img src=gambar/1.jpg width=60% height=60%>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

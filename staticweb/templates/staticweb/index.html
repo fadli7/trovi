@@ -266,10 +266,11 @@
 				password2: password2
 			},function(data){
 
-				alert('proses');
+				//alert('proses');
 				if(data['status'] == 'success'){
 
 					alert('Pendaftaran Berhasil Silahkan Cek Email Anda dan Login');
+					$('.modal').hide('slow');
 					//window.location = "/dashboard/";
 				} else {
 

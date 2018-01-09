@@ -229,8 +229,13 @@ a{
 	    	page_length: 4
 	    }, function(data){
 	    	for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3' id=''><div class='card'><div class='card-block'><img src='' height='170px' width='170px'></div></div><h4 style='text-align: center;'>Title</h4><p style='text-align: center;'>by Anonimous</p></div>");
+	    		$(".pop").append("<div class='col-sm-3' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='' height='170px' width='170px'></div></div><h4 style='text-align: center;'>Title</h4><p style='text-align: center;'>by Anonimous</p></div>");
 	    	}
+
+        for(var i=0; i<4; i++){
+          $("#img"+i).attr("src", data[i].banner);
+        }
+
 	    });
 	});
 </script>
@@ -255,7 +260,7 @@ a{
         </div>
     </nav> -->
 
-    <div class="w3-top w3-blue">
+  <div class="w3-top w3-blue">
 	  <div class="w3-bar w3-card" id="myNavbar">
 	    <a href="#home" class="w3-bar-item w3-button w3-wide to-home">LOGO</a>
 	    <!-- Right-sided navbar links -->

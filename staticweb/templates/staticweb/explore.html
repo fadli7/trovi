@@ -165,6 +165,110 @@ body{
 a{
     width: 247.5px;
 }
+
+/* Set a style for all buttons */
+    #butt {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 78%;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    /* Extra styles for the cancel button */
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+    }
+
+    /* Center the image and position the close button */
+    .container {
+        padding: 16px;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 10px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+    .animate2 {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+
+    @-webkit-keyframes animatezoom {
+        from {-webkit-transform: scale(0)} 
+        to {-webkit-transform: scale(1)}
+    }
+        
+    @keyframes animatezoom {
+        from {transform: scale(0)} 
+        to {transform: scale(1)}
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+           display: block;
+           float: none;
+        }
+        .cancelbtn {
+           width: 100%;
+        }
+    }
+
 </style>
 
 <script>
@@ -226,7 +330,7 @@ a{
 
 	    $.get("/api/explore/",{
 	    	page: 1,
-	    	page_length: 4
+	    	page_length: 4,
         ordering: 'popular' 
 	    }, function(data){
         // var display = JSON.parse(data);
@@ -238,16 +342,53 @@ a{
 
       $.get("/api/explore/",{
         page: 1,
-        page_length: 4
+        page_length: 4,
         ordering: 'new' 
       }, function(data){
         // var display = JSON.parse(data);
         // console.log(data.data[0].banner);
         for(var i=0; i<4; i++){
-          $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button class='w3-button w3-blue'>Buy</button></div>");
+          $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
         }
       });
+
+      $("#nex").click(function(){
+        alert("tex");
+        //$(".modal").css('display', 'block');
+      });
 	});
+
+  function bla(id){
+    document.getElementById('id01').style.display='block';
+    $(document).ready(function(){
+      $.get("/api/explore/",{
+        page: 1,
+        page_length: 4,
+        ordering: 'new' 
+      }, function(data){
+        $("#jeneng").text(data.data[id].name);
+        $("#harga").text(data.data[id].price);
+        $(".mau_ngirim").attr("id", id);
+      });
+    });
+  }
+
+  function keluar() {
+    document.getElementById('id01').style.display='none';
+  }
+
+  function kirim(id) {
+    //var proof = document.getElementById("pic").value;
+    $(document).ready(function(){
+      var proof = $("#pic").val();
+      $.post("/api/transaction/",{
+        tutorial: id,
+        payment_proof: proof 
+      }, function(data){
+        console.log(data);
+      });
+    });
+  }
 </script>
 
 <body>
@@ -380,12 +521,29 @@ a{
                </div>
                 <h3>New Course</h3>
                  <div class="row new" style="margin-top: 20px">
-                    <div class="col-sm-3">
                     <!-- DATA -->
                </div>
             </div>
         </div>
     </div>
 </div>
+
+  <div id="id01" class="modal">
+    <div class="modal-content animate">
+      <div class="container" style="width: 400px;">
+        <div>
+          <h3>Mohon Konfirmasi</h3>
+        </div>
+        <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
+          <br/>
+        Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
+        <input id="pic" type="file" name="pic" accept="image/*" style="width: 400px;">  
+        <hr>
+        <button id="" class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
+        <button class="w3-button" onclick="keluar()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

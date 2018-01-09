@@ -30,7 +30,7 @@ class LatestTuroialFeed(Feed):
         return item.description
 
     def item_link(self, item):
-        return reverse('index')
+        return reverse('explore')
 
 class RegistrationView(View):
 

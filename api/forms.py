@@ -114,6 +114,17 @@ class TransactionForm(forms.ModelForm):
         model = Transaction
         fields = ('tutorial', 'payment_proof')
 
+    def clean_tutorial(self):
+        tutorial = self.cleaned_data.get("tutorial")
+        transaction = Transactions.object.filter(tutorial=tutorial)
+        if transaction.exists():
+            raise forms.ValidationError(
+                    "you have bough this course",
+                    code="already_bought"
+                    )
+
+        return tutorial
+
     def save(self, user, commit=True):
         transaction = super().save(commit=False)
         transaction.user = user

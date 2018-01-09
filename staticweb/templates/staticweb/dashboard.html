@@ -231,9 +231,36 @@ a{
         password1: password1,
         password2: password2
       }, function(data, status){
-        console.log(data);
-        //alert("Update Succesfully");
+        //console.log(data);
+        if(data['status'] == "failed") {
+          alert("Terjadi kesalahan");
+        } else {
+          alert("Password berhasil di ubah");
+          window.location = "../login";
+        }
       });
+    });
+
+    $("#update2").click(function(){
+      // alert("Sip");
+      var firstname = $("#firstname").val();
+      var lastname = $("#lastname").val();
+      var email = $("#email").val();
+
+      $.ajax({
+        url: '/api/user/',
+        type: 'PUT',
+        data: { first_name: firstname, last_name: lastname },
+        success: function(data) {
+          // alert("Profile berhasil di update");
+          // window.location = "../dashboard";
+          console.log(data);
+        },
+        error: function() {
+          alert("Terjadi kesalahan");
+        }
+      });
+
     });
 
   });
@@ -356,6 +383,9 @@ a{
                   <div>
                       <h3 class="judul">Last Name</h3>
                       <input id="lastname" class="form" value="" type="text" placeholder="Last Name" style="border-radius:8px">
+                  </div>
+                  <div style="margin-left:600px;margin-top:40px;">
+                      <button id="update2" class="btn btn-info">Confirm Update</button>
                   </div>            
                   <hr class="my-4" style="color:#F0F8FF">
                 </div>

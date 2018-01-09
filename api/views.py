@@ -116,6 +116,8 @@ class UserView(View):
         if not form_picture.is_valid():
             return JsonResponse({'status': 'failed', 'errors': form_picture.errors})
 
+        form_user.save()
+        form_picture.save()
         return JsonResponse({'status': 'success'})
 
 

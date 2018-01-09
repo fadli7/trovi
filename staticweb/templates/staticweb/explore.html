@@ -368,7 +368,7 @@ a{
       }, function(data){
         $("#jeneng").text(data.data[id].name);
         $("#harga").text(data.data[id].price);
-        $(".mau_ngirim").attr("id", id);
+        $("#ilang").val(data.data[id].id);
       });
     });
   }
@@ -382,12 +382,13 @@ a{
     jQuery("#pic").on("change", function(){
         var formData = new FormData();
         var file = this.files[0];
+        var tutorial = $("#ilang").val();
 
         // console.log(formData.__proto__['values']);
 
         if (formData) {
           formData.append("payment_proof", file);
-          formData.append("tutorial", id);
+          formData.append("tutorial", tutorial);
 
         }
 
@@ -567,7 +568,8 @@ a{
           Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
           <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;">  
           <hr>
-          <button id="" class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
+          <input type="hidden" id="ilang"></input>
+          <button class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
           <button class="w3-button" onclick="keluar()">Cancel</button>
         <!-- </form> -->
       </div>

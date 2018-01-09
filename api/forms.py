@@ -116,7 +116,7 @@ class TransactionForm(forms.ModelForm):
 
     def clean_tutorial(self):
         tutorial = self.cleaned_data.get("tutorial")
-        transaction = Transactions.object.filter(tutorial=tutorial)
+        transaction = Transaction.objects.filter(tutorial=tutorial)
         if transaction.exists():
             raise forms.ValidationError(
                     "you have bough this course",
@@ -128,7 +128,7 @@ class TransactionForm(forms.ModelForm):
     def save(self, user, commit=True):
         transaction = super().save(commit=False)
         transaction.user = user
-        transaction.price = self.cleaned_data['tuorial'].price
+        transaction.price = self.cleaned_data['tutorial'].price
 
         if commit:
             transaction.save()

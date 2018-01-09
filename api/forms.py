@@ -77,11 +77,18 @@ class PasswordChangeForm(PasswordMixin, forms.ModelForm):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ()
 
     def clean_password(self):
         password = self.cleaned_data.get("password")
         password1 = self.cleaned_data.get("password1")
+
+        if not self.instance.check_password(password):
+            raise forms.ValidationError(
+                    "wrong password",
+                    code='wrong_password'
+                    )
+
         if password and password1 and password == password1:
             raise forms.ValidationError(
                     "Password shouldn't be the same",

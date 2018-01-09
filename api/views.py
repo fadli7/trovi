@@ -98,9 +98,9 @@ class UserView(View):
 
         if form.is_valid():
             data = form.cleaned_data
-            if request.user.check_password(data['password']):
-                form.save()
-                return JsonResponse({'status': 'success'})
+            form.save()
+            logout(request)
+            return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 

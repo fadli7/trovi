@@ -17,10 +17,11 @@ from api.models import Tutorial, Persona
 
 class LatestTuroialFeed(Feed):
     title = 'Latest tutorial of trovi'
+    link = '/drtutorial/'
     description = 'this feed is about the latest and newest tutorial than we provide'
 
     def items(self):
-        return Tutorial.objects.order_by('-pk')[:5]
+        return Tutorial.objects.all().order_by('-pk')[:5]
 
     def item_title(self, item):
         return item.name
@@ -157,20 +158,19 @@ class BaseBatchTutorialMixin:
 
         page, page_length = form.cleaned_data['page'], form.cleaned_data['page_length']
         tutorials = tutorials[(page - 1) * page_length:page * page_length]
-        tags = tutorials.tags
+        tags_set = [tutorial.tags.all() for tutorial in tutorials]
 
-        return (tutorials, tags,)
+        return (tutorials, tags_set,)
 
-    def clean_data(self, request, tutorials, tags):
-        tutorials = list(tutorial)
-        tags_set = list(tags.all())
+    def clean_data(self, request, tutorials, tags_set):
+        tutorials = list(tutorials)
+        tags_set = list(tags_set)
 
         data = []
         for tutorial, tags in zip(tutorials, tags_set):
-            tutorial, tags = tutorials[i], tags_set[i]
             datum = {'id': tutorial.id, 'name': tutorial.name,
                     'banner': tutorial.banner.url, 'price': tutorial.price,
-                    'tags': [tag.name for tag in tags]}
+                    'tags': [tag for tag in tags]}
 
             data.append(datum)
 
@@ -182,15 +182,15 @@ class BaseBatchTutorialMixin:
         if tutorials is None:
             return 'no data'
 
-        tutorials, tags = self.paginate(request, tutorials)
-        data = self.clean_data(request, tutorials, tags)
+        tutorials, tags_set = self.paginate(request, tutorials)
+        data = self.clean_data(request, tutorials, tags_set)
 
         return data
 
 class ExploreView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
-        tutorials = Tutorial.objects.all()
+        tutorials = Tutorial.objects.prefetch_related().all()
         if request.user.is_authenticated:
             tutorials = tutorials.exclude(transaction__user__pk=request.user.id)
 
@@ -204,7 +204,7 @@ class ExploreView(BaseBatchTutorialMixin, View):
 class PendingView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
-        tutorials = Tutorial.objects.all().filter(transaction__user__pk=rquest.user.id)
+        tutorials = Tutorial.objects.all().prefetch_related().filter(transaction__user__pk=rquest.user.id)
         tutorials = tutorials.filter(transaction__is_reviewed=False)
 
         data = self.full_process_data(request, tutorials)
@@ -214,7 +214,7 @@ class PendingView(BaseBatchTutorialMixin, View):
 class TutorialOwnedView(View):
 
     def get(self, request, *args, **kwargs):
-        tutorials = Tutorial.objects.all().filter(transaction__user__pk=request.user.id)
+        tutorials = Tutorial.objects.all().prefetch_related().filter(transaction__user__pk=request.user.id)
         tutorials = tutorials.filter(transaction__is_reviewed=True)
 
         data = self.full_process_data(request, tutorials)

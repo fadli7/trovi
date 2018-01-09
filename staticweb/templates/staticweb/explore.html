@@ -378,41 +378,22 @@ a{
   }
 
   function kirim(id) {
-    //var proof = document.getElementById("pic").value;
-    jQuery("#pic").on("change", function(){
-        var formData = new FormData();
-        var file = this.files[0];
-        var tutorial = $("#ilang").val();
+    var formData = new FormData();
+    var file = jQuery("#pic")[0].files[0];
+    var tutorial = jQuery("#ilang").val();
 
-        // console.log(formData.__proto__['values']);
+      formData.append("payment_proof", file);
+      formData.append("tutorial", tutorial);
 
-        if (formData) {
-          formData.append("payment_proof", file);
-          formData.append("tutorial", tutorial);
-
-        }
-
-        jQuery.ajax({
-          url: "/api/transaction/",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(data) {
-            console.log(data);
-          }
-        });
-        // $.ajax({
-        //   url: "/api/transaction",
-        //   type: "POST",
-        //   data: formData,
-        //   success: function(data) {
-        //     alert(data);
-        //   },
-        //   cache: false,
-        //   contentType: false,
-        //   processData: false
-        // });
+    jQuery.ajax({
+      url: "/api/transaction/",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        console.log(data);
+      }
     });
   }
 </script>

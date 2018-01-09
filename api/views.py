@@ -98,10 +98,9 @@ class UserView(View):
 
         if form.is_valid():
             data = form.cleaned_data
-            user = authenticate(request, username=request.user.username, password=data['password'])
-            if user is not None:
+            if request.user.check_password(data['password']):
                 form.save()
-            return JsonResponse({'status': 'success'})
+                return JsonResponse({'status': 'success'})
 
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 

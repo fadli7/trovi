@@ -248,7 +248,7 @@ class TransactionView(View):
 
     def post(self, request, *args, **kwargs):
         form = TransactionForm(request.POST, request.FILES)
-        if form.is_valid:
+        if form.is_valid():
             form.save(request.user)
             return JsonResponse({'status': 'success'})
 

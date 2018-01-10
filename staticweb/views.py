@@ -32,3 +32,6 @@ class cssView(TemplateView):
 
 class jsView(TemplateView):
 	template_name = "static/js"
+
+class OwnView(TemplateView):
+    template_name = "staticweb/own.html"

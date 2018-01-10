@@ -335,9 +335,13 @@ a{
 	    }, function(data){
         // var display = JSON.parse(data);
 	    	// console.log(data.data[0].banner);
-        for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
-	    	}
+        if(data.data == "no data"){
+
+        } else {        
+          for(var i=0; i<4; i++){
+  	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
+  	    	}
+        }
 	    });
 
       $.get("/api/explore/",{
@@ -347,8 +351,12 @@ a{
       }, function(data){
         // var display = JSON.parse(data);
         // console.log(data.data[0].banner);
-        for(var i=0; i<4; i++){
-          $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+        if (data.data == "no data") {
+
+        } else {
+          for(var i=0; i<4; i++){
+            $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+          }
         }
       });
 

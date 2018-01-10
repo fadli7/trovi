@@ -328,11 +328,14 @@ a{
 	    	});
 	    });
 
-	    $.get("/api/pending/", function(data){
+	    $.get("/api/pending/", {
+        page: 1,
+        page_length: 8
+      }, function(data){
         // var display = JSON.parse(data);
 	    	// console.log(data.data[0].banner);
         for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p></div>");
+	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4></div>");
 	    	}
 	    });
 
@@ -461,7 +464,7 @@ a{
                 <div class="profile-usermenu">
                     <div class="nav">
                         <li class="active">
-                            <a href="">
+                            <a href="../explore">
                             Home </a>
                         </li>
                     </div>

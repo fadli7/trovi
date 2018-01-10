@@ -14,4 +14,5 @@ urlpatterns = [
         url(r'^tutor/$', login_required(v.TutorView.as_view()), name="tutor"),
         url(r'^css/$', v.cssView.as_view(), name="css"),
         url(r'^js/$', v.jsView.as_view(), name="js"),
+        url(r'^own/$', v.OwnView.as_view(), name="own"),
         ]

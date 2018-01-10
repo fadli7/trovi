@@ -328,11 +328,14 @@ a{
         });
       });
 
-      $.get("/api/owner/", function(data){
+      $.get("/api/owned/", {
+        page:1,
+        page_length: 8
+      }, function(data){
         // var display = JSON.parse(data);
         // console.log(data.data[0].banner);
         for(var i=0; i<4; i++){
-          $(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button class='w3-button w3-blue'>Buy</button></div>");
+          $(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><button id='"+data.data[i].id+"' onclick='bla(this.id)' class='w3-button w3-blue'>Open</button></div>");
         }
       });
 
@@ -355,61 +358,20 @@ a{
   });
 
   function bla(id){
-    document.getElementById('id01').style.display='block';
-    $(document).ready(function(){
-      $.get("/api/explore/",{
-        page: 1,
-        page_length: 4,
-        ordering: 'new' 
-      }, function(data){
-        $("#jeneng").text(data.data[id].name);
-        $("#harga").text(data.data[id].price);
-        $(".mau_ngirim").attr("id", id);
-      });
-    });
+    //document.getElementById('id01').style.display='block';
+    window.location = "../tutor/?id="+id;
   }
 
-  function keluar() {
-    document.getElementById('id01').style.display='none';
-  }
+  // function keluar() {
+  //   document.getElementById('id01').style.display='none';
+  // }
 
-  function kirim(id) {
-    //var proof = document.getElementById("pic").value;
-    jQuery("#pic").on("click", function(){
-        var formData = new FormData();
-        var file = this.files[0];
-
-        // console.log(formData.__proto__['values']);
-
-        if (formData) {
-          formData.append("payment_proof", file);
-          formData.append("tutorial", id);
-
-        }
-
-        jQuery.ajax({
-          url: "/api/transaction/",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(data) {
-            console.log(data);
-          }
-        });
-        // $.ajax({
-        //   url: "/api/transaction",
-        //   type: "POST",
-        //   data: formData,
-        //   success: function(data) {
-        //     alert(data);
-        //   },
-        //   cache: false,
-        //   contentType: false,
-        //   processData: false
-        // });
-    });
-  }
+  // function kirim(id) {
+  //   //var proof = document.getElementById("pic").value;
+  //   $(document).ready(function(){
+      
+  //   });
+  // }
 </script>
 
 <body>

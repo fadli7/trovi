@@ -199,6 +199,8 @@ a{
 		    }
 		});
 
+
+
 	$(document).ready(function(){
 		$.get("/api/user/", function(data){
 	      //alert("iso");
@@ -224,26 +226,44 @@ a{
 	    	});
 	    });
 
-	    $.get("/api/explore/",{
-	    	page: 1,
-	    	page_length: 4
-	    }, function(data){
-
-        var x = window.location.href;
+      var x = window.location.href;
         var spl = x.split("/");
-        // console.log(spl);
-        var i = spl[4];
-        console.log(i);
+        var i = spl[4]; 
 
-	    	for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='' height='170px' width='170px'></div></div><h4 style='text-align: center;'>Title</h4><p style='text-align: center;'>by Anonimous</p></div>");
-	    	}
-        for(var i=0; i<4; i++){
-          $("#img"+i).attr("src", data[i].banner);
-        }
+	    $.get("/api/tutorial/",{
+	    	id: i
+	    }, function(data){
+        // console.log(data.data['illustrations'].length);
+        for(var i=0; i<data.data['illustrations'].length; i++){
+          $(".pop").append("<div class='col-sm-9 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data['illustrations'][i].url + "' height='170px' width='170px'></div></div><p style='text-align: center;'>$"+data.data['illustrations'][i].description+"</p></div>");
+          }
+
+          $("h1#nama").text(data.data['name']);
+          // $("#vid video source").attr("src", data.data['video']);
+          // $("#vid video")[0].load();
+           console.log(data.data['video']);
+
+          var video = document.getElementById('vid');
+          var source = document.createElement('source');
+
+          source.setAttribute('src', '../'+data.data['video']);
+
+          video.appendChild(source);
+          video.play();
+
+          setTimeout(function() {  
+              video.pause();
+
+              source.setAttribute('src', '../'+data.data['video']); 
+
+              video.load();
+              video.play();
+          }, 3000);
 
 	    });
 	});
+
+
 </script>
 
 <body>
@@ -290,7 +310,7 @@ a{
 	  </div>
 	</div>
 
-<div class="container">
+<div class="container" style="height: auto;>
     <div class="row profile">
         <div class="col-md-3">
             <div class="profile-sidebar">
@@ -345,13 +365,29 @@ a{
                 <!-- END MENU -->
             </div>
         </div>
-        <div class="col-md-9 isi">
-            <div class="profile-content">
-              <video width="400" controls>
-                <source src="mov_bbb.mp4" type="video/mp4">
-                <source src="mov_bbb.ogg" type="video/ogg">
-                Your browser does not support HTML5 video.
-              </video>
+        <div class="col-md-9 isi" ">
+            <div class="profile-content w3-responsive" style="height: 2200px">
+              <h1 id="nama"></h1>
+              <div class="w3-display-middle">
+                <div >
+                  <video id="vid" width="400" controls="controls">
+                    <source src="" type="video/mp4">
+                  </video>
+                </div>
+                <h3>DESKRIPSI</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><br><br>
+                
+                <h3>ILUSTRASI</h3>
+                <div class="row pop">
+                  
+                </div>
+
+              </div>
             </div>
         </div>
     </div>

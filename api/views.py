@@ -206,7 +206,7 @@ class PendingView(BaseBatchTutorialMixin, View):
 
         return JsonResponse({'status': 'success', 'data': data})
 
-class TutorialOwnedView(View):
+class TutorialOwnedView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
         tutorials = Tutorial.objects.all().prefetch_related().filter(transactions__user__pk=request.user.id)

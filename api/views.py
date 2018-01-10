@@ -108,18 +108,13 @@ class UserView(View):
     def put(self, request, *args, **kwarggs):
 
         put = QueryDict(request.body)
-        form_user = UserUpdateForm(put, instance=request.user)
-        form_picture = UserPictureUpdateForm(request.FILES, instance=request.user.persona)
+        form = UserUpdateForm(put, instance=request.user)
 
-        if not form_user.is_valid():
-            return JsonResponse({'status': 'failed', 'errors': form_user.errors})
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success'})
 
-        if not form_picture.is_valid():
-            return JsonResponse({'status': 'failed', 'errors': form_picture.errors})
-
-        form_user.save()
-        form_picture.save()
-        return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'failed', 'errors': form.errors})
 
 
 class BaseBatchTutorialMixin:

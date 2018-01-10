@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.template.defaultfilters import filesizeformat
+from django.utils.safestring import mark_safe
 
 from api.deconstructible.validators import FileValidator
 from api.deconstructible.utils import UploadToUUIDPath
@@ -60,5 +61,12 @@ class Transaction(models.Model):
     payment_proof = models.ImageField(upload_to=UploadToUUIDPath(os.path.join('media/user/payment_proof/')))
     is_reviewed = models.BooleanField(default=False)
 
+    def image_tag(self):
+        return mark_safe('<img src="/{}" height="400" width="400"/>'.format(self.payment_proof.url))
+
     def __str__(self):
-        return str(self.id)
+        return self.user.username + " " + self.tutorial.name
+
+    image_tag.short_description = 'Image'
+    image_tag.allow_tags = True
+

@@ -225,7 +225,7 @@ class TutorialView(View):
             return JsonResponse({'status': 'failed', 'errors': 'tutorial not bought'})
 
         tags = list(tag.name for tag in tutorial.tags.all())
-        illustrations = list({'url': illustration.url, 'description': illustration.description}\
+        illustrations = list({'url': illustration.image.url, 'description': illustration.description}\
                 for illustration in tutorial.illustrations.all())
 
         data = {

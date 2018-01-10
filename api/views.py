@@ -199,7 +199,7 @@ class ExploreView(BaseBatchTutorialMixin, View):
 class PendingView(BaseBatchTutorialMixin, View):
 
     def get(self, request, *args, **kwargs):
-        tutorials = Tutorial.objects.all().prefetch_related().filter(transactions__user__pk=rquest.user.id)
+        tutorials = Tutorial.objects.all().prefetch_related().filter(transactions__user__pk=request.user.id)
         tutorials = tutorials.filter(transactions__is_reviewed=False)
 
         data = self.full_process_data(request, tutorials)

@@ -98,7 +98,6 @@ class UserView(View):
         form = PasswordChangeForm(request.POST, instance=request.user)
 
         if form.is_valid():
-            data = form.cleaned_data
             form.save()
             logout(request)
             return JsonResponse({'status': 'success'})
@@ -106,7 +105,6 @@ class UserView(View):
         return JsonResponse({'status': 'failed', 'errors': form.errors})
 
     def put(self, request, *args, **kwarggs):
-
         put = QueryDict(request.body)
         form = UserUpdateForm(put, instance=request.user)
 
@@ -243,7 +241,6 @@ class TransactionView(View):
 
     def post(self, request, *args, **kwargs):
         form = TransactionForm(request.POST, request.FILES)
-        print(request.POST)
         if form.is_valid():
             form.save(request.user)
             return JsonResponse({'status': 'success'})

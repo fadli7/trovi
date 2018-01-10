@@ -336,7 +336,7 @@ a{
         // var display = JSON.parse(data);
 	    	// console.log(data.data[0].banner);
         for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button class='w3-button w3-blue'>Buy</button></div>");
+	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
 	    	}
 	    });
 
@@ -393,6 +393,8 @@ a{
       contentType: false,
       success: function(data) {
         console.log(data);
+        $("#id01").hide("slow");
+        window.location = "../pending"
       }
     });
   }

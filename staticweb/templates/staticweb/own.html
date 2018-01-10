@@ -23,8 +23,8 @@
 
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/w3.css' %}">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <style type="text/css">
     .stylish-input-group .input-group-addon{
@@ -272,69 +272,69 @@ a{
 </style>
 {% csrf_token %}
 <script>
-	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-		
-		function getCookie(name) {
-		    var cookieValue = null;
-		    if (document.cookie && document.cookie !== '') {
-		        var cookies = document.cookie.split(';');
-		        for (var i = 0; i < cookies.length; i++) {
-		            var cookie = jQuery.trim(cookies[i]);
-		            // Does this cookie string begin with the name we want?
-		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-		                break;
-		            }
-		        }
-		    }
-		    return cookieValue;
-		}
-		var csrftoken = getCookie('csrftoken');
+  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
 
-		function csrfSafeMethod(method) {
-		    // these HTTP methods do not require CSRF protection
-		    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-		}
-		$.ajaxSetup({
-		    beforeSend: function(xhr, settings) {
-		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-		        }
-		    }
-		});
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 
-	$(document).ready(function(){
-		$.get("/api/user/", function(data){
-	      //alert("iso");
-	      var img = data['picture'];
-	      var username = data['username'];
-	      var email = data['email'];
-	      var firstname = data['firstname'];
-	      var lastname = data['lastname'];
+  $(document).ready(function(){
+    $.get("/api/user/", function(data){
+        //alert("iso");
+        var img = data['picture'];
+        var username = data['username'];
+        var email = data['email'];
+        var firstname = data['firstname'];
+        var lastname = data['lastname'];
 
-	      $("#profile").attr("src", img);
-	      $("#nama").text(firstname);
-	    });
+        $("#profile").attr("src", img);
+        $("#nama").text(firstname);
+      });
 
-	    $("#keluar").click(function(event){
-	    	event.preventDefault();
-	    	$.ajax({
-	    		url: "/api/auth",
-	    		type: "delete",
-	    		success: function(data) {
-	    			alert("Anda berhasil keluar");
-	    			window.location = "../";
-	    		}
-	    	});
-	    });
+      $("#keluar").click(function(event){
+        event.preventDefault();
+        $.ajax({
+          url: "/api/auth",
+          type: "delete",
+          success: function(data) {
+            alert("Anda berhasil keluar");
+            window.location = "../";
+          }
+        });
+      });
 
-	    $.get("/api/pending/", function(data){
+      $.get("/api/owner/", function(data){
         // var display = JSON.parse(data);
-	    	// console.log(data.data[0].banner);
+        // console.log(data.data[0].banner);
         for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p></div>");
-	    	}
-	    });
+          $(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button class='w3-button w3-blue'>Buy</button></div>");
+        }
+      });
 
       // $.get("/api/explore/",{
       //   page: 1,
@@ -344,7 +344,7 @@ a{
       //   // var display = JSON.parse(data);
       //   // console.log(data.data[0].banner);
       //   for(var i=0; i<4; i++){
-      //     $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+      //     $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+data.data[i].id+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
       //   }
       // });
 
@@ -352,7 +352,7 @@ a{
         alert("tex");
         //$(".modal").css('display', 'block');
       });
-	});
+  });
 
   function bla(id){
     document.getElementById('id01').style.display='block';
@@ -364,7 +364,7 @@ a{
       }, function(data){
         $("#jeneng").text(data.data[id].name);
         $("#harga").text(data.data[id].price);
-        $("#ilang").val(data.data[id].id);
+        $(".mau_ngirim").attr("id", id);
       });
     });
   }
@@ -374,31 +374,47 @@ a{
   }
 
   function kirim(id) {
-    var formData = new FormData();
-    var file = jQuery("#pic")[0].files[0];
-    var tutorial = jQuery("#ilang").val();
+    //var proof = document.getElementById("pic").value;
+    jQuery("#pic").on("click", function(){
+        var formData = new FormData();
+        var file = this.files[0];
 
-      formData.append("payment_proof", file);
-      formData.append("tutorial", tutorial);
+        // console.log(formData.__proto__['values']);
 
-    jQuery.ajax({
-      url: "/api/transaction/",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-        console.log(data);
-        $("#id01").hide("slow");
-        window.location = "../pending"
-      }
+        if (formData) {
+          formData.append("payment_proof", file);
+          formData.append("tutorial", id);
+
+        }
+
+        jQuery.ajax({
+          url: "/api/transaction/",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            console.log(data);
+          }
+        });
+        // $.ajax({
+        //   url: "/api/transaction",
+        //   type: "POST",
+        //   data: formData,
+        //   success: function(data) {
+        //     alert(data);
+        //   },
+        //   cache: false,
+        //   contentType: false,
+        //   processData: false
+        // });
     });
   }
 </script>
 
 <body>
 
-	<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+  <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-right: 468px">
                 <a class="navbar-brand" href="../"><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
@@ -417,11 +433,11 @@ a{
     </nav> -->
 
   <div class="w3-top w3-blue">
-	  <div class="w3-bar w3-card" id="myNavbar">
-	    <a href="../" class="w3-bar-item w3-button w3-wide to-home"><img id="logo" src="/static/gambar/logo.png" style="height: 45px; width: 45px;"></a>
-	    <!-- Right-sided navbar links -->
-	    <div class="w3-right">
-	      	<form class="navbar-form" role="search">
+    <div class="w3-bar w3-card" id="myNavbar">
+      <a href="../" class="w3-bar-item w3-button w3-wide to-home"><img id="logo" src="/static/gambar/logo.png" style="height: 45px; width: 45px;"></a>
+      <!-- Right-sided navbar links -->
+      <div class="w3-right">
+          <form class="navbar-form" role="search">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control"  placeholder="Search" >
                     <span class="input-group-addon">
@@ -431,14 +447,14 @@ a{
                     </span>
                 </div>
             </form>
-	    </div>
-	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+      </div>
+      <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
-	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
-	      <i class="fa fa-bars"></i>
-	    </a>
-	  </div>
-	</div>
+      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+  </div>
 
 <div class="container">
     <div class="row profile">
@@ -497,7 +513,7 @@ a{
         </div>
         <div class="col-md-9 isi">
             <div class="profile-content">
-            <h3>Pending Course</h3>
+            <h3>Own Courses</h3>
                <div class="row pop">
 
                     <!--
@@ -524,7 +540,6 @@ a{
                     </div> -->
 
                </div>
-              
             </div>
         </div>
     </div>
@@ -544,8 +559,7 @@ a{
           Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
           <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;">  
           <hr>
-          <input type="hidden" id="ilang"></input>
-          <button class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
+          <button id="" class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
           <button class="w3-button" onclick="keluar()">Cancel</button>
         <!-- </form> -->
       </div>

@@ -36,7 +36,7 @@ class RegistrationView(View):
 
     def send_confirmation_mail(self, recipent, key):
         head = 'Email Confirmation'
-        body = 'please confirm your account, localhost:8000/api/emailconfirmation/?key=' + key
+        body = 'please confirm your account, fahmi.localhost.run/api/emailconfirmation/?key=' + key
         send_mail(head, body, 'd4ita2016@gmail.com', [recipent])
 
     def post(self, request, *args, **kwargs):

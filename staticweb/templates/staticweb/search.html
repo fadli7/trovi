@@ -270,7 +270,7 @@ a{
     }
 
 </style>
-
+{% csrf_token %}
 <script>
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 		
@@ -309,10 +309,10 @@ a{
 	      var img = data['picture'];
 	      var username = data['username'];
 	      var email = data['email'];
-	      var firstname = data['firstname'];
-	      var lastname = data['lastname'];
+	      var firstname = data['first_name'];
+	      var lastname = data['last_name'];
 
-	      $("#profile").attr("src", img);
+	      $("#profile").attr("src", "/"+img);
 	      $("#nama").text(firstname);
 	    });
 
@@ -329,26 +329,36 @@ a{
 	    });
 
 	    $.get("/api/explore/",{
-        ordering: 'new' 
+	    	page: 1,
+	    	page_length: 4,
+        ordering: 'popular' 
 	    }, function(data){
         // var display = JSON.parse(data);
 	    	// console.log(data.data[0].banner);
-        for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button class='w3-button w3-blue'>Buy</button></div>");
-	    	}
+        if(data.data == "no data"){
+
+        } else {        
+          for(var i=0; i<4; i++){
+  	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
+  	    	}
+        }
 	    });
 
-      // $.get("/api/explore/",{
-      //   page: 1,
-      //   page_length: 4,
-      //   ordering: 'new' 
-      // }, function(data){
-      //   // var display = JSON.parse(data);
-      //   // console.log(data.data[0].banner);
-      //   for(var i=0; i<4; i++){
-      //     $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
-      //   }
-      // });
+      $.get("/api/explore/",{
+        page: 1,
+        page_length: 4,
+        ordering: 'new' 
+      }, function(data){
+        // var display = JSON.parse(data);
+        // console.log(data.data[0].banner);
+        if (data.data == "no data") {
+
+        } else {
+          for(var i=0; i<4; i++){
+            $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+          }
+        }
+      });
 
       $("#nex").click(function(){
         alert("tex");
@@ -366,7 +376,7 @@ a{
       }, function(data){
         $("#jeneng").text(data.data[id].name);
         $("#harga").text(data.data[id].price);
-        $(".mau_ngirim").attr("id", id);
+        $("#ilang").val(data.data[id].id);
       });
     });
   }
@@ -376,21 +386,31 @@ a{
   }
 
   function kirim(id) {
-    //var proof = document.getElementById("pic").value;
-    $(document).ready(function(){
-      var proof = $("#pic").files[0];
-      var formData = new FormData($(this)[0]);
+    var formData = new FormData();
+    var file = jQuery("#pic")[0].files[0];
+    var tutorial = jQuery("#ilang").val();
 
-      $.ajax({
-        url: "/api/transaction/",
-        type: "POST",
-        data: {tutorial: id, payment_proof: proof},
-        success: function(msg) {
-          alert(msg);
-        }
-      });
+      formData.append("payment_proof", file);
+      formData.append("tutorial", tutorial);
+
+    jQuery.ajax({
+      url: "/api/transaction/",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        console.log(data);
+        $("#id01").hide("slow");
+        window.location = "../pending"
+      }
     });
   }
+
+  var x = document.getElementById("profile");
+  x.addEventListener("mouseover", function(){
+    document.getElementById("profile").setAttribute("src", "/static/gambar.logo.png");
+  });
 </script>
 
 <body>
@@ -467,11 +487,9 @@ a{
                             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
                             General </a>
                                 <ul class="collapse list-unstyled nav" id="homeSubmenu">
-                                   <li><a href="#">All Course</a></li>
-                                    <li><a href="#">Paid Course</a></li>
-                                    <li><a href="#">Popular Courser</a></li>
-                                    <li><a href="#">Favourite Courser</a></li>
-                                    
+                                    <li><a href="../own">Owned Course</a></li>
+                                    <li><a href="../pending">Pending Courser</a></li>
+                                    <li><a href="../new">New Courser</a></li>
                                 </ul>
                         </li>
 
@@ -530,22 +548,27 @@ a{
     </div>
 </div>
 
-  <div id="id01" class="modal">
-    <div class="modal-content animate">
-      <div class="container" style="width: 400px;">
-        <div>
-          <h3>Mohon Konfirmasi</h3>
+    <div id="id01" class="modal">
+      <div class="modal-content animate">
+        <div class="container form" style="width: 400px;">
+          {% csrf_token %}
+          <!-- <form id="asd" method="post" enctype="multipart/form-data"> -->
+            {% csrf_token %}
+            <div>
+              <h3>Mohon Konfirmasi</h3>
+            </div>
+            <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
+              <br/>
+            Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
+            <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;">  
+            <hr>
+            <input type="hidden" id="ilang"></input>
+            <button class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
+            <button class="w3-button" onclick="keluar()">Cancel</button>
+          <!-- </form> -->
         </div>
-        <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
-          <br/>
-        Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
-        <input id="pic" type="file" name="pic" accept="image/*" style="width: 400px;">  
-        <hr>
-        <button id="" class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
-        <button class="w3-button" onclick="keluar()">Cancel</button>
       </div>
     </div>
-  </div>
 
 </body>
 </html>

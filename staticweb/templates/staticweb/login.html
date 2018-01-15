@@ -2,7 +2,7 @@
 <html>
 <head>
 	{% load static %}
-	<title>B-Cak</title>
+	<title>Trovi</title>
 	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     
 	<script type="text/javascript" src="{% static 'js/Popper.js' %}"></script>
@@ -17,6 +17,8 @@
 	<script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}"/>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/w3.css' %}">
 	
 	<!-- <script src="{% static 'js/item-ajax.js' %}"></script> -->
     
@@ -287,21 +289,36 @@
 
 <body>
 	<!-- NAVBAR -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header" style="margin-right: 468px">
 				<a class="navbar-brand" href=""><img src="/static/gambar/logo.png" style="height: 60px; width: 60px; margin-top: -20px;"></a>
 			</div>
-			<!-- <div class="pull-right"> -->
 			<ul class="nav">
 				<li class="active"><a href="" style="color: white;">Home</a></li>
 				<li><a href="" style="color: white;">About</a></li>
 				<li><a href="" style="color: white;">Features</a></li>
 				<li><a href="" style="color: white;">Contact</a></li>
 			</ul>
-			<!-- </div> -->
 		</div>
-	</nav>
+	</nav> -->
+
+	<div class="w3-top">
+	  <div class="w3-bar w3-card" id="myNavbar">
+	    <a href="#home" class="w3-bar-item w3-button w3-wide to-home"><img id="logo" src="/static/gambar/logo.png" style="height: 45px; width: 45px;"></a>
+	    <!-- Right-sided navbar links -->
+	    <div class="w3-right w3-hide-small">
+	      <a href="#about" class="w3-bar-item w3-button to-about">ABOUT</a>
+	      <a href="#work" class="w3-bar-item w3-button to-features"><i class="fa fa-th"></i> FEATURES</a>
+	      <a href="#contact" class="w3-bar-item w3-button to-contact"><i class="fa fa-envelope"></i> CONTACT</a>
+	    </div>
+	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+	      <i class="fa fa-bars"></i>
+	    </a>
+	  </div>
+	</div>
 
 	<!-- LOGIN -->
 	<div id="masuk" class="" style="margin-top: 100px;">

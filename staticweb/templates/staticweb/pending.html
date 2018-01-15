@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>Welcome ... | B-Cak</title>
+  <title>Trovi</title>
   <meta charset="utf-8">
   {% load static %}
     <title>B-Cak</title>
@@ -312,7 +312,7 @@ a{
 	      var firstname = data['first_name'];
 	      var lastname = data['last_name'];
 
-	      $("#profile").attr("src", img);
+	      $("#profile").attr("src", "/"+img);
 	      $("#nama").text(firstname);
 	    });
 
@@ -332,12 +332,16 @@ a{
         page: 1,
         page_length: 8
       }, function(data){
-        // var display = JSON.parse(data);
-	    	// console.log(data.data[0].banner);
-        for(var i=0; i<4; i++){
-	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4></div>");
-	    	}
+        if(data.data == "no data"){
+          
+        } else {
+          for(var i=0; i<4; i++){
+            $(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4></div>");
+          }
+        }
 	    });
+
+
 
       // $.get("/api/explore/",{
       //   page: 1,
@@ -354,6 +358,26 @@ a{
       $("#nex").click(function(){
         alert("tex");
         //$(".modal").css('display', 'block');
+      });
+
+      $(".nyari").click(function(e){
+        e.preventDefault();
+        var key = $(".key").val();
+          $(".empty").empty();
+          $.get("/api/pending/",{
+            page: 1,
+            page_length: 4,
+            q: key 
+          }, function(data){
+            console.log(data);
+            if (data.data == "no data") {
+              $(".empty").append("<div class='row'><h3>Hasil Pencarian Terhadap '"+key+"' tidak ditemukan</h3></div>");
+            } else {
+              for(var i=0; i<data.data.length; i++){
+                $(".empty").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4></div>");
+              }
+            }
+          });
       });
 	});
 
@@ -424,16 +448,16 @@ a{
 	    <a href="../" class="w3-bar-item w3-button w3-wide to-home"><img id="logo" src="/static/gambar/logo.png" style="height: 45px; width: 45px;"></a>
 	    <!-- Right-sided navbar links -->
 	    <div class="w3-right">
-	      	<form class="navbar-form" role="search">
+	      	<div class="navbar-form" role="search">
                 <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control"  placeholder="Search" >
+                    <input type="text" class="form-control key"  placeholder="Search" >
                     <span class="input-group-addon">
-                        <button type="submit">
+                        <button class="nyari" type="submit">
                             <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
                         </button>  
                     </span>
                 </div>
-            </form>
+            </div>
 	    </div>
 	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -473,11 +497,9 @@ a{
                             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
                             General </a>
                                 <ul class="collapse list-unstyled nav" id="homeSubmenu">
-                                   <li><a href="#">All Course</a></li>
-                                    <li><a href="#">Paid Course</a></li>
-                                    <li><a href="#">Popular Courser</a></li>
-                                    <li><a href="#">Favourite Courser</a></li>
-                                    
+                                    <li><a href="../own">Owned Course</a></li>
+                                    <li><a href="../pending">Pending Courser</a></li>
+                                    <li><a href="../new">New Courser</a></li>
                                 </ul>
                         </li>
 
@@ -499,7 +521,7 @@ a{
             </div>
         </div>
         <div class="col-md-9 isi">
-            <div class="profile-content">
+            <div class="profile-content empty">
             <h3>Pending Course</h3>
                <div class="row pop">
 
@@ -527,7 +549,6 @@ a{
                     </div> -->
 
                </div>
-              
             </div>
         </div>
     </div>

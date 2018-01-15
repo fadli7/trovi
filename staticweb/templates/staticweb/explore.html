@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>Welcome ... | B-Cak</title>
+  <title>Trovi</title>
   <meta charset="utf-8">
   {% load static %}
     <title>B-Cak</title>
@@ -312,7 +312,7 @@ a{
 	      var firstname = data['first_name'];
 	      var lastname = data['last_name'];
 
-	      $("#profile").attr("src", img);
+	      $("#profile").attr("src", "/"+img);
 	      $("#nama").text(firstname);
 	    });
 
@@ -363,6 +363,26 @@ a{
       $("#nex").click(function(){
         alert("tex");
         //$(".modal").css('display', 'block');
+      });
+
+      $(".nyari").click(function(e){
+        e.preventDefault();
+        var key = $(".key").val();
+          $(".empty").empty();
+          $.get("/api/explore/",{
+            page: 1,
+            page_length: 4,
+            q: key 
+          }, function(data){
+            console.log(data);
+            if (data.data == "no data") {
+              $(".empty").append("<div class='row'><h3>Hasil Pencarian Terhadap '"+key+"' tidak ditemukan</h3></div>");
+            } else {
+              for(var i=0; i<data.data.length; i++){
+                $(".empty").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+              }
+            }
+          });
       });
 	});
 
@@ -438,16 +458,16 @@ a{
 	    <a href="../" class="w3-bar-item w3-button w3-wide to-home"><img id="logo" src="/static/gambar/logo.png" style="height: 45px; width: 45px;"></a>
 	    <!-- Right-sided navbar links -->
 	    <div class="w3-right">
-	      	<form class="navbar-form" role="search">
+	      	<div class="navbar-form" role="search">
                 <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control"  placeholder="Search" >
+                    <input type="text" class="key form-control"  placeholder="Search" >
                     <span class="input-group-addon">
-                        <button type="submit">
+                        <button class="nyari" type="submit">
                             <span class="glyphicon glyphicon-search" style="color: rgb(169, 195, 255); "></span>
                         </button>  
                     </span>
                 </div>
-            </form>
+            </div>
 	    </div>
 	    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -487,11 +507,9 @@ a{
                             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
                             General </a>
                                 <ul class="collapse list-unstyled nav" id="homeSubmenu">
-                                   <li><a href="#">All Course</a></li>
-                                    <li><a href="#">Paid Course</a></li>
-                                    <li><a href="#">Popular Courser</a></li>
-                                    <li><a href="#">Favourite Courser</a></li>
-                                    
+                                    <li><a href="../own">Owned Course</a></li>
+                                    <li><a href="../pending">Pending Courser</a></li>
+                                    <li><a href="../new">New Courser</a></li>
                                 </ul>
                         </li>
 
@@ -513,34 +531,34 @@ a{
             </div>
         </div>
         <div class="col-md-9 isi">
-            <div class="profile-content">
-            <h3>Popular Course</h3>
-               <div class="row pop">
+            <div class="profile-content empty">
+              <h3>Popular Course</h3>
+                 <div class="row pop">
 
-                    <!--
-                    <div class='col-sm-3'>
-                        <div class='card'>
-                            <div class='card-block'>
-                                 <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
-                            </div>
-                        </div>
-                        <h4 style="text-align: center;">Title</h4>
-                        <p style="text-align: center;">by Anonimous</p>
-                        <button class='w3-button'></button>
-                    </div>
-                  -->
+                      <!--
+                      <div class='col-sm-3'>
+                          <div class='card'>
+                              <div class='card-block'>
+                                   <img src="{% static 'gambar/3.jpg' %}" height="170px" width="170px">
+                              </div>
+                          </div>
+                          <h4 style="text-align: center;">Title</h4>
+                          <p style="text-align: center;">by Anonimous</p>
+                          <button class='w3-button'></button>
+                      </div>
+                    -->
 
-                    <!-- <div class='col-sm-3'>
-                        <div class='card'>
-                            <div class='card-block'>
-                                 <img src='' height='170px' width='170px'>
-                            </div>
-                        </div>
-                        <h4 style='text-align: center;'>Title</h4>
-                        <p style='text-align: center;'>by Anonimous</p>
-                    </div> -->
+                      <!-- <div class='col-sm-3'>
+                          <div class='card'>
+                              <div class='card-block'>
+                                   <img src='' height='170px' width='170px'>
+                              </div>
+                          </div>
+                          <h4 style='text-align: center;'>Title</h4>
+                          <p style='text-align: center;'>by Anonimous</p>
+                      </div> -->
 
-               </div>
+                 </div>
                 <h3>New Course</h3>
                  <div class="row new" style="margin-top: 20px">
                     <!-- DATA -->
@@ -550,27 +568,27 @@ a{
     </div>
 </div>
 
-  <div id="id01" class="modal">
-    <div class="modal-content animate">
-      <div class="container form" style="width: 400px;">
-        {% csrf_token %}
-        <!-- <form id="asd" method="post" enctype="multipart/form-data"> -->
+    <div id="id01" class="modal">
+      <div class="modal-content animate">
+        <div class="container form" style="width: 400px;">
           {% csrf_token %}
-          <div>
-            <h3>Mohon Konfirmasi</h3>
-          </div>
-          <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
-            <br/>
-          Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
-          <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;">  
-          <hr>
-          <input type="hidden" id="ilang"></input>
-          <button class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
-          <button class="w3-button" onclick="keluar()">Cancel</button>
-        <!-- </form> -->
+          <!-- <form id="asd" method="post" enctype="multipart/form-data"> -->
+            {% csrf_token %}
+            <div>
+              <h3>Mohon Konfirmasi</h3>
+            </div>
+            <p>Anda akan membeli tutorial <span id="jeneng" style="font-weight: bold"></span> dengan harga $<span id="harga" style="color: blue">0</span>
+              <br/>
+            Mohon transfer uang ke rekening 124124126246 dan kirimkan bukti pembayaran di bawah ini</p>
+            <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;">  
+            <hr>
+            <input type="hidden" id="ilang"></input>
+            <button class="w3-button mau_ngirim" onclick="kirim(this.id)">Send</button>
+            <button class="w3-button" onclick="keluar()">Cancel</button>
+          <!-- </form> -->
+        </div>
       </div>
     </div>
-  </div>
 
 </body>
 </html>

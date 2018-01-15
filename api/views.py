@@ -88,7 +88,7 @@ class UserView(View):
         if persona.picture:
             url = persona.picture.url
         else:
-            url = static('gambar/4.png')
+            url = 'static/gambar/4.png'
 
         return JsonResponse({'id': user.id, 'username': user.username,
             'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,

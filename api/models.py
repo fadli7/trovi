@@ -16,7 +16,7 @@ class User(AbstractUser):
 
 class Persona(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(null=True, upload_to=UploadToUUIDPath(os.path.join(settings.MEDIA_ROOT, 'user', 'persona')))
+    picture = models.ImageField(null=True, upload_to=UploadToUUIDPath('media/user/persona/'))
     description = models.TextField(null=True)
 
     def __str__(self):

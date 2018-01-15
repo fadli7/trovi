@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>B-Cak</title>
+  <title>Trovi</title>
   <meta charset="utf-8">
   {% load static %}
     <title>B-Cak</title>
@@ -169,6 +169,138 @@ a{
 .judul{
   color:#A9A9A9 ;
 }
+
+.profile-pic {
+    border-radius: 50%;
+    margin-left: 20px;
+    height: 200px;
+    width: 200px;
+    position: center;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    vertical-align: middle;
+    text-align: center;
+    color: transparent;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+
+.profile-pic:hover {
+    background-color: rgba(0,0,0,.5);
+    z-index: 10000;
+    color: #fff;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+
+.profile-pic span {
+    display: inline-block;
+    padding-top: 6em;
+    padding-bottom: 6em;
+}
+/* Set a style for all buttons */
+    #butt {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 78%;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    /* Extra styles for the cancel button */
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+    }
+
+    /* Center the image and position the close button */
+    .container {
+        padding: 16px;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 10px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+    .animate2 {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+
+    @-webkit-keyframes animatezoom {
+        from {-webkit-transform: scale(0)} 
+        to {-webkit-transform: scale(1)}
+    }
+        
+    @keyframes animatezoom {
+        from {transform: scale(0)} 
+        to {transform: scale(1)}
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+           display: block;
+           float: none;
+        }
+        .cancelbtn {
+           width: 100%;
+        }
+    }
 </style>
 
 <script>
@@ -213,7 +345,7 @@ a{
       var email = data['email'];
       var firstname = data['first_name'];
       var lastname = data['last_name'];
-      $("#profile").attr("src", img);
+      $("#gantiDp").css("background-image", "url('/"+img+"')");
       $("#username").attr("value", username);
       $("#email").attr("value", email);
       $("#firstname").attr("value", firstname);
@@ -263,7 +395,54 @@ a{
 
     });
 
+    $("#gantiDp").click(function(){
+      popUpGanti();
+      $(".mau_ngirim").click(function(){
+        var formData = new FormData();
+        var file = $("#pic")[0].files[0];
+        formData.append("picture", file);
+
+        $.ajax({
+          url : "/api/persona/",
+          type : "POST",
+          data : formData,
+          processData: false,
+          contentType: false,
+          success: function(data){
+           console.log(data);
+           window.location = "../explore";
+          },
+          error: function(data) {
+            console.log(data);
+            alert("Terjadi Kesalahan");
+          } 
+        });
+      });
+    });
   });
+
+  function keluar() {
+    document.getElementById('id01').style.display='none';
+  }
+
+  function popUpGanti() {
+    document.getElementById('id01').style.display='block';
+  }
+
+  function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 <body>
 <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -314,8 +493,16 @@ a{
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <center>
-                        <img id="profile" src="gambar/4.png">
+                    <center class="w3-center" >
+                        <!-- <img id="profile" src="gambar/4.png"> -->
+                        <a href="#" class="profile-pic">
+                          <div id="gantiDp" class="profile-pic" style="background-image: url('/static/gambar/logo.png')" >
+
+                              <span class="glyphicon glyphicon-camera"></span>
+                              <span>Change Image</span>
+
+                          </div>
+                        </a>
                     </center>
                     <!-- <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> -->
                 </div>
@@ -338,11 +525,9 @@ a{
                             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
                             General </a>
                                 <ul class="collapse list-unstyled nav" id="homeSubmenu">
-                                   <li><a href="#">All Course</a></li>
-                                    <li><a href="#">Paid Course</a></li>
-                                    <li><a href="#">Popular Courser</a></li>
-                                    <li><a href="#">Favourite Courser</a></li>
-                                    
+                                    <li><a href="../own">Owned Course</a></li>
+                                    <li><a href="../pending">Pending Courser</a></li>
+                                    <li><a href="../new">New Courser</a></li>
                                 </ul>
                         </li>
 
@@ -407,8 +592,26 @@ a{
                       <button id="update" class="btn btn-info">Confirm Update</button>
                   </div>
                </div>
-        </div>
-    </div>
+          </div>
+      </div>
+  </div>
 </div>
+
+<div id="id01" class="modal">
+    <div class="modal-content animate">
+      <div class="container" style="width: 400px;">
+          <div>
+            <h3>Perbarui Foto Profil</h3>
+          </div>
+          <img id="blah" src="#" alt="" />
+          <input id="pic" type="file" name="payment_proof" accept="image/*" style="width: 400px;" onchange="readURL(this);">  
+          <hr>
+          <input type="hidden" id="ilang"></input>
+          <button class="w3-button mau_ngirim" >Ganti</button>
+          <button class="w3-button" onclick="keluar()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

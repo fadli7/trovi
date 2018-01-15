@@ -272,9 +272,9 @@ a{
 </style>
 {% csrf_token %}
 <script>
-
-    var first = 1;
-    var last = 1; 
+  var jumlah;
+  var first = 1;
+  var last = 1; 
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 		
 		function getCookie(name) {
@@ -309,12 +309,13 @@ a{
 	$(document).ready(function(){
     if(last == first && last == 1) {
       $(".mundur").remove();
-    } else if(last != first ) {
-
+    } else if(last != first & last == jumlah) {
+      $(".mundur").show();
     }
 
     $(".maju").click(function(){
       last++;
+      window.location = "";
     });
 
 		$.get("/api/user/", function(data){
@@ -341,6 +342,14 @@ a{
 	    	});
 	    });
 
+      $.get("/api/explore/",{
+        page: last,
+        page_length: 100,
+        ordering: 'popular' 
+      }, function(data){
+        jumlah = data.data.length/4;
+      });
+
 	    $.get("/api/explore/",{
 	    	page: last,
 	    	page_length: 4,
@@ -358,7 +367,7 @@ a{
 	    });
 
       $.get("/api/explore/",{
-        page: 1,
+        page: last,
         page_length: 4,
         ordering: 'new' 
       }, function(data){

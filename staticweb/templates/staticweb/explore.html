@@ -272,6 +272,9 @@ a{
 </style>
 {% csrf_token %}
 <script>
+
+    var first = 1;
+    var last = 1; 
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 		
 		function getCookie(name) {
@@ -304,6 +307,16 @@ a{
 		});
 
 	$(document).ready(function(){
+    if(last == first && last == 1) {
+      $(".mundur").remove();
+    } else if(last != first ) {
+
+    }
+
+    $(".maju").click(function(){
+      last++;
+    });
+
 		$.get("/api/user/", function(data){
 	      //alert("iso");
 	      var img = data['picture'];
@@ -329,7 +342,7 @@ a{
 	    });
 
 	    $.get("/api/explore/",{
-	    	page: 1,
+	    	page: last,
 	    	page_length: 4,
         ordering: 'popular' 
 	    }, function(data){
@@ -384,6 +397,7 @@ a{
             }
           });
       });
+
 	});
 
   function bla(id){
@@ -557,8 +571,9 @@ a{
                           <h4 style='text-align: center;'>Title</h4>
                           <p style='text-align: center;'>by Anonimous</p>
                       </div> -->
-
                  </div>
+                 <button class="mundur btn btn-primary">Previous</button>
+                 <button class="maju pull-right btn btn-primary">Next</button>
                 <h3>New Course</h3>
                  <div class="row new" style="margin-top: 20px">
                     <!-- DATA -->

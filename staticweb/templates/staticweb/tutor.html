@@ -165,6 +165,12 @@ body{
 a{
     width: 247.5px;
 }
+
+
+.resp {
+    min-height: 2200px;
+    position: relative;
+}
 </style>
 
 <script>
@@ -207,10 +213,10 @@ a{
 	      var img = data['picture'];
 	      var username = data['username'];
 	      var email = data['email'];
-	      var firstname = data['firstname'];
-	      var lastname = data['lastname'];
+	      var firstname = data['first_name'];
+	      var lastname = data['last_name'];
 
-	      $("#profile").attr("src", img);
+	      $("#profile").attr("src", "/"+img);
 	      $("#nama").text(firstname);
 	    });
 
@@ -331,7 +337,7 @@ a{
                 <div class="profile-usermenu">
                     <div class="nav">
                         <li class="active">
-                            <a href="">
+                            <a href="../explore">
                             Home </a>
                         </li>
                     </div>
@@ -364,7 +370,7 @@ a{
             </div>
         </div>
         <div class="col-md-9 isi" ">
-            <div class="profile-content w3-responsive" style="height: 2200px">
+            <div class="profile-content resp w3-responsive" style="">
               <h1 id="nama"></h1>
               <div class="w3-display-middle">
                 <div >

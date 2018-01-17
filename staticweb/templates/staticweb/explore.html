@@ -305,6 +305,7 @@ a{
 {% csrf_token %}
 <script>
   var jumlah=2, terlihat=2;
+  var name;
   var first = 1;
   var last = 1; 
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -354,6 +355,12 @@ a{
 
 	      $("#profile").attr("src", "/"+img);
 	      $("#nama").text(firstname);
+
+        console.log(username);
+
+        if(username == undefined) {
+          $(".guest").remove();
+        }
 	    });
 
 	    $("#keluar").click(function(event){
@@ -498,7 +505,6 @@ a{
             // $('#page-content').text('Page ' + page) + ' content here';
         }
       });
-
 	});
 
   function bla(id){
@@ -594,7 +600,7 @@ a{
 
 <div class="container">
     <div class="row profile">
-        <div class="col-md-3">
+        <div class="col-md-3 guest">
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
@@ -646,7 +652,7 @@ a{
             </div>
         </div>
         <div class="col-md-9 isi">
-            <div class="profile-content empty" style="margin-bottom: 1000px;">
+            <div class="profile-content empty" style="">
               <h3>Popular Course</h3>
                  <div class="row pop">
 

@@ -52,9 +52,15 @@
   padding: 20px 0 10px 0;
   background: #fff;
   border-radius: 15px;
-  margin-top: 50px;
-  max-height: 100%;
-  min-height: 100%;
+  /*margin-top: 50px;*/
+  /*max-height: 100%;
+  min-height: 100%;*/
+  margin: 50 auto;
+}
+
+/* If in mobile screen with maximum width 479px. The iPhone screen resolution is 320x480 px (except iPhone4, 640x960) */    
+@media only screen and (max-width: 479px){
+    .profile-sidebar { width: 90%; }
 }
 
 .profile-userpic img {
@@ -269,10 +275,36 @@ a{
         }
     }
 
+    #pagination-demo{
+      display: inline-block;
+      margin-bottom: 1.75em;
+    }
+    #pagination-demo li{
+      display: inline-block;
+      max-width: 50px;
+    }
+    #pagination-demo li a{
+      display: inline-block;
+      max-width: 50px;
+    }
+
+    #pagination-demo-2{
+      display: inline-block;
+      margin-bottom: 1.75em;
+    }
+    #pagination-demo-2 li{
+      display: inline-block;
+      max-width: 50px;
+    }
+    #pagination-demo-2 li a{
+      display: inline-block;
+      max-width: 50px;
+    }
+
 </style>
 {% csrf_token %}
 <script>
-  var jumlah;
+  var jumlah=2, terlihat=2;
   var first = 1;
   var last = 1; 
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -307,12 +339,6 @@ a{
 		});
 
 	$(document).ready(function(){
-    if(last == first && last == 1) {
-      $(".mundur").remove();
-    } else if(last != first & last == jumlah) {
-      $(".mundur").show();
-    }
-
     $(".maju").click(function(){
       last++;
       window.location = "";
@@ -342,45 +368,52 @@ a{
 	    	});
 	    });
 
-      $.get("/api/explore/",{
-        page: last,
-        page_length: 100,
-        ordering: 'popular' 
-      }, function(data){
-        jumlah = data.data.length/4;
-      });
+      // $.get("/api/explore/",{
+      //   page: last,
+      //   page_length: 100,
+      //   ordering: 'popular' 
+      // }, function(data){
+      //   var total = data.data.length/4;
+      //   jumlah = Math.ceil(total);
+      //   console.log(jumlah);
+      //   if(jumlah>3) {
+      //     terlihat = 3;
+      //   } else {
+      //     terlihat = 1;
+      //   }
+      // });
 
-	    $.get("/api/explore/",{
-	    	page: last,
-	    	page_length: 4,
-        ordering: 'popular' 
-	    }, function(data){
-        // var display = JSON.parse(data);
-	    	// console.log(data.data[0].banner);
-        if(data.data == "no data"){
+	    // $.get("/api/explore/",{
+	    // 	page: first,
+	    // 	page_length: 4,
+     //    ordering: 'popular' 
+	    // }, function(data){
+     //    // var display = JSON.parse(data);
+	    // 	console.log(first);
+     //    if(data.data == "no data"){
 
-        } else {        
-          for(var i=0; i<4; i++){
-  	    		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
-  	    	}
-        }
-	    });
+     //    } else {        
+     //      for(var i=0; i<4; i++){
+  	  //   		$(".pop").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
+  	  //   	}
+     //    }
+	    // });
 
-      $.get("/api/explore/",{
-        page: last,
-        page_length: 4,
-        ordering: 'new' 
-      }, function(data){
-        // var display = JSON.parse(data);
-        // console.log(data.data[0].banner);
-        if (data.data == "no data") {
+      // $.get("/api/explore/",{
+      //   page: last,
+      //   page_length: 4,
+      //   ordering: 'new' 
+      // }, function(data){
+      //   // var display = JSON.parse(data);
+      //   // console.log(data.data[0].banner);
+      //   if (data.data == "no data") {
 
-        } else {
-          for(var i=0; i<4; i++){
-            $(".new").append("<div class='col-sm-3 text-center' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
-          }
-        }
-      });
+      //   } else {
+      //     for(var i=0; i<4; i++){
+      //       $(".new").append("<div class='col-sm-3 text-center removeNew' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+      //     }
+      //   }
+      // });
 
       $("#nex").click(function(){
         alert("tex");
@@ -405,6 +438,65 @@ a{
               }
             }
           });
+      });
+      $('#pagination-demo').twbsPagination({
+        totalPages: jumlah,
+        visiblePages: terlihat,
+        next: 'Next',
+        prev: 'Prev',
+        onPageClick: function (event, page) {
+            console.log(jumlah+" "+terlihat);
+            first = page;
+            $(".removePop").remove();
+
+            $.get("/api/explore/",{
+              page: first,
+              page_length: 4,
+              ordering: 'popular' 
+            }, function(data){
+              // var display = JSON.parse(data);
+              // console.log(first);
+              if(data.data == "no data"){
+
+              } else {        
+                for(var i=0; i<4; i++){
+                  $(".pop").append("<div class='col-sm-3 text-center removePop' id=''><div class='card'><div class='card-block'><img id='img"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue'>Buy</button></div>");
+                }
+              }
+            });
+            //fetch content and render here
+            // $('#page-content').text('Page ' + page) + ' content here';
+        }
+      });
+
+      $('#pagination-demo-2').twbsPagination({
+        totalPages: jumlah,
+        visiblePages: terlihat,
+        next: 'Next',
+        prev: 'Prev',
+        onPageClick: function (event, page) {
+            console.log(jumlah+" "+terlihat);
+            last = page;
+            $(".removeNew").remove();
+
+            $.get("/api/explore/",{
+              page: last,
+              page_length: 4,
+              ordering: 'new' 
+            }, function(data){
+              // var display = JSON.parse(data);
+              // console.log(data.data[0].banner);
+              if (data.data == "no data") {
+
+              } else {
+                for(var i=0; i<4; i++){
+                  $(".new").append("<div class='col-sm-3 text-center removeNew' id=''><div class='card'><div class='card-block'><img id='"+i+"' src='/" + data.data[i].banner + "' height='170px' width='170px'></div></div><h4 style='text-align: center;'> "+ data.data[i].name +" </h4><p style='text-align: center;'>$"+data.data[i].price+"</p><button id='"+i+"' onclick='bla(this.id)' class='w3-button w3-blue bttn'>Buy</button></div>");
+                }
+              }
+            });
+            //fetch content and render here
+            // $('#page-content').text('Page ' + page) + ' content here';
+        }
       });
 
 	});
@@ -580,13 +672,14 @@ a{
                           <h4 style='text-align: center;'>Title</h4>
                           <p style='text-align: center;'>by Anonimous</p>
                       </div> -->
+                    
                  </div>
+                 <ul id="pagination-demo" class="pagination-sm"></ul>
                 <h3>New Course</h3>
                  <div class="row new" style="margin-top: 20px">
                     <!-- DATA -->
                </div>
-               <button class="mundur btn btn-primary">Previous</button>
-                <button class="maju pull-right btn btn-primary">Next</button>
+               <ul id="pagination-demo-2" class="pagination-sm"></ul>
             </div>
         </div>
     </div>
